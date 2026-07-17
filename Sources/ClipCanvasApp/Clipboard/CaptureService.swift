@@ -13,18 +13,20 @@ final class CaptureService: @unchecked Sendable {
     private let source: SourceProvider
     private let onCapture: CaptureHandler
     private let reader = PasteboardSnapshotReader()
-    private var lastChangeCount = -1
+    private var lastChangeCount: Int
     private var timer: Timer?
 
     init(
         pasteboard: NSPasteboard = .general,
         repository: ClipboardRepository,
+        captureExisting: Bool = false,
         configuration: @escaping ConfigurationProvider,
         source: @escaping SourceProvider,
         onCapture: @escaping CaptureHandler = { _ in }
     ) {
         self.pasteboard = pasteboard
         self.repository = repository
+        lastChangeCount = captureExisting ? -1 : pasteboard.changeCount
         self.configuration = configuration
         self.source = source
         self.onCapture = onCapture

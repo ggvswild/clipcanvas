@@ -30,6 +30,11 @@ cp "$bin_path/ClipCanvas" "$app_path/Contents/MacOS/ClipCanvas"
 resource_bundle="$bin_path/ClipCanvas_ClipCanvasApp.bundle"
 if [[ -d "$resource_bundle" ]]; then
   cp -R "$resource_bundle" "$app_path/Contents/Resources/"
+  for localization in "$resource_bundle"/*.lproj; do
+    if [[ -d "$localization" ]]; then
+      cp -R "$localization" "$app_path/Contents/Resources/"
+    fi
+  done
 fi
 
 codesign --force --deep --sign - "$app_path" >/dev/null

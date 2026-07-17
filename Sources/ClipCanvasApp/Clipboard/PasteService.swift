@@ -13,6 +13,7 @@ enum PasteError: Error, Equatable {
     case missingRepresentation
 }
 
+@MainActor
 final class PasteService {
     private let pasteboard: NSPasteboard
     private let repository: ClipboardRepository
