@@ -1,0 +1,54 @@
+Tests/ClipCanvasAppTests/PasteboardSnapshotTests.swift
+  7d8c3d94060667aa 1-88
+Sources/ClipCanvasApp/Clipboard/PasteboardSnapshot.swift
+  7d8c3d94060667aa 1-197
+Sources/ClipCanvasApp/Clipboard/PasteService.swift
+  7d8c3d94060667aa 1-88
+Sources/ClipCanvasApp/Clipboard/CaptureService.swift
+  7d8c3d94060667aa 1-67
+Tests/ClipCanvasAppTests/CaptureServiceTests.swift
+  7d8c3d94060667aa 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "2bcd5889486e58668f39a0b02781b0554aa63d9f",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 509,
+      "total_deletions": 7,
+      "accepted_lines": 502,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PasteboardSnapshotTests.swift": {
+          "additions": 95,
+          "deletions": 7,
+          "accepted_lines": 88
+        },
+        "Sources/ClipCanvasApp/Clipboard/CaptureService.swift": {
+          "additions": 67,
+          "accepted_lines": 67
+        },
+        "Sources/ClipCanvasApp/Clipboard/PasteService.swift": {
+          "additions": 88,
+          "accepted_lines": 88
+        },
+        "Sources/ClipCanvasApp/Clipboard/PasteboardSnapshot.swift": {
+          "additions": 197,
+          "accepted_lines": 197
+        },
+        "Tests/ClipCanvasAppTests/CaptureServiceTests.swift": {
+          "additions": 62,
+          "accepted_lines": 62
+        }
+      }
+    }
+  }
+}
