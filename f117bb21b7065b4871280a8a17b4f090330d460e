@@ -1,0 +1,29 @@
+docs/superpowers/plans/2026-07-17-clipcanvas-implementation.md
+  7d8c3d94060667aa 1-690
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "f117bb21b7065b4871280a8a17b4f090330d460e",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 690,
+      "total_deletions": 0,
+      "accepted_lines": 690,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "docs/superpowers/plans/2026-07-17-clipcanvas-implementation.md": {
+          "additions": 690,
+          "accepted_lines": 690
+        }
+      }
+    }
+  }
+}
