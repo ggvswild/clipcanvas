@@ -9,11 +9,20 @@ let package = Package(
         .macOS(.v14)
     ],
     products: [
-        .executable(name: "ClipCanvas", targets: ["ClipCanvasApp"])
+        .executable(name: "ClipCanvas", targets: ["ClipCanvasApp"]),
+        .library(name: "ClipCanvasCore", targets: ["ClipCanvasCore"])
     ],
     targets: [
+        .target(
+            name: "ClipCanvasCore",
+            path: "Sources/ClipCanvasCore",
+            linkerSettings: [
+                .linkedLibrary("sqlite3")
+            ]
+        ),
         .executableTarget(
             name: "ClipCanvasApp",
+            dependencies: ["ClipCanvasCore"],
             path: "Sources/ClipCanvasApp",
             resources: [
                 .process("Resources")
@@ -24,8 +33,13 @@ let package = Package(
         ),
         .testTarget(
             name: "ClipCanvasAppTests",
-            dependencies: ["ClipCanvasApp"],
+            dependencies: ["ClipCanvasApp", "ClipCanvasCore"],
             path: "Tests/ClipCanvasAppTests"
+        ),
+        .testTarget(
+            name: "ClipCanvasCoreTests",
+            dependencies: ["ClipCanvasCore"],
+            path: "Tests/ClipCanvasCoreTests"
         )
     ]
 )
