@@ -17,13 +17,24 @@ enum PasteError: Error, Equatable {
 final class PasteService {
     private let pasteboard: NSPasteboard
     private let repository: ClipboardRepository
+    private let accessibilityTrusted: () -> Bool
+    private let activateApplication: (NSRunningApplication) -> Void
+    private let emitPasteCommand: () -> Void
 
     init(
         pasteboard: NSPasteboard = .general,
-        repository: ClipboardRepository
+        repository: ClipboardRepository,
+        accessibilityTrusted: @escaping () -> Bool = { AXIsProcessTrusted() },
+        activateApplication: @escaping (NSRunningApplication) -> Void = {
+            $0.activate(options: [.activateAllWindows])
+        },
+        emitPasteCommand: @escaping () -> Void = { PasteService.postCommandV() }
     ) {
         self.pasteboard = pasteboard
         self.repository = repository
+        self.accessibilityTrusted = accessibilityTrusted
+        self.activateApplication = activateApplication
+        self.emitPasteCommand = emitPasteCommand
     }
 
     func perform(
@@ -34,13 +45,15 @@ final class PasteService {
     ) async throws {
         try write(item: item, plainText: plainText)
         guard strategy == .activeApp else { return }
-        guard AXIsProcessTrusted() else {
+        guard accessibilityTrusted() else {
             throw PasteError.accessibilityDenied
         }
 
-        targetApplication?.activate(options: [.activateAllWindows])
+        if let targetApplication {
+            activateApplication(targetApplication)
+        }
         try await Task.sleep(for: .milliseconds(90))
-        emitCommandV()
+        emitPasteCommand()
     }
 
     func write(item: ClipboardItem, plainText: Bool) throws {
@@ -67,7 +80,7 @@ final class PasteService {
         }
     }
 
-    private func emitCommandV() {
+    private static func postCommandV() {
         guard let source = CGEventSource(stateID: .hidSystemState),
               let down = CGEvent(
                 keyboardEventSource: source,
