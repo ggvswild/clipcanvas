@@ -1,0 +1,7 @@
+"app.name" = "ClipCanvas";
+"menu.open" = "打开 ClipCanvas";
+"menu.settings" = "设置…";
+"menu.pause" = "暂停捕获";
+"menu.resume" = "继续捕获";
+"menu.quit" = "退出 ClipCanvas";
+"settings.placeholder" = "你的本地剪贴板画布已就绪。";

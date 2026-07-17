@@ -1,0 +1,7 @@
+"app.name" = "ClipCanvas";
+"menu.open" = "Open ClipCanvas";
+"menu.settings" = "Settings…";
+"menu.pause" = "Pause Capture";
+"menu.resume" = "Resume Capture";
+"menu.quit" = "Quit ClipCanvas";
+"settings.placeholder" = "Your local clipboard canvas is ready.";
