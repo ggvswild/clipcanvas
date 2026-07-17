@@ -1,0 +1,53 @@
+Tests/ClipCanvasCoreTests/BlobStoreTests.swift
+  7d8c3d94060667aa 1-20
+Tests/ClipCanvasCoreTests/ClipboardRepositoryTests.swift
+  7d8c3d94060667aa 1-93
+Sources/ClipCanvasCore/Models/ClipboardModels.swift
+  7d8c3d94060667aa 12-190
+Sources/ClipCanvasCore/Storage/BlobStore.swift
+  7d8c3d94060667aa 1-60
+Sources/ClipCanvasCore/Storage/ClipboardRepository.swift
+  7d8c3d94060667aa 1-467
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "1504808a859e4113349474c3cf11fb31a9f53ff2",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 819,
+      "total_deletions": 0,
+      "accepted_lines": 819,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasCore/Models/ClipboardModels.swift": {
+          "additions": 179,
+          "accepted_lines": 179
+        },
+        "Tests/ClipCanvasCoreTests/ClipboardRepositoryTests.swift": {
+          "additions": 93,
+          "accepted_lines": 93
+        },
+        "Sources/ClipCanvasCore/Storage/BlobStore.swift": {
+          "additions": 60,
+          "accepted_lines": 60
+        },
+        "Sources/ClipCanvasCore/Storage/ClipboardRepository.swift": {
+          "additions": 467,
+          "accepted_lines": 467
+        },
+        "Tests/ClipCanvasCoreTests/BlobStoreTests.swift": {
+          "additions": 20,
+          "accepted_lines": 20
+        }
+      }
+    }
+  }
+}
