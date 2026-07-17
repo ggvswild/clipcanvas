@@ -10,6 +10,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "ClipCanvas", targets: ["ClipCanvasApp"]),
+        .executable(name: "clipcanvas-mcp", targets: ["ClipCanvasMCPBridge"]),
         .library(name: "ClipCanvasCore", targets: ["ClipCanvasCore"])
     ],
     targets: [
@@ -30,6 +31,10 @@ let package = Package(
             linkerSettings: [
                 .linkedFramework("AppKit")
             ]
+        ),
+        .executableTarget(
+            name: "ClipCanvasMCPBridge",
+            path: "Sources/ClipCanvasMCPBridge"
         ),
         .testTarget(
             name: "ClipCanvasAppTests",

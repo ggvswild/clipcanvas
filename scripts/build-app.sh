@@ -19,13 +19,15 @@ repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$repo_root"
 
 swift build -c "$swift_configuration" --product ClipCanvas
+swift build -c "$swift_configuration" --product clipcanvas-mcp
 bin_path="$(swift build -c "$swift_configuration" --show-bin-path)"
 app_path="$repo_root/build/ClipCanvas.app"
 
 rm -rf "$app_path"
-mkdir -p "$app_path/Contents/MacOS" "$app_path/Contents/Resources"
+mkdir -p "$app_path/Contents/MacOS" "$app_path/Contents/Resources" "$app_path/Contents/Helpers"
 cp "$repo_root/Configuration/Info.plist" "$app_path/Contents/Info.plist"
 cp "$bin_path/ClipCanvas" "$app_path/Contents/MacOS/ClipCanvas"
+cp "$bin_path/clipcanvas-mcp" "$app_path/Contents/Helpers/clipcanvas-mcp"
 
 resource_bundle="$bin_path/ClipCanvas_ClipCanvasApp.bundle"
 if [[ -d "$resource_bundle" ]]; then

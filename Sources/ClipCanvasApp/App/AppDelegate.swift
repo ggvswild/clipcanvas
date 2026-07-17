@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var panelController: PanelController?
     private var hotKeyService: GlobalHotKeyService?
     private var screenSharingMonitor: ScreenSharingMonitor?
+    private var mcpService: MCPService?
     private var cancellables: Set<AnyCancellable> = []
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -131,6 +132,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             )
             let hotKeys = GlobalHotKeyService()
             let sharingMonitor = ScreenSharingMonitor()
+            let mcpService = MCPService.shared
 
             AppModel.shared.configure(
                 repository: repository,
@@ -147,7 +149,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             configureSettingsBindings(
                 settings: settings,
                 hotKeys: hotKeys,
-                panel: panel
+                panel: panel,
+                mcpService: mcpService
+            )
+            mcpService.configure(
+                repository: repository,
+                enabled: settings.enableMCP
             )
             sharingMonitor.onChange = { [weak panel] isSharing in
                 AppModel.shared.isScreenSharingActive = isSharing
@@ -165,6 +172,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             panelController = panel
             hotKeyService = hotKeys
             screenSharingMonitor = sharingMonitor
+            self.mcpService = mcpService
 
             if ProcessInfo.processInfo.arguments.contains("--show-panel") {
                 DispatchQueue.main.async {
@@ -183,7 +191,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func configureSettingsBindings(
         settings: SettingsStore,
         hotKeys: GlobalHotKeyService,
-        panel: PanelController
+        panel: PanelController,
+        mcpService: MCPService
     ) {
         settings.$pasteStrategy
             .sink { strategy in
@@ -204,6 +213,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         settings.$shortcuts
             .sink { [weak self] _ in
                 self?.registerHotKeys(hotKeys, panel: panel)
+            }
+            .store(in: &cancellables)
+        settings.$enableMCP
+            .dropFirst()
+            .sink { enabled in
+                mcpService.setEnabled(enabled)
             }
             .store(in: &cancellables)
     }
