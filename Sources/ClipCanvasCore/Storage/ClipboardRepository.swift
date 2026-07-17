@@ -6,6 +6,8 @@ public enum ClipboardRepositoryError: Error, Equatable, Sendable {
     case pinboardNotFound
     case systemPinboardCannotBeDeleted
     case invalidStoredData
+    case invalidClientName
+    case invalidScopes
 }
 
 public final class ClipboardRepository: @unchecked Sendable {
@@ -380,6 +382,164 @@ public final class ClipboardRepository: @unchecked Sendable {
         throw ClipboardRepositoryError.invalidStoredData
     }
 
+    public func createAuthorizedClient(
+        displayName: String,
+        scopes: Set<MCPAuthorizationScope>
+    ) throws -> IssuedMCPToken {
+        let name = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty, name.count <= 100 else {
+            throw ClipboardRepositoryError.invalidClientName
+        }
+        guard !scopes.isEmpty else {
+            throw ClipboardRepositoryError.invalidScopes
+        }
+        let tokenBytes = (0..<32).map { _ in UInt8.random(in: .min ... .max) }
+        let token = Data(tokenBytes).base64EncodedString()
+            .replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "=", with: "")
+        let client = AuthorizedClient(
+            id: UUID(),
+            displayName: name,
+            scopes: scopes,
+            createdAt: Date()
+        )
+        try database.execute(
+            """
+            INSERT INTO authorized_clients
+            (id, display_name, token_hash, scopes, created_at)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            bindings: [
+                .text(client.id.uuidString),
+                .text(client.displayName),
+                .text(tokenHash(token)),
+                .text(encodeScopes(scopes)),
+                .real(client.createdAt.timeIntervalSince1970)
+            ]
+        )
+        return IssuedMCPToken(client: client, token: token)
+    }
+
+    public func authorize(token: String) throws -> MCPAuthorization? {
+        guard !token.isEmpty,
+              let row = try database.rows(
+                  """
+                  SELECT * FROM authorized_clients
+                  WHERE token_hash = ? AND revoked_at IS NULL
+                  """,
+                  bindings: [.text(tokenHash(token))]
+              ).first,
+              let client = try decodeAuthorizedClient(row) else {
+            return nil
+        }
+        try database.execute(
+            "UPDATE authorized_clients SET last_used_at = ? WHERE id = ?",
+            bindings: [
+                .real(Date().timeIntervalSince1970),
+                .text(client.id.uuidString)
+            ]
+        )
+        return MCPAuthorization(
+            clientID: client.id,
+            displayName: client.displayName,
+            scopes: client.scopes
+        )
+    }
+
+    public func listAuthorizedClients() throws -> [AuthorizedClient] {
+        try database.rows(
+            "SELECT * FROM authorized_clients ORDER BY created_at DESC"
+        ).compactMap(decodeAuthorizedClient)
+    }
+
+    public func revokeAuthorizedClient(id: UUID) throws {
+        try database.execute(
+            """
+            UPDATE authorized_clients
+            SET revoked_at = COALESCE(revoked_at, ?)
+            WHERE id = ?
+            """,
+            bindings: [
+                .real(Date().timeIntervalSince1970),
+                .text(id.uuidString)
+            ]
+        )
+    }
+
+    public func authorizationStorageContains(_ plaintext: String) throws -> Bool {
+        try database.scalarInt(
+            """
+            SELECT COUNT(*) AS value
+            FROM authorized_clients
+            WHERE token_hash = ? OR display_name = ? OR scopes = ?
+            """,
+            bindings: [.text(plaintext), .text(plaintext), .text(plaintext)]
+        ) > 0
+    }
+
+    public func recordAudit(
+        clientID: UUID?,
+        method: String,
+        itemID: UUID? = nil,
+        outcome: MCPAuditOutcome,
+        detail: String? = nil
+    ) throws {
+        let safeDetail = detail.map { String($0.prefix(240)) }
+        let event = MCPAuditEvent(
+            clientID: clientID,
+            method: String(method.prefix(100)),
+            itemID: itemID,
+            outcome: outcome,
+            detail: safeDetail
+        )
+        try database.execute(
+            """
+            INSERT INTO audit_events
+            (id, client_id, method, item_id, outcome, created_at, detail)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            bindings: [
+                .text(event.id.uuidString),
+                event.clientID.map { .text($0.uuidString) } ?? .null,
+                .text(event.method),
+                event.itemID.map { .text($0.uuidString) } ?? .null,
+                .text(event.outcome.rawValue),
+                .real(event.createdAt.timeIntervalSince1970),
+                event.detail.map(SQLiteValue.text) ?? .null
+            ]
+        )
+    }
+
+    public func listAuditEvents(limit: Int = 50) throws -> [MCPAuditEvent] {
+        try database.rows(
+            """
+            SELECT * FROM audit_events
+            ORDER BY created_at DESC
+            LIMIT ?
+            """,
+            bindings: [.integer(Int64(max(1, min(limit, 200))))]
+        ).compactMap { row in
+            guard let idText = row.string("id"),
+                  let id = UUID(uuidString: idText),
+                  let method = row.string("method"),
+                  let outcomeText = row.string("outcome"),
+                  let outcome = MCPAuditOutcome(rawValue: outcomeText),
+                  let createdAt = row.double("created_at") else {
+                return nil
+            }
+            return MCPAuditEvent(
+                id: id,
+                clientID: row.string("client_id").flatMap(UUID.init(uuidString:)),
+                method: method,
+                itemID: row.string("item_id").flatMap(UUID.init(uuidString:)),
+                outcome: outcome,
+                createdAt: Date(timeIntervalSince1970: createdAt),
+                detail: row.string("detail")
+            )
+        }
+    }
+
     private func item(withHash hash: String) throws -> ClipboardItem? {
         guard let row = try database.rows(
             "SELECT * FROM clipboard_items WHERE content_hash = ?",
@@ -388,6 +548,39 @@ public final class ClipboardRepository: @unchecked Sendable {
             return nil
         }
         return try decodeItem(row)
+    }
+
+    private func decodeAuthorizedClient(_ row: SQLiteRow) throws -> AuthorizedClient? {
+        guard let idText = row.string("id"),
+              let id = UUID(uuidString: idText),
+              let name = row.string("display_name"),
+              let scopesText = row.string("scopes"),
+              let created = row.double("created_at") else {
+            return nil
+        }
+        let scopes = Set(
+            scopesText.split(separator: ",")
+                .compactMap { MCPAuthorizationScope(rawValue: String($0)) }
+        )
+        guard !scopes.isEmpty else {
+            throw ClipboardRepositoryError.invalidStoredData
+        }
+        return AuthorizedClient(
+            id: id,
+            displayName: name,
+            scopes: scopes,
+            createdAt: Date(timeIntervalSince1970: created),
+            lastUsedAt: row.double("last_used_at").map(Date.init(timeIntervalSince1970:)),
+            revokedAt: row.double("revoked_at").map(Date.init(timeIntervalSince1970:))
+        )
+    }
+
+    private func encodeScopes(_ scopes: Set<MCPAuthorizationScope>) -> String {
+        scopes.map(\.rawValue).sorted().joined(separator: ",")
+    }
+
+    private func tokenHash(_ token: String) -> String {
+        SHA256.hash(data: Data(token.utf8)).hexString
     }
 
     private func decodeItem(_ row: SQLiteRow) throws -> ClipboardItem {

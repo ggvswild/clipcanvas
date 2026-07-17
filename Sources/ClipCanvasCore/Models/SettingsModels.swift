@@ -99,3 +99,98 @@ public struct IgnoredApplication: Identifiable, Codable, Hashable, Sendable {
         self.path = path
     }
 }
+
+public enum MCPAuthorizationScope: String, Codable, CaseIterable, Hashable, Sendable {
+    case read
+    case write
+    case manage
+}
+
+public struct MCPAuthorization: Hashable, Sendable {
+    public let clientID: UUID
+    public let displayName: String
+    public let scopes: Set<MCPAuthorizationScope>
+
+    public init(
+        clientID: UUID,
+        displayName: String,
+        scopes: Set<MCPAuthorizationScope>
+    ) {
+        self.clientID = clientID
+        self.displayName = displayName
+        self.scopes = scopes
+    }
+}
+
+public struct AuthorizedClient: Identifiable, Codable, Hashable, Sendable {
+    public let id: UUID
+    public let displayName: String
+    public let scopes: Set<MCPAuthorizationScope>
+    public let createdAt: Date
+    public let lastUsedAt: Date?
+    public let revokedAt: Date?
+
+    public init(
+        id: UUID,
+        displayName: String,
+        scopes: Set<MCPAuthorizationScope>,
+        createdAt: Date,
+        lastUsedAt: Date? = nil,
+        revokedAt: Date? = nil
+    ) {
+        self.id = id
+        self.displayName = displayName
+        self.scopes = scopes
+        self.createdAt = createdAt
+        self.lastUsedAt = lastUsedAt
+        self.revokedAt = revokedAt
+    }
+
+    public var isActive: Bool {
+        revokedAt == nil
+    }
+}
+
+public struct IssuedMCPToken: Sendable {
+    public let client: AuthorizedClient
+    public let token: String
+
+    public init(client: AuthorizedClient, token: String) {
+        self.client = client
+        self.token = token
+    }
+}
+
+public enum MCPAuditOutcome: String, Codable, Sendable {
+    case success
+    case denied
+    case failure
+}
+
+public struct MCPAuditEvent: Identifiable, Codable, Sendable {
+    public let id: UUID
+    public let clientID: UUID?
+    public let method: String
+    public let itemID: UUID?
+    public let outcome: MCPAuditOutcome
+    public let createdAt: Date
+    public let detail: String?
+
+    public init(
+        id: UUID = UUID(),
+        clientID: UUID?,
+        method: String,
+        itemID: UUID? = nil,
+        outcome: MCPAuditOutcome,
+        createdAt: Date = Date(),
+        detail: String? = nil
+    ) {
+        self.id = id
+        self.clientID = clientID
+        self.method = method
+        self.itemID = itemID
+        self.outcome = outcome
+        self.createdAt = createdAt
+        self.detail = detail
+    }
+}
