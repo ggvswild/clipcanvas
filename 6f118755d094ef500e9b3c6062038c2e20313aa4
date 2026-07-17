@@ -1,0 +1,65 @@
+Sources/ClipCanvasCore/Models/SettingsModels.swift
+  7d8c3d94060667aa 102-196
+Sources/ClipCanvasCore/MCP/MCPProtocol.swift
+  7d8c3d94060667aa 1-165
+Sources/ClipCanvasCore/Storage/ClipboardRepository.swift
+  7d8c3d94060667aa 9-10,385-542,553-583
+Tests/ClipCanvasCoreTests/MCPToolRouterTests.swift
+  7d8c3d94060667aa 1-141
+Sources/ClipCanvasCore/MCP/MCPToolRouter.swift
+  7d8c3d94060667aa 1-618
+Tests/ClipCanvasCoreTests/AuthorizationTests.swift
+  7d8c3d94060667aa 1-69
+Tests/ClipCanvasCoreTests/MCPProtocolTests.swift
+  7d8c3d94060667aa 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "6f118755d094ef500e9b3c6062038c2e20313aa4",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 1341,
+      "total_deletions": 0,
+      "accepted_lines": 1341,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasCore/Storage/ClipboardRepository.swift": {
+          "additions": 193,
+          "accepted_lines": 193
+        },
+        "Sources/ClipCanvasCore/MCP/MCPToolRouter.swift": {
+          "additions": 618,
+          "accepted_lines": 618
+        },
+        "Sources/ClipCanvasCore/MCP/MCPProtocol.swift": {
+          "additions": 165,
+          "accepted_lines": 165
+        },
+        "Tests/ClipCanvasCoreTests/MCPToolRouterTests.swift": {
+          "additions": 141,
+          "accepted_lines": 141
+        },
+        "Tests/ClipCanvasCoreTests/MCPProtocolTests.swift": {
+          "additions": 60,
+          "accepted_lines": 60
+        },
+        "Sources/ClipCanvasCore/Models/SettingsModels.swift": {
+          "additions": 95,
+          "accepted_lines": 95
+        },
+        "Tests/ClipCanvasCoreTests/AuthorizationTests.swift": {
+          "additions": 69,
+          "accepted_lines": 69
+        }
+      }
+    }
+  }
+}
