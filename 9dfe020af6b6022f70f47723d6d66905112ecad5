@@ -1,0 +1,81 @@
+Sources/ClipCanvasApp/App/ClipCanvasApp.swift
+  7d8c3d94060667aa 1-23
+scripts/build-app.sh
+  7d8c3d94060667aa 1-36
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  7d8c3d94060667aa 1-69
+Configuration/Info.plist
+  7d8c3d94060667aa 1-32
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 1-18
+Package.swift
+  7d8c3d94060667aa 1-31
+Tests/ClipCanvasAppTests/AppModelTests.swift
+  7d8c3d94060667aa 1-13
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 1-7
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "9dfe020af6b6022f70f47723d6d66905112ecad5",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 238,
+      "total_deletions": 1,
+      "accepted_lines": 236,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Empty.swift": {
+          "additions": 1
+        },
+        "Tests/ClipCanvasAppTests/AppModelTests.swift": {
+          "additions": 13,
+          "accepted_lines": 13
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 7,
+          "accepted_lines": 7
+        },
+        "Configuration/Info.plist": {
+          "additions": 32,
+          "accepted_lines": 32
+        },
+        "Sources/ClipCanvasApp/App/ClipCanvasApp.swift": {
+          "additions": 23,
+          "accepted_lines": 23
+        },
+        "scripts/build-app.sh": {
+          "additions": 36,
+          "accepted_lines": 36
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 7,
+          "accepted_lines": 7
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 18,
+          "accepted_lines": 18
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 69,
+          "accepted_lines": 69
+        },
+        "Package.swift": {
+          "additions": 32,
+          "deletions": 1,
+          "accepted_lines": 31
+        }
+      }
+    }
+  }
+}
