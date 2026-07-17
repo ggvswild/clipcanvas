@@ -1,0 +1,44 @@
+Sources/ClipCanvasApp/Clipboard/PasteService.swift
+  7d8c3d94060667aa 20-22,26-31,35-37,48,52-54,56,83
+Tests/ClipCanvasAppTests/PasteServiceTests.swift
+  7d8c3d94060667aa 1-131
+docs/ACCEPTANCE.md
+  7d8c3d94060667aa 3-9,15-18,24-38,44-54,60-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "629a3596083011f107505bc80231236aa5fe6831",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 194,
+      "total_deletions": 44,
+      "accepted_lines": 190,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "docs/ACCEPTANCE.md": {
+          "additions": 41,
+          "deletions": 35,
+          "accepted_lines": 41
+        },
+        "Sources/ClipCanvasApp/Clipboard/PasteService.swift": {
+          "additions": 19,
+          "deletions": 6,
+          "accepted_lines": 18
+        },
+        "Tests/ClipCanvasAppTests/PasteServiceTests.swift": {
+          "additions": 134,
+          "deletions": 3,
+          "accepted_lines": 131
+        }
+      }
+    }
+  }
+}
