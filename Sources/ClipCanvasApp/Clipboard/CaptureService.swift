@@ -3,9 +3,9 @@ import ClipCanvasCore
 import Foundation
 
 final class CaptureService: @unchecked Sendable {
-    typealias ConfigurationProvider = @Sendable () -> PrivacyConfiguration
-    typealias SourceProvider = @Sendable () -> ClipboardSource
-    typealias CaptureHandler = @Sendable (ClipboardItem) -> Void
+    typealias ConfigurationProvider = () -> PrivacyConfiguration
+    typealias SourceProvider = () -> ClipboardSource
+    typealias CaptureHandler = (ClipboardItem) -> Void
 
     private let pasteboard: NSPasteboard
     private let repository: ClipboardRepository

@@ -73,6 +73,36 @@ final class ClipboardRepositoryTests: XCTestCase {
         }
     }
 
+    func testDeleteItemsOlderThanCutoffPreservesPinnedItems() throws {
+        let oldPinned = try repository.upsert(
+            textDraft("old pinned", at: Date(timeIntervalSince1970: 100))
+        )
+        _ = try repository.upsert(
+            textDraft("old disposable", at: Date(timeIntervalSince1970: 110))
+        )
+        let recent = try repository.upsert(
+            textDraft("recent", at: Date(timeIntervalSince1970: 300))
+        )
+        try repository.pin(itemID: oldPinned.id, to: Pinboard.usefulLinksID)
+
+        try repository.deleteItems(
+            olderThan: Date(timeIntervalSince1970: 200),
+            preservingPinned: true
+        )
+
+        let remaining = try repository.list().items
+        XCTAssertEqual(Set(remaining.map(\.id)), [oldPinned.id, recent.id])
+    }
+
+    func testUpdateTitleRefreshesSearchIndex() throws {
+        let item = try repository.upsert(textDraft("https://example.com"))
+
+        try repository.updateTitle(id: item.id, title: "Private Example")
+
+        XCTAssertEqual(try repository.item(id: item.id).title, "Private Example")
+        XCTAssertEqual(try repository.search("Private", limit: 10).items.map(\.id), [item.id])
+    }
+
     private func textDraft(
         _ text: String,
         title: String? = nil,

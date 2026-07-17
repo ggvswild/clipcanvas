@@ -19,6 +19,7 @@ final class AppModel: ObservableObject {
     @Published var isPreviewPresented = false
     @Published var isDeleteConfirmationPresented = false
     @Published var isCreatePinboardPresented = false
+    @Published var isScreenSharingActive = false
 
     private var repository: ClipboardRepository?
     private var pasteService: PasteService?
@@ -148,6 +149,9 @@ final class AppModel: ObservableObject {
                 plainText: alwaysPastePlainText || forcePlainText,
                 targetApplication: targetApplication?()
             )
+            if SettingsStore.shared.soundEffects {
+                NSSound(named: "Tink")?.play()
+            }
             errorMessage = nil
         } catch PasteError.accessibilityDenied {
             pasteStrategy = .clipboardOnly
@@ -233,5 +237,29 @@ final class AppModel: ObservableObject {
             return nil
         }
         return try? repository.representationData(representation)
+    }
+
+    func eraseHistory(preservingPinned: Bool) {
+        guard let repository else { return }
+        do {
+            try repository.eraseHistory(preservingPinned: preservingPinned)
+            reload()
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func enforceRetention(_ period: RetentionPeriod) {
+        guard let repository,
+              let cutoff = period.cutoff() else {
+            return
+        }
+        do {
+            try repository.deleteItems(olderThan: cutoff, preservingPinned: true)
+            reload()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }

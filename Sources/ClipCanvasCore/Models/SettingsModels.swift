@@ -86,3 +86,16 @@ public enum ShortcutAction: String, Codable, CaseIterable, Sendable {
         )
     ]
 }
+
+public struct IgnoredApplication: Identifiable, Codable, Hashable, Sendable {
+    public var id: String { bundleID }
+    public let bundleID: String
+    public var name: String
+    public var path: String?
+
+    public init(bundleID: String, name: String, path: String? = nil) {
+        self.bundleID = bundleID
+        self.name = name
+        self.path = path
+    }
+}

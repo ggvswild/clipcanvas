@@ -4,12 +4,14 @@ import SwiftUI
 @MainActor
 final class PanelController: NSObject, NSWindowDelegate {
     private let model: AppModel
+    private let settings: SettingsStore
     private let panel: ClipCanvasPanel
     private var keyMonitor: Any?
     private(set) var previousApplication: NSRunningApplication?
 
-    init(model: AppModel) {
+    init(model: AppModel, settings: SettingsStore) {
         self.model = model
+        self.settings = settings
         panel = ClipCanvasPanel(
             contentRect: .zero,
             styleMask: [.borderless, .fullSizeContentView],
@@ -39,6 +41,10 @@ final class PanelController: NSObject, NSWindowDelegate {
     }
 
     func show(stackMode: Bool = false) {
+        guard settings.showDuringScreenSharing || !model.isScreenSharingActive else {
+            model.errorMessage = String(localized: "privacy.panel_hidden")
+            return
+        }
         previousApplication = NSWorkspace.shared.frontmostApplication
         model.isStackMode = stackMode
         model.reload()

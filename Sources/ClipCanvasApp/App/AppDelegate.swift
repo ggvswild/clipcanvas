@@ -1,5 +1,6 @@
 import AppKit
 import ClipCanvasCore
+import Combine
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -9,6 +10,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var pasteService: PasteService?
     private var panelController: PanelController?
     private var hotKeyService: GlobalHotKeyService?
+    private var screenSharingMonitor: ScreenSharingMonitor?
+    private var cancellables: Set<AnyCancellable> = []
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -88,11 +91,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let blobStore = try BlobStore(rootURL: root.appendingPathComponent("blobs"))
             let repository = ClipboardRepository(database: database, blobStore: blobStore)
             let pasteService = PasteService(repository: repository)
-            let panel = PanelController(model: AppModel.shared)
+            let settings = SettingsStore.shared
+            let panel = PanelController(model: AppModel.shared, settings: settings)
+            let linkPreview = LinkPreviewService()
             let capture = CaptureService(
                 repository: repository,
                 configuration: {
-                    PrivacyConfiguration()
+                    settings.privacyConfiguration
                 },
                 source: {
                     let application = NSWorkspace.shared.frontmostApplication
@@ -107,10 +112,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 onCapture: { item in
                     Task { @MainActor in
                         AppModel.shared.received(item)
+                        if settings.generateLinkPreviews,
+                           item.kind == .link,
+                           let text = item.plainText,
+                           let url = URL(string: text) {
+                            Task {
+                                guard let preview = try? await linkPreview.preview(for: url) else {
+                                    return
+                                }
+                                try? repository.updateTitle(id: item.id, title: preview.title)
+                                await MainActor.run {
+                                    AppModel.shared.reload()
+                                }
+                            }
+                        }
                     }
                 }
             )
             let hotKeys = GlobalHotKeyService()
+            let sharingMonitor = ScreenSharingMonitor()
 
             AppModel.shared.configure(
                 repository: repository,
@@ -122,7 +142,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     panel?.hide()
                 }
             )
-            registerHotKeys(hotKeys, panel: panel)
+            AppModel.shared.pasteStrategy = settings.pasteStrategy
+            AppModel.shared.alwaysPastePlainText = settings.alwaysPastePlainText
+            configureSettingsBindings(
+                settings: settings,
+                hotKeys: hotKeys,
+                panel: panel
+            )
+            sharingMonitor.onChange = { [weak panel] isSharing in
+                AppModel.shared.isScreenSharingActive = isSharing
+                if isSharing, !settings.showDuringScreenSharing {
+                    panel?.hide()
+                }
+            }
+            sharingMonitor.start()
+            AppModel.shared.enforceRetention(settings.retentionPeriod)
             capture.start()
 
             self.repository = repository
@@ -130,10 +164,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             captureService = capture
             panelController = panel
             hotKeyService = hotKeys
+            screenSharingMonitor = sharingMonitor
 
             if ProcessInfo.processInfo.arguments.contains("--show-panel") {
                 DispatchQueue.main.async {
                     panel.show()
+                }
+            } else if ProcessInfo.processInfo.arguments.contains("--show-settings") {
+                DispatchQueue.main.async { [weak self] in
+                    self?.openSettings()
                 }
             }
         } catch {
@@ -141,11 +180,39 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private func configureSettingsBindings(
+        settings: SettingsStore,
+        hotKeys: GlobalHotKeyService,
+        panel: PanelController
+    ) {
+        settings.$pasteStrategy
+            .sink { strategy in
+                AppModel.shared.pasteStrategy = strategy
+            }
+            .store(in: &cancellables)
+        settings.$alwaysPastePlainText
+            .sink { enabled in
+                AppModel.shared.alwaysPastePlainText = enabled
+            }
+            .store(in: &cancellables)
+        settings.$retentionPeriod
+            .dropFirst()
+            .sink { period in
+                AppModel.shared.enforceRetention(period)
+            }
+            .store(in: &cancellables)
+        settings.$shortcuts
+            .sink { [weak self] _ in
+                self?.registerHotKeys(hotKeys, panel: panel)
+            }
+            .store(in: &cancellables)
+    }
+
     private func registerHotKeys(
         _ hotKeys: GlobalHotKeyService,
         panel: PanelController
     ) {
-        let defaults = ShortcutAction.defaultShortcuts
+        let defaults = SettingsStore.shared.shortcuts
         if let shortcut = defaults[.activate] {
             hotKeys.register(action: .activate, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in panel?.toggle() }

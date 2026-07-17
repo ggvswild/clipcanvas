@@ -221,6 +221,52 @@ public final class ClipboardRepository: @unchecked Sendable {
         }
     }
 
+    public func deleteItems(
+        olderThan cutoff: Date,
+        preservingPinned: Bool = true
+    ) throws {
+        if preservingPinned {
+            try database.execute(
+                """
+                DELETE FROM clipboard_items
+                WHERE last_copied_at < ?
+                  AND id NOT IN (SELECT item_id FROM pinboard_items)
+                """,
+                bindings: [.real(cutoff.timeIntervalSince1970)]
+            )
+        } else {
+            try database.execute(
+                "DELETE FROM clipboard_items WHERE last_copied_at < ?",
+                bindings: [.real(cutoff.timeIntervalSince1970)]
+            )
+        }
+        try database.execute(
+            """
+            DELETE FROM clipboard_fts
+            WHERE item_id NOT IN (SELECT id FROM clipboard_items)
+            """
+        )
+    }
+
+    public func updateTitle(id: UUID, title: String?) throws {
+        let existing = try item(id: id)
+        try database.transaction {
+            try database.execute(
+                "UPDATE clipboard_items SET title = ? WHERE id = ?",
+                bindings: [
+                    title.map(SQLiteValue.text) ?? .null,
+                    .text(id.uuidString)
+                ]
+            )
+            try replaceFTS(
+                itemID: id,
+                plainText: existing.plainText,
+                title: title,
+                sourceName: existing.source.name
+            )
+        }
+    }
+
     public func listPinboards() throws -> [Pinboard] {
         try database.rows(
             "SELECT * FROM pinboards ORDER BY sort_index ASC, created_at ASC"
