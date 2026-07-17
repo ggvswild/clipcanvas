@@ -6,6 +6,8 @@
 
 **ClipCanvas** 是一款原生、开源、本地优先的 macOS 剪贴板管理器。它提供横向卡片历史、Pinboard、键盘快速粘贴、隐私过滤和经过授权的 MCP 接入，不包含 iCloud、订阅、遥测或付费功能。
 
+![ClipCanvas 横向剪贴板卡片与 Pinboard](docs/images/clipcanvas-panel.png)
+
 ## 功能
 
 | 模块 | 能力 |

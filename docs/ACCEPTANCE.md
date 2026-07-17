@@ -6,7 +6,7 @@
 | 环境 | macOS 26.5.2 (25F84), Apple Silicon arm64 |
 | 产物 | `build/ClipCanvas.app`, 4.5 MiB, ad-hoc signed |
 | 自动化 | **58 tests, 0 failures, 0 warnings** |
-| UI 说明 | 主面板已在锁屏前通过 Computer Use 实机检查；最终轮设置窗口截图受 macOS 锁屏限制，设置行为由编译、状态测试和代码审计覆盖 |
+| UI 说明 | 主面板已通过 Computer Use 实机检查，并使用 Release 同源 SwiftUI 组件离屏复验；截图见 `docs/images/clipcanvas-panel.png`。最终轮设置窗口截图受 macOS 锁屏限制，设置行为由编译、状态测试和代码审计覆盖 |
 
 ## 自动化
 
