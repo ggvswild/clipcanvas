@@ -1,0 +1,91 @@
+docs/ARCHITECTURE.md
+  7d8c3d94060667aa 1-93
+docs/ACCEPTANCE.md
+  7d8c3d94060667aa 1-57
+scripts/run-tests.sh
+  7d8c3d94060667aa 1-9
+.github/workflows/ci.yml
+  7d8c3d94060667aa 1-25
+CONTRIBUTING.md
+  7d8c3d94060667aa 1-38
+SECURITY.md
+  7d8c3d94060667aa 1-33
+scripts/build-app.sh
+  7d8c3d94060667aa 32-52
+README.md
+  7d8c3d94060667aa 1-122
+Configuration/Info.plist
+  7d8c3d94060667aa 15-16
+LICENSE
+  7d8c3d94060667aa 1-21
+Sources/ClipCanvasApp/Views/Settings/AboutView.swift
+  7d8c3d94060667aa 1,8-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "4797f73970f1b19c5a6958545a69d94f1da411a7",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 427,
+      "total_deletions": 6,
+      "accepted_lines": 425,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "scripts/run-tests.sh": {
+          "additions": 9,
+          "accepted_lines": 9
+        },
+        "SECURITY.md": {
+          "additions": 33,
+          "accepted_lines": 33
+        },
+        "docs/ACCEPTANCE.md": {
+          "additions": 57,
+          "accepted_lines": 57
+        },
+        ".github/workflows/ci.yml": {
+          "additions": 27,
+          "deletions": 2,
+          "accepted_lines": 25
+        },
+        "scripts/build-app.sh": {
+          "additions": 21,
+          "accepted_lines": 21
+        },
+        "Sources/ClipCanvasApp/Views/Settings/AboutView.swift": {
+          "additions": 4,
+          "deletions": 4,
+          "accepted_lines": 4
+        },
+        "docs/ARCHITECTURE.md": {
+          "additions": 93,
+          "accepted_lines": 93
+        },
+        "Configuration/Info.plist": {
+          "additions": 2,
+          "accepted_lines": 2
+        },
+        "LICENSE": {
+          "additions": 21,
+          "accepted_lines": 21
+        },
+        "CONTRIBUTING.md": {
+          "additions": 38,
+          "accepted_lines": 38
+        },
+        "README.md": {
+          "additions": 122,
+          "accepted_lines": 122
+        }
+      }
+    }
+  }
+}
