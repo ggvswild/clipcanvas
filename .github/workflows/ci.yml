@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: swift --version
+      - name: Test
+        run: ./scripts/run-tests.sh
+      - name: Build release app
+        run: ./scripts/build-app.sh release
+      - name: Verify bundle
+        run: |
+          test -x build/ClipCanvas.app/Contents/MacOS/ClipCanvas
+          test -x build/ClipCanvas.app/Contents/Helpers/clipcanvas-mcp
+          plutil -lint build/ClipCanvas.app/Contents/Info.plist
+          codesign --verify --deep --strict build/ClipCanvas.app

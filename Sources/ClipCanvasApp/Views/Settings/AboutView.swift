@@ -1,14 +1,14 @@
+import AppKit
 import SwiftUI
 
 struct AboutView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
             HStack(spacing: 18) {
-                Image(systemName: "rectangle.stack.fill")
-                    .font(.system(size: 54))
-                    .foregroundStyle(.cyan.gradient)
+                Image(nsImage: NSApplication.shared.applicationIconImage)
+                    .resizable()
+                    .scaledToFit()
                     .frame(width: 84, height: 84)
-                    .background(.cyan.opacity(0.12), in: RoundedRectangle(cornerRadius: 20))
                 VStack(alignment: .leading, spacing: 5) {
                     Text("app.name")
                         .font(.largeTitle.bold())
