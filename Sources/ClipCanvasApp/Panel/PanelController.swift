@@ -137,8 +137,10 @@ final class PanelController: NSObject, NSWindowDelegate {
             Task { await model.pasteSelected(forcePlainText: event.modifierFlags.contains(.shift)) }
         case 49:
             model.isPreviewPresented.toggle()
-        case 51:
+        case 51 where Self.shouldHandleDeleteShortcut(firstResponder: panel.firstResponder):
             model.requestDeleteSelected()
+        case 51:
+            return false
         case 53:
             hide()
         case 18...26 where command:
@@ -153,6 +155,16 @@ final class PanelController: NSObject, NSWindowDelegate {
             }
         default:
             return false
+        }
+        return true
+    }
+
+    static func shouldHandleDeleteShortcut(firstResponder: NSResponder?) -> Bool {
+        if let textEditor = firstResponder as? NSTextView {
+            return !textEditor.isEditable
+        }
+        if let textField = firstResponder as? NSTextField {
+            return !textField.isEditable
         }
         return true
     }
