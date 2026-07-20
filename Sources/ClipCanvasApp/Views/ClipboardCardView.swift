@@ -2,6 +2,26 @@ import AppKit
 import ClipCanvasCore
 import SwiftUI
 
+enum ClipboardCardHeaderBackgroundTreatment: Equatable {
+    case flat
+}
+
+struct ClipboardCardHeaderAppearance: Equatable {
+    static let contentFirst = ClipboardCardHeaderAppearance(
+        backgroundTreatment: .flat,
+        backgroundOpacity: 0.035,
+        typeAccentOpacity: 0.72,
+        sourceIconOpacity: 0.7,
+        dividerOpacity: 0.05
+    )
+
+    let backgroundTreatment: ClipboardCardHeaderBackgroundTreatment
+    let backgroundOpacity: Double
+    let typeAccentOpacity: Double
+    let sourceIconOpacity: Double
+    let dividerOpacity: Double
+}
+
 struct ClipboardCardView: View {
     static let height: CGFloat = 215
 
@@ -42,19 +62,41 @@ struct ClipboardCardView: View {
     private var header: some View {
         HStack(spacing: 6) {
             Image(systemName: kindSymbol)
-                .font(.caption.bold())
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(kindColor.opacity(headerAppearance.typeAccentOpacity))
             Text(kindTitle)
-                .font(.caption.bold())
+                .font(.caption.weight(.medium))
+                .foregroundStyle(.secondary)
             Spacer()
             Text(relativeTime)
                 .font(.caption2)
+                .foregroundStyle(.tertiary)
                 .lineLimit(1)
             sourceIcon
+                .opacity(headerAppearance.sourceIconOpacity)
         }
-        .foregroundStyle(.white)
         .padding(.horizontal, 10)
         .frame(height: 34)
-        .background(kindColor.gradient)
+        .background {
+            headerBackground
+        }
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color.white.opacity(headerAppearance.dividerOpacity))
+                .frame(height: 1)
+        }
+    }
+
+    private var headerAppearance: ClipboardCardHeaderAppearance {
+        .contentFirst
+    }
+
+    @ViewBuilder
+    private var headerBackground: some View {
+        switch headerAppearance.backgroundTreatment {
+        case .flat:
+            Color.white.opacity(headerAppearance.backgroundOpacity)
+        }
     }
 
     @ViewBuilder
