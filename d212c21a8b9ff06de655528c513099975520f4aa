@@ -1,0 +1,66 @@
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  45ca23e4fdd06c15 242
+  7d8c3d94060667aa 14,222-230,241,244,247,252,257,268
+Sources/ClipCanvasApp/HotKeys/ShortcutBindingCoordinator.swift
+  7d8c3d94060667aa 1-14
+Tests/ClipCanvasAppTests/ShortcutBindingCoordinatorTests.swift
+  7d8c3d94060667aa 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "d212c21a8b9ff06de655528c513099975520f4aa",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 24,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/ShortcutBindingCoordinatorTests.swift": {
+          "additions": 23
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 54,
+      "total_deletions": 12,
+      "accepted_lines": 53,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/HotKeys/ShortcutBindingCoordinator.swift": {
+          "additions": 14,
+          "accepted_lines": 14
+        },
+        "Tests/ClipCanvasAppTests/ShortcutBindingCoordinatorTests.swift": {
+          "additions": 23,
+          "accepted_lines": 23
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 17,
+          "deletions": 12,
+          "accepted_lines": 16
+        }
+      }
+    }
+  }
+}
