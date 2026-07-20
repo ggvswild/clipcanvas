@@ -73,6 +73,80 @@ final class ClipboardRepositoryTests: XCTestCase {
         }
     }
 
+    func testUpdateAndReorderOrdinaryPinboards() throws {
+        let first = try repository.createPinboard(
+            name: "First",
+            color: "cyan",
+            symbol: "pin.fill"
+        )
+        let second = try repository.createPinboard(
+            name: "Second",
+            color: "blue",
+            symbol: "link"
+        )
+
+        try repository.updatePinboard(
+            id: first.id,
+            name: " Renamed ",
+            color: "purple",
+            symbol: "star.fill"
+        )
+        try repository.reorderPinboards(ids: [second.id, first.id])
+
+        let boards = try repository.listPinboards()
+        XCTAssertEqual(
+            boards.filter { !$0.isSystem }.map(\.id),
+            [second.id, first.id]
+        )
+        let updated = try XCTUnwrap(boards.first(where: { $0.id == first.id }))
+        XCTAssertEqual(updated.name, "Renamed")
+        XCTAssertEqual(updated.color, "purple")
+        XCTAssertEqual(updated.symbol, "star.fill")
+        XCTAssertEqual(boards.first?.id, Pinboard.usefulLinksID)
+    }
+
+    func testSystemPinboardCannotBeModified() throws {
+        XCTAssertThrowsError(
+            try repository.updatePinboard(
+                id: Pinboard.usefulLinksID,
+                name: "Changed",
+                color: "pink",
+                symbol: "heart.fill"
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? ClipboardRepositoryError,
+                .systemPinboardCannotBeModified
+            )
+        }
+    }
+
+    func testDeletePinboardPreservesClipboardItem() throws {
+        let item = try repository.upsert(textDraft("still in history"))
+        let board = try repository.createPinboard(name: "Temporary")
+        try repository.pin(itemID: item.id, to: board.id)
+
+        try repository.deletePinboard(id: board.id)
+
+        XCTAssertEqual(try repository.item(id: item.id).id, item.id)
+    }
+
+    func testUnpinDoesNotAffectOtherPinboards() throws {
+        let item = try repository.upsert(textDraft("shared"))
+        let first = try repository.createPinboard(name: "First")
+        let second = try repository.createPinboard(name: "Second")
+        try repository.pin(itemID: item.id, to: first.id)
+        try repository.pin(itemID: item.id, to: second.id)
+
+        try repository.unpin(itemID: item.id, from: first.id)
+
+        XCTAssertTrue(try repository.items(in: first.id).items.isEmpty)
+        XCTAssertEqual(
+            try repository.items(in: second.id).items.map(\.id),
+            [item.id]
+        )
+    }
+
     func testDeleteItemsOlderThanCutoffPreservesPinnedItems() throws {
         let oldPinned = try repository.upsert(
             textDraft("old pinned", at: Date(timeIntervalSince1970: 100))

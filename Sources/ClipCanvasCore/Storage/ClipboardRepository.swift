@@ -5,6 +5,9 @@ public enum ClipboardRepositoryError: Error, Equatable, Sendable {
     case itemNotFound
     case pinboardNotFound
     case systemPinboardCannotBeDeleted
+    case systemPinboardCannotBeModified
+    case invalidPinboardName
+    case invalidPinboardOrder
     case invalidStoredData
     case invalidClientName
     case invalidScopes
@@ -305,6 +308,63 @@ public final class ClipboardRepository: @unchecked Sendable {
             ]
         )
         return pinboard
+    }
+
+    public func updatePinboard(
+        id: UUID,
+        name: String,
+        color: String,
+        symbol: String
+    ) throws {
+        guard let board = try listPinboards().first(where: { $0.id == id }) else {
+            throw ClipboardRepositoryError.pinboardNotFound
+        }
+        guard !board.isSystem else {
+            throw ClipboardRepositoryError.systemPinboardCannotBeModified
+        }
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else {
+            throw ClipboardRepositoryError.invalidPinboardName
+        }
+        try database.execute(
+            """
+            UPDATE pinboards
+            SET name = ?, color = ?, symbol = ?
+            WHERE id = ?
+            """,
+            bindings: [
+                .text(trimmedName),
+                .text(color),
+                .text(symbol),
+                .text(id.uuidString)
+            ]
+        )
+    }
+
+    public func reorderPinboards(ids: [UUID]) throws {
+        let ordinary = try listPinboards().filter { !$0.isSystem }
+        guard ids.count == ordinary.count,
+              Set(ids) == Set(ordinary.map(\.id)) else {
+            throw ClipboardRepositoryError.invalidPinboardOrder
+        }
+        try database.transaction {
+            try database.execute(
+                "UPDATE pinboards SET sort_index = 0 WHERE is_system = 1"
+            )
+            for (offset, id) in ids.enumerated() {
+                try database.execute(
+                    """
+                    UPDATE pinboards
+                    SET sort_index = ?
+                    WHERE id = ? AND is_system = 0
+                    """,
+                    bindings: [
+                        .integer(Int64(offset + 1)),
+                        .text(id.uuidString)
+                    ]
+                )
+            }
+        }
     }
 
     public func deletePinboard(id: UUID) throws {
