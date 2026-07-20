@@ -93,6 +93,10 @@ final class AppModel: ObservableObject {
         return items.first(where: { $0.id == selectedItemID })
     }
 
+    var pinboardTabs: [Pinboard?] {
+        [nil] + pinboards.map(Optional.some)
+    }
+
     var isPresentingSheet: Bool {
         isPreviewPresented || isDeleteConfirmationPresented || isCreatePinboardPresented
     }
@@ -127,7 +131,7 @@ final class AppModel: ObservableObject {
     }
 
     func selectAdjacentPinboard(offset: Int) {
-        let destinations: [UUID?] = pinboards.map { Optional($0.id) } + [nil]
+        let destinations = pinboardTabs.map { $0?.id }
         guard !destinations.isEmpty else { return }
         let current = destinations.firstIndex(where: { $0 == selectedPinboardID }) ?? 0
         let next = (current + offset + destinations.count) % destinations.count

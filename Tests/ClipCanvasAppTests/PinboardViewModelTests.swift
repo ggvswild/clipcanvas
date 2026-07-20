@@ -5,6 +5,20 @@ import ClipCanvasCore
 
 @MainActor
 final class PinboardViewModelTests: XCTestCase {
+    func testClipboardTabPrecedesEveryPinboard() throws {
+        let context = try makeContext()
+        defer { try? FileManager.default.removeItem(at: context.root) }
+
+        context.model.createPinboard(name: "Research", color: "purple", symbol: "book")
+
+        let tabs = context.model.pinboardTabs
+        XCTAssertNil(tabs[0])
+        XCTAssertEqual(
+            tabs.dropFirst().compactMap { $0?.id },
+            context.model.pinboards.map(\.id)
+        )
+    }
+
     func testCreatePinboardSelectAndDeleteReturnsToClipboard() throws {
         let context = try makeContext()
         defer { try? FileManager.default.removeItem(at: context.root) }

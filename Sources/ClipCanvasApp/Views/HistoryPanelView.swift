@@ -71,34 +71,37 @@ struct HistoryPanelView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
-                    ForEach(model.pinboards) { pinboard in
-                        Button {
-                            model.selectPinboard(pinboard.id)
-                        } label: {
-                            Label(pinboard.name, systemImage: pinboard.symbol)
-                                .lineLimit(1)
-                        }
-                        .buttonStyle(PanelTabButtonStyle(
-                            selected: model.selectedPinboardID == pinboard.id,
-                            tint: pinboard.isSystem ? .pink : .cyan
-                        ))
-                        .contextMenu {
-                            if !pinboard.isSystem {
-                                Button("pinboard.delete", role: .destructive) {
-                                    model.deletePinboard(pinboard.id)
+                    ForEach(Array(model.pinboardTabs.enumerated()), id: \.offset) { _, pinboard in
+                        if let pinboard {
+                            Button {
+                                model.selectPinboard(pinboard.id)
+                            } label: {
+                                Label(pinboard.name, systemImage: pinboard.symbol)
+                                    .lineLimit(1)
+                            }
+                            .buttonStyle(PanelTabButtonStyle(
+                                selected: model.selectedPinboardID == pinboard.id,
+                                tint: pinboard.isSystem ? .pink : .cyan
+                            ))
+                            .contextMenu {
+                                if !pinboard.isSystem {
+                                    Button("pinboard.delete", role: .destructive) {
+                                        model.deletePinboard(pinboard.id)
+                                    }
                                 }
                             }
+                        } else {
+                            Button {
+                                model.selectPinboard(nil)
+                            } label: {
+                                Label("panel.clipboard", systemImage: "clock.arrow.circlepath")
+                            }
+                            .buttonStyle(PanelTabButtonStyle(
+                                selected: model.selectedPinboardID == nil,
+                                tint: .blue
+                            ))
                         }
                     }
-                    Button {
-                        model.selectPinboard(nil)
-                    } label: {
-                        Label("panel.clipboard", systemImage: "clock.arrow.circlepath")
-                    }
-                    .buttonStyle(PanelTabButtonStyle(
-                        selected: model.selectedPinboardID == nil,
-                        tint: .blue
-                    ))
                 }
                 .frame(minWidth: 380, alignment: .center)
             }
