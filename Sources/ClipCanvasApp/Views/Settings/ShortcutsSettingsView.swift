@@ -58,7 +58,7 @@ struct ShortcutsSettingsView: View {
             Text(String(localized: action.titleKey))
             Spacer()
             ShortcutRecorderButton(
-                shortcut: settings.shortcuts[action] ?? ShortcutAction.defaultShortcuts[action]!,
+                shortcut: settings.shortcuts[action],
                 onCapture: { shortcut in
                     let result = ShortcutValidator.validate(
                         action: action,
@@ -77,6 +77,10 @@ struct ShortcutsSettingsView: View {
                             String(localized: conflict.titleKey)
                         )
                     }
+                },
+                onClear: {
+                    settings.clearShortcut(action)
+                    validationMessage = nil
                 }
             )
         }

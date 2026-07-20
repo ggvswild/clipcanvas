@@ -3,24 +3,61 @@ import ClipCanvasCore
 import SwiftUI
 
 struct ShortcutRecorderButton: View {
-    let shortcut: ClipCanvasCore.KeyboardShortcut
+    let shortcut: ClipCanvasCore.KeyboardShortcut?
     let onCapture: (ClipCanvasCore.KeyboardShortcut) -> Void
+    let onClear: () -> Void
     @State private var isRecording = false
 
     var body: some View {
-        Button {
-            isRecording.toggle()
-        } label: {
-            Text(isRecording ? "shortcuts.recording" : shortcut.displayText)
-                .frame(minWidth: 92)
+        HStack(spacing: 6) {
+            Button {
+                isRecording.toggle()
+            } label: {
+                Text(displayText)
+                    .frame(minWidth: 92)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            if shortcut != nil {
+                Divider()
+                    .frame(height: 14)
+
+                Button {
+                    isRecording = false
+                    onClear()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.caption2.bold())
+                        .frame(width: 16, height: 16)
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .accessibilityLabel(Text("shortcuts.clear"))
+                .help("shortcuts.clear")
+            }
         }
-        .buttonStyle(.bordered)
+        .padding(.leading, 10)
+        .padding(.trailing, shortcut == nil ? 10 : 6)
+        .frame(height: 28)
+        .background(.quaternary.opacity(0.7), in: RoundedRectangle(cornerRadius: 6))
+        .overlay {
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(.white.opacity(isRecording ? 0.34 : 0.12), lineWidth: 1)
+        }
         .background {
             ShortcutCaptureView(
                 isRecording: $isRecording,
                 onCapture: onCapture
             )
         }
+    }
+
+    private var displayText: String {
+        if isRecording {
+            return String(localized: "shortcuts.recording")
+        }
+        return shortcut?.displayText ?? String(localized: "shortcuts.unassigned")
     }
 }
 

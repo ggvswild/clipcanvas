@@ -1,6 +1,7 @@
 import AppKit
 import ClipCanvasCore
 import Combine
+import SwiftUI
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -13,6 +14,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var screenSharingMonitor: ScreenSharingMonitor?
     private var mcpService: MCPService?
     private var cancellables: Set<AnyCancellable> = []
+    private lazy var settingsWindowController = SettingsWindowController(
+        rootView: AnyView(
+            SettingsRootView()
+                .environmentObject(AppModel.shared)
+                .environmentObject(SettingsStore.shared)
+                .environmentObject(MCPService.shared)
+        )
+    )
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -63,8 +72,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func openSettings() {
-        NSApp.activate(ignoringOtherApps: true)
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        settingsWindowController.show()
     }
 
     @objc private func toggleCapture(_ sender: NSMenuItem) {
@@ -228,6 +236,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel: PanelController
     ) {
         let defaults = SettingsStore.shared.shortcuts
+        for action in ShortcutAction.allCases where defaults[action] == nil {
+            hotKeys.unregister(action: action)
+        }
         if let shortcut = defaults[.activate] {
             hotKeys.register(action: .activate, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in panel?.toggle() }

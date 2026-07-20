@@ -121,6 +121,10 @@ final class SettingsStore: ObservableObject {
         shortcuts = ShortcutAction.defaultShortcuts
     }
 
+    func clearShortcut(_ action: ShortcutAction) {
+        shortcuts.removeValue(forKey: action)
+    }
+
     func addIgnoredApplication(_ application: IgnoredApplication) {
         guard !ignoredApplications.contains(where: { $0.bundleID == application.bundleID }) else {
             return

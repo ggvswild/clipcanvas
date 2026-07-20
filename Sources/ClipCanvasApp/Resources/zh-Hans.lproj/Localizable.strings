@@ -42,6 +42,7 @@
 "settings.general" = "通用";
 "settings.privacy" = "隐私";
 "settings.shortcuts" = "快捷键";
+"settings.title" = "ClipCanvas 设置";
 "settings.mcp" = "MCP 与 AI 工具";
 "settings.about" = "关于";
 "settings.local_only" = "仅本机存储";
@@ -88,6 +89,8 @@
 "shortcuts.plain_mode" = "纯文本模式";
 "shortcuts.reset" = "恢复默认快捷键…";
 "shortcuts.recording" = "请按快捷键…";
+"shortcuts.unassigned" = "未设置";
+"shortcuts.clear" = "清除快捷键";
 "shortcuts.error_modifier" = "全局快捷键必须包含 Command、Shift、Option 或 Control。";
 "shortcuts.error_conflict %@" = "此快捷键与“%@”冲突。";
 "mcp.enable" = "启用 MCP";

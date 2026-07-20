@@ -42,6 +42,7 @@
 "settings.general" = "General";
 "settings.privacy" = "Privacy";
 "settings.shortcuts" = "Shortcuts";
+"settings.title" = "ClipCanvas Settings";
 "settings.mcp" = "MCP & AI Tools";
 "settings.about" = "About";
 "settings.local_only" = "Local-only storage";
@@ -88,6 +89,8 @@
 "shortcuts.plain_mode" = "Plain Text mode";
 "shortcuts.reset" = "Reset shortcuts to default…";
 "shortcuts.recording" = "Press shortcut…";
+"shortcuts.unassigned" = "Not set";
+"shortcuts.clear" = "Clear shortcut";
 "shortcuts.error_modifier" = "Global shortcuts require Command, Shift, Option, or Control.";
 "shortcuts.error_conflict %@" = "This shortcut conflicts with %@.";
 "mcp.enable" = "Enable MCP";

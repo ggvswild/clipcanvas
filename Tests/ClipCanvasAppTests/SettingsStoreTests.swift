@@ -46,6 +46,16 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertEqual(store.shortcuts, ShortcutAction.defaultShortcuts)
     }
 
+    func testClearedShortcutPersistsAsUnbound() {
+        let defaults = isolatedDefaults()
+        let first = SettingsStore(defaults: defaults)
+
+        first.clearShortcut(.activate)
+
+        XCTAssertNil(first.shortcuts[.activate])
+        XCTAssertNil(SettingsStore(defaults: defaults).shortcuts[.activate])
+    }
+
     private func isolatedDefaults() -> UserDefaults {
         let suite = "dev.clipcanvas.tests.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
