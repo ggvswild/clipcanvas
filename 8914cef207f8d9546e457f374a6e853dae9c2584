@@ -1,0 +1,36 @@
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 213-220,224,233-235,238,241-304,307
+Tests/ClipCanvasAppTests/PinboardViewModelTests.swift
+  7d8c3d94060667aa 48-92,112-124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "8914cef207f8d9546e457f374a6e853dae9c2584",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 139,
+      "total_deletions": 4,
+      "accepted_lines": 139,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PinboardViewModelTests.swift": {
+          "additions": 59,
+          "accepted_lines": 59
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 80,
+          "deletions": 4,
+          "accepted_lines": 80
+        }
+      }
+    }
+  }
+}
