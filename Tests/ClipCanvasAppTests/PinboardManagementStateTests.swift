@@ -60,6 +60,28 @@ final class PinboardManagementStateTests: XCTestCase {
         XCTAssertEqual(state.filteredItems, state.items)
     }
 
+    func testEditorDraftUsesExistingPinboardValues() {
+        let board = Pinboard(
+            name: "Code",
+            color: "purple",
+            symbol: "book.fill"
+        )
+
+        let draft = PinboardEditorDraft(pinboard: board)
+
+        XCTAssertEqual(draft.name, "Code")
+        XCTAssertEqual(draft.color, "purple")
+        XCTAssertEqual(draft.symbol, "book.fill")
+        XCTAssertTrue(draft.canSave)
+    }
+
+    func testEditorDraftRejectsBlankName() {
+        var draft = PinboardEditorDraft()
+        draft.name = "  "
+
+        XCTAssertFalse(draft.canSave)
+    }
+
     private func makeItem(
         text: String,
         title: String?,

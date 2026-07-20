@@ -1,23 +1,54 @@
+import ClipCanvasCore
 import SwiftUI
+
+struct PinboardEditorDraft: Equatable {
+    var name: String
+    var color: String
+    var symbol: String
+
+    init(pinboard: Pinboard? = nil) {
+        name = pinboard?.name ?? ""
+        color = pinboard?.color ?? "cyan"
+        symbol = pinboard?.symbol ?? "pin.fill"
+    }
+
+    var canSave: Bool {
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
 
 struct PinboardEditorView: View {
     static let height: CGFloat = 285
 
-    @State private var name = ""
-    @State private var color = "cyan"
-    @State private var symbol = "pin.fill"
+    @State private var draft: PinboardEditorDraft
     @Environment(\.dismiss) private var dismiss
 
-    let onCreate: (String, String, String) -> Void
+    private let isEditing: Bool
+    private let onSave: (String, String, String) -> Void
+    private let symbols = [
+        "pin.fill",
+        "link",
+        "book.fill",
+        "star.fill",
+        "briefcase.fill",
+        "heart.fill"
+    ]
 
-    private let symbols = ["pin.fill", "link", "book.fill", "star.fill", "briefcase.fill", "heart.fill"]
+    init(
+        pinboard: Pinboard? = nil,
+        onSave: @escaping (String, String, String) -> Void
+    ) {
+        _draft = State(initialValue: PinboardEditorDraft(pinboard: pinboard))
+        isEditing = pinboard != nil
+        self.onSave = onSave
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("pinboard.create")
+            Text(actionTitle)
                 .font(.title2.bold())
 
-            TextField("pinboard.name", text: $name)
+            TextField("pinboard.name", text: $draft.name)
                 .textFieldStyle(.roundedBorder)
 
             VStack(alignment: .leading, spacing: 8) {
@@ -26,13 +57,13 @@ struct PinboardEditorView: View {
                 HStack {
                     ForEach(PinboardColorPalette.supportedNames, id: \.self) { candidate in
                         Button {
-                            color = candidate
+                            draft.color = candidate
                         } label: {
                             Circle()
                                 .fill(PinboardColorPalette.color(for: candidate))
                                 .frame(width: 24, height: 24)
                                 .overlay {
-                                    if color == candidate {
+                                    if draft.color == candidate {
                                         Image(systemName: "checkmark")
                                             .font(.caption.bold())
                                             .foregroundStyle(.white)
@@ -50,13 +81,13 @@ struct PinboardEditorView: View {
                 HStack {
                     ForEach(symbols, id: \.self) { candidate in
                         Button {
-                            symbol = candidate
+                            draft.symbol = candidate
                         } label: {
                             Image(systemName: candidate)
                                 .frame(width: 32, height: 28)
                                 .background(
-                                    symbol == candidate
-                                        ? PinboardColorPalette.color(for: color).opacity(0.35)
+                                    draft.symbol == candidate
+                                        ? PinboardColorPalette.color(for: draft.color).opacity(0.35)
                                         : .clear,
                                     in: RoundedRectangle(cornerRadius: 7)
                                 )
@@ -71,15 +102,19 @@ struct PinboardEditorView: View {
                 Button("common.cancel") {
                     dismiss()
                 }
-                Button("pinboard.create") {
-                    onCreate(name, color, symbol)
+                Button(actionTitle) {
+                    onSave(draft.name, draft.color, draft.symbol)
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .disabled(!draft.canSave)
             }
         }
         .padding(22)
         .frame(width: 390, height: Self.height)
+    }
+
+    private var actionTitle: LocalizedStringKey {
+        isEditing ? "pinboard.edit" : "pinboard.create"
     }
 }
