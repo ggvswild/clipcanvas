@@ -1,0 +1,50 @@
+Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift
+  45ca23e4fdd06c15 7-18
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  7d8c3d94060667aa 126-130,167-168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "1c4de033317a2e0083f5d0454a4ef55ff6aba8f2",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 12,
+      "total_deletions": 0,
+      "accepted_lines": 12,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift": {
+          "additions": 12,
+          "accepted_lines": 12
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 9,
+          "accepted_lines": 9
+        }
+      }
+    }
+  }
+}
