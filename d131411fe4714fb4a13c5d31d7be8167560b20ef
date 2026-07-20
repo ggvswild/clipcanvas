@@ -1,0 +1,81 @@
+Package.swift
+  7d8c3d94060667aa 14-17,43-46
+Sources/ClipCanvasCore/Import/PastePinboardImporter.swift
+  7d8c3d94060667aa 1-352
+Tests/ClipCanvasCoreTests/PastePinboardImporterTests.swift
+  45ca23e4fdd06c15 1-143
+Sources/ClipCanvasPasteImporter/main.swift
+  7d8c3d94060667aa 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "d131411fe4714fb4a13c5d31d7be8167560b20ef",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 168,
+      "total_deletions": 10,
+      "accepted_lines": 143,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasPasteImporter/main.swift": {
+          "additions": 25,
+          "deletions": 10
+        },
+        "Tests/ClipCanvasCoreTests/PastePinboardImporterTests.swift": {
+          "additions": 143,
+          "accepted_lines": 143
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 477,
+      "total_deletions": 35,
+      "accepted_lines": 467,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasPasteImporter/main.swift": {
+          "additions": 70,
+          "deletions": 10,
+          "accepted_lines": 60
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 5,
+          "deletions": 1,
+          "accepted_lines": 5
+        },
+        "Sources/ClipCanvasCore/Import/PastePinboardImporter.swift": {
+          "additions": 352,
+          "accepted_lines": 352
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 27,
+          "deletions": 24,
+          "accepted_lines": 27
+        },
+        "Tests/ClipCanvasAppTests/PinboardViewModelTests.swift": {
+          "additions": 14,
+          "accepted_lines": 14
+        },
+        "Package.swift": {
+          "additions": 9,
+          "accepted_lines": 9
+        }
+      }
+    }
+  }
+}
