@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct PinboardEditorView: View {
+    static let height: CGFloat = 285
+
     @State private var name = ""
     @State private var color = "cyan"
     @State private var symbol = "pin.fill"
@@ -77,7 +79,7 @@ struct PinboardEditorView: View {
             }
         }
         .padding(22)
-        .frame(width: 390)
+        .frame(width: 390, height: Self.height)
     }
 
     private func colorValue(_ name: String) -> Color {

@@ -12,6 +12,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var items: [ClipboardItem] = []
     @Published private(set) var pinboards: [Pinboard] = []
     @Published private(set) var searchFocusRequestID = 0
+    @Published private(set) var isSearchFocused = false
     @Published var selectedItemID: UUID?
     @Published var selectedPinboardID: UUID?
     @Published var query = ""
@@ -37,8 +38,17 @@ final class AppModel: ObservableObject {
         isPanelPresented = false
     }
 
-    func requestSearchFocus() {
+    func toggleSearchFocus() {
+        isSearchFocused.toggle()
         searchFocusRequestID += 1
+        if !isSearchFocused {
+            query = ""
+            reload()
+        }
+    }
+
+    func updateSearchFocus(_ isFocused: Bool) {
+        isSearchFocused = isFocused
     }
 
     func configure(

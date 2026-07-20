@@ -97,7 +97,7 @@ final class PanelController: NSObject, NSWindowDelegate {
             x: visibleFrame.minX + horizontalMargin,
             y: visibleFrame.minY + bottomMargin,
             width: max(720, visibleFrame.width - horizontalMargin * 2),
-            height: 250
+            height: PinboardEditorView.height
         )
         panel.setFrame(frame, display: true)
     }
@@ -131,7 +131,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         let command = event.modifierFlags.contains(.command)
         switch event.keyCode {
         case 3 where command:
-            model.requestSearchFocus()
+            model.toggleSearchFocus()
         case 123 where command:
             model.selectAdjacentPinboard(offset: -1)
         case 124 where command:

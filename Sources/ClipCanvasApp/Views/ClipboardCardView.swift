@@ -3,6 +3,8 @@ import ClipCanvasCore
 import SwiftUI
 
 struct ClipboardCardView: View {
+    static let height: CGFloat = 215
+
     let item: ClipboardItem
     let isSelected: Bool
     let quickPasteIndex: Int?
@@ -16,7 +18,7 @@ struct ClipboardCardView: View {
                 .padding(12)
             footer
         }
-        .frame(width: 238, height: 180)
+        .frame(width: 238, height: Self.height)
         .background(Color(nsColor: .windowBackgroundColor).opacity(0.92))
         .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
         .overlay {

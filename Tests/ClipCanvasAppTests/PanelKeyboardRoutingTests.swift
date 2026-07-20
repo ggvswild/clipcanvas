@@ -33,6 +33,39 @@ final class PanelKeyboardRoutingTests: XCTestCase {
         XCTAssertEqual(model.searchFocusRequestID, 1)
     }
 
+    func testSecondCommandFExitsSearchAndClearsQuery() throws {
+        let suite = "dev.clipcanvas.tests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defaults.removePersistentDomain(forName: suite)
+        let model = AppModel()
+        let controller = PanelController(
+            model: model,
+            settings: SettingsStore(defaults: defaults)
+        )
+        let event = try XCTUnwrap(
+            NSEvent.keyEvent(
+                with: .keyDown,
+                location: .zero,
+                modifierFlags: .command,
+                timestamp: 0,
+                windowNumber: 0,
+                context: nil,
+                characters: "f",
+                charactersIgnoringModifiers: "f",
+                isARepeat: false,
+                keyCode: 3
+            )
+        )
+
+        XCTAssertTrue(controller.handleKeyDown(event))
+        XCTAssertTrue(model.isSearchFocused)
+        model.query = "needle"
+
+        XCTAssertTrue(controller.handleKeyDown(event))
+        XCTAssertFalse(model.isSearchFocused)
+        XCTAssertEqual(model.query, "")
+    }
+
     func testPanelKeyboardRoutingYieldsWhileSheetIsPresented() {
         XCTAssertFalse(
             PanelController.shouldRoutePanelKeyboardEvent(isPresentingSheet: true)

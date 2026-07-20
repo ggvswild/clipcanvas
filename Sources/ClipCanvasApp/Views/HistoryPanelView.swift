@@ -21,7 +21,10 @@ struct HistoryPanelView: View {
         .padding(2)
         .preferredColorScheme(.dark)
         .onChange(of: model.searchFocusRequestID) {
-            searchFocused = true
+            searchFocused = model.isSearchFocused
+        }
+        .onChange(of: searchFocused) { _, isFocused in
+            model.updateSearchFocus(isFocused)
         }
         .sheet(isPresented: $model.isPreviewPresented) {
             if let item = model.selectedItem {
