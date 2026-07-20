@@ -1,0 +1,42 @@
+Tests/ClipCanvasAppTests/PinboardManagementStateTests.swift
+  7d8c3d94060667aa 85-112
+Sources/ClipCanvasApp/Views/PinboardManagementState.swift
+  7d8c3d94060667aa 37-64
+Sources/ClipCanvasApp/Views/Settings/PinboardsSettingsView.swift
+  7d8c3d94060667aa 1-331
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "418342dd920c2b52e582f21e0ede2eee20c6e20a",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 390,
+      "total_deletions": 3,
+      "accepted_lines": 388,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Views/PinboardManagementState.swift": {
+          "additions": 28,
+          "accepted_lines": 28
+        },
+        "Tests/ClipCanvasAppTests/PinboardManagementStateTests.swift": {
+          "additions": 31,
+          "deletions": 3,
+          "accepted_lines": 29
+        },
+        "Sources/ClipCanvasApp/Views/Settings/PinboardsSettingsView.swift": {
+          "additions": 331,
+          "accepted_lines": 331
+        }
+      }
+    }
+  }
+}
