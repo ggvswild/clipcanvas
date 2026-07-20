@@ -1,0 +1,38 @@
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 96-99,134
+Tests/ClipCanvasAppTests/PinboardViewModelTests.swift
+  7d8c3d94060667aa 8-21
+Sources/ClipCanvasApp/Views/HistoryPanelView.swift
+  7d8c3d94060667aa 74-90,93-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "17b00a8c2e6b6669072daa6feef5b6fe80da0871",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 67,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "accepted_lines": 9
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "accepted_lines": 30
+        },
+        "Tests/ClipCanvasAppTests/PinboardViewModelTests.swift": {
+          "accepted_lines": 28
+        }
+      }
+    }
+  }
+}
