@@ -11,6 +11,10 @@ let package = Package(
     products: [
         .executable(name: "ClipCanvas", targets: ["ClipCanvasApp"]),
         .executable(name: "clipcanvas-mcp", targets: ["ClipCanvasMCPBridge"]),
+        .executable(
+            name: "clipcanvas-import-paste",
+            targets: ["ClipCanvasPasteImporter"]
+        ),
         .library(name: "ClipCanvasCore", targets: ["ClipCanvasCore"])
     ],
     targets: [
@@ -35,6 +39,11 @@ let package = Package(
         .executableTarget(
             name: "ClipCanvasMCPBridge",
             path: "Sources/ClipCanvasMCPBridge"
+        ),
+        .executableTarget(
+            name: "ClipCanvasPasteImporter",
+            dependencies: ["ClipCanvasCore"],
+            path: "Sources/ClipCanvasPasteImporter"
         ),
         .testTarget(
             name: "ClipCanvasAppTests",
