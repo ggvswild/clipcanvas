@@ -249,11 +249,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 Task { @MainActor in panel?.toggle() }
             }
         }
-        if let shortcut = shortcuts[.activateStack] {
-            hotKeys.register(action: .activateStack, shortcut: shortcut) { [weak panel] in
-                Task { @MainActor in panel?.toggle(stackMode: true) }
-            }
-        }
         if let shortcut = shortcuts[.previousPinboard] {
             hotKeys.register(action: .previousPinboard, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in

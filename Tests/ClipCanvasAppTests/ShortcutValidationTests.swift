@@ -3,6 +3,17 @@ import XCTest
 import ClipCanvasCore
 
 final class ShortcutValidationTests: XCTestCase {
+    func testSupportedShortcutActionsDoNotIncludeStack() {
+        XCTAssertEqual(
+            ShortcutAction.allCases.map(\.rawValue),
+            ["activate", "previousPinboard", "nextPinboard"]
+        )
+        XCTAssertEqual(
+            Set(ShortcutAction.defaultShortcuts.keys),
+            Set(ShortcutAction.allCases)
+        )
+    }
+
     func testGlobalShortcutRequiresModifier() {
         let result = ShortcutValidator.validate(
             action: .activate,
@@ -17,7 +28,7 @@ final class ShortcutValidationTests: XCTestCase {
         let shortcut = KeyboardShortcut(keyCode: 9, modifiers: [.command, .shift])
 
         let result = ShortcutValidator.validate(
-            action: .activateStack,
+            action: .nextPinboard,
             shortcut: shortcut,
             existing: [.activate: shortcut]
         )

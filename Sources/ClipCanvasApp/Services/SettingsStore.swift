@@ -2,6 +2,26 @@ import ClipCanvasCore
 import Combine
 import Foundation
 
+private enum StoredShortcutAction: String, Codable, Hashable {
+    case activate
+    case activateStack
+    case previousPinboard
+    case nextPinboard
+
+    var supportedAction: ShortcutAction? {
+        switch self {
+        case .activate:
+            .activate
+        case .activateStack:
+            nil
+        case .previousPinboard:
+            .previousPinboard
+        case .nextPinboard:
+            .nextPinboard
+        }
+    }
+}
+
 @MainActor
 final class SettingsStore: ObservableObject {
     static let shared = SettingsStore()
@@ -100,10 +120,19 @@ final class SettingsStore: ObservableObject {
 
         if let data = defaults.data(forKey: Key.shortcuts),
            let decoded = try? decoder.decode(
-               [ShortcutAction: KeyboardShortcut].self,
+               [StoredShortcutAction: KeyboardShortcut].self,
                from: data
            ) {
-            shortcuts = decoded
+            shortcuts = decoded.reduce(into: [:]) { result, entry in
+                guard let action = entry.key.supportedAction else {
+                    return
+                }
+                result[action] = entry.value
+            }
+            defaults.set(
+                try? encoder.encode(shortcuts),
+                forKey: Key.shortcuts
+            )
         } else {
             shortcuts = ShortcutAction.defaultShortcuts
         }

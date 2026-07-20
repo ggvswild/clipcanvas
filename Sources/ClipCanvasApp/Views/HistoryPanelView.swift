@@ -87,7 +87,7 @@ struct HistoryPanelView: View {
                             }
                             .buttonStyle(PanelTabButtonStyle(
                                 selected: model.selectedPinboardID == pinboard.id,
-                                tint: pinboard.isSystem ? .pink : .cyan
+                                tint: PinboardColorPalette.color(for: pinboard.color)
                             ))
                             .contextMenu {
                                 if !pinboard.isSystem {
@@ -272,14 +272,69 @@ private struct PanelTabButtonStyle: ButtonStyle {
     let tint: Color
 
     func makeBody(configuration: Configuration) -> some View {
+        let appearance = PinboardTabAppearance.readable
+
         configuration.label
-            .font(.caption.bold())
+            .font(.caption.weight(selected ? .bold : .semibold))
             .padding(.horizontal, 10)
             .frame(height: 28)
-            .foregroundStyle(selected ? .white : .secondary)
+            .foregroundStyle(
+                Color.white.opacity(selected ? 1 : 0.9)
+            )
             .background(
-                selected ? tint.opacity(configuration.isPressed ? 0.65 : 0.85) : .white.opacity(0.05),
+                tint.opacity(
+                    selected
+                        ? appearance.selectedBackgroundOpacity
+                        : appearance.defaultBackgroundOpacity
+                ),
                 in: Capsule()
             )
+            .overlay {
+                Capsule()
+                    .stroke(
+                        selected
+                            ? Color.white.opacity(appearance.selectedBorderOpacity)
+                            : tint.opacity(appearance.defaultBorderOpacity),
+                        lineWidth: selected
+                            ? appearance.selectedBorderWidth
+                            : appearance.defaultBorderWidth
+                    )
+            }
+            .shadow(
+                color: selected
+                    ? tint.opacity(appearance.selectedShadowOpacity)
+                    : .clear,
+                radius: selected ? 5 : 0,
+                y: selected ? 1 : 0
+            )
+            .scaleEffect(
+                selected ? appearance.selectedScale : appearance.defaultScale
+            )
+            .opacity(configuration.isPressed ? 0.8 : 1)
+            .animation(.snappy(duration: 0.16), value: selected)
     }
+}
+
+struct PinboardTabAppearance: Equatable {
+    static let readable = PinboardTabAppearance(
+        defaultBackgroundOpacity: 0.28,
+        selectedBackgroundOpacity: 0.82,
+        defaultBorderOpacity: 0.38,
+        selectedBorderOpacity: 0.46,
+        defaultBorderWidth: 0.75,
+        selectedBorderWidth: 1.4,
+        defaultScale: 1,
+        selectedScale: 1.025,
+        selectedShadowOpacity: 0.22
+    )
+
+    let defaultBackgroundOpacity: Double
+    let selectedBackgroundOpacity: Double
+    let defaultBorderOpacity: Double
+    let selectedBorderOpacity: Double
+    let defaultBorderWidth: CGFloat
+    let selectedBorderWidth: CGFloat
+    let defaultScale: CGFloat
+    let selectedScale: CGFloat
+    let selectedShadowOpacity: Double
 }

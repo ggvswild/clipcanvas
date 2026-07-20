@@ -63,17 +63,12 @@ public struct KeyboardShortcut: Codable, Hashable, Sendable {
 
 public enum ShortcutAction: String, Codable, CaseIterable, Sendable {
     case activate
-    case activateStack
     case previousPinboard
     case nextPinboard
 
     public static let defaultShortcuts: [ShortcutAction: KeyboardShortcut] = [
         .activate: KeyboardShortcut(
             keyCode: 9,
-            modifiers: [.command, .shift]
-        ),
-        .activateStack: KeyboardShortcut(
-            keyCode: 8,
             modifiers: [.command, .shift]
         ),
         .previousPinboard: KeyboardShortcut(

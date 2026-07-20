@@ -10,7 +10,6 @@ struct PinboardEditorView: View {
 
     let onCreate: (String, String, String) -> Void
 
-    private let colors = ["cyan", "blue", "purple", "pink", "orange", "green"]
     private let symbols = ["pin.fill", "link", "book.fill", "star.fill", "briefcase.fill", "heart.fill"]
 
     var body: some View {
@@ -25,12 +24,12 @@ struct PinboardEditorView: View {
                 Text("pinboard.color")
                     .font(.headline)
                 HStack {
-                    ForEach(colors, id: \.self) { candidate in
+                    ForEach(PinboardColorPalette.supportedNames, id: \.self) { candidate in
                         Button {
                             color = candidate
                         } label: {
                             Circle()
-                                .fill(colorValue(candidate))
+                                .fill(PinboardColorPalette.color(for: candidate))
                                 .frame(width: 24, height: 24)
                                 .overlay {
                                     if color == candidate {
@@ -56,7 +55,9 @@ struct PinboardEditorView: View {
                             Image(systemName: candidate)
                                 .frame(width: 32, height: 28)
                                 .background(
-                                    symbol == candidate ? colorValue(color).opacity(0.35) : .clear,
+                                    symbol == candidate
+                                        ? PinboardColorPalette.color(for: color).opacity(0.35)
+                                        : .clear,
                                     in: RoundedRectangle(cornerRadius: 7)
                                 )
                         }
@@ -80,16 +81,5 @@ struct PinboardEditorView: View {
         }
         .padding(22)
         .frame(width: 390, height: Self.height)
-    }
-
-    private func colorValue(_ name: String) -> Color {
-        switch name {
-        case "blue": .blue
-        case "purple": .purple
-        case "pink": .pink
-        case "orange": .orange
-        case "green": .green
-        default: .cyan
-        }
     }
 }

@@ -56,6 +56,38 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertNil(SettingsStore(defaults: defaults).shortcuts[.activate])
     }
 
+    func testLegacyStackShortcutIsRemovedWithoutResettingOtherShortcuts() {
+        let defaults = isolatedDefaults()
+        let legacyData = Data(
+            """
+            [
+              "activate", {"keyCode": 0, "modifiers": 256},
+              "activateStack", {"keyCode": 8, "modifiers": 768},
+              "nextPinboard", {"keyCode": 124, "modifiers": 256}
+            ]
+            """.utf8
+        )
+        defaults.set(legacyData, forKey: "shortcuts")
+
+        let store = SettingsStore(defaults: defaults)
+
+        XCTAssertEqual(
+            store.shortcuts[.activate],
+            KeyboardShortcut(keyCode: 0, modifiers: [.command])
+        )
+        XCTAssertEqual(
+            store.shortcuts[.nextPinboard],
+            KeyboardShortcut(keyCode: 124, modifiers: [.command])
+        )
+        XCTAssertEqual(store.shortcuts.count, 2)
+        XCTAssertFalse(
+            String(
+                data: defaults.data(forKey: "shortcuts")!,
+                encoding: .utf8
+            )!.contains("activateStack")
+        )
+    }
+
     private func isolatedDefaults() -> UserDefaults {
         let suite = "dev.clipcanvas.tests.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!

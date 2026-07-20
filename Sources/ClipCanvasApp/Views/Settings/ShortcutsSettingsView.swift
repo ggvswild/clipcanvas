@@ -12,8 +12,6 @@ struct ShortcutsSettingsView: View {
         ) {
             SettingsCard {
                 shortcutRow(.activate)
-                Divider()
-                shortcutRow(.activateStack)
             }
 
             SettingsCard {
@@ -92,7 +90,6 @@ private extension ShortcutAction {
     var titleKey: String.LocalizationValue {
         switch self {
         case .activate: "shortcuts.activate"
-        case .activateStack: "shortcuts.activate_stack"
         case .previousPinboard: "shortcuts.previous_pinboard"
         case .nextPinboard: "shortcuts.next_pinboard"
         }

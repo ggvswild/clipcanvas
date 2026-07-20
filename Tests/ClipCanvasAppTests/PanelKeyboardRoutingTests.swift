@@ -5,6 +5,58 @@ import XCTest
 
 @MainActor
 final class PanelKeyboardRoutingTests: XCTestCase {
+    func testCommandEightIsRoutedToQuickPaste() throws {
+        let suite = "dev.clipcanvas.tests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defaults.removePersistentDomain(forName: suite)
+        let controller = PanelController(
+            model: AppModel(),
+            settings: SettingsStore(defaults: defaults)
+        )
+        let event = try XCTUnwrap(
+            NSEvent.keyEvent(
+                with: .keyDown,
+                location: .zero,
+                modifierFlags: .command,
+                timestamp: 0,
+                windowNumber: 0,
+                context: nil,
+                characters: "8",
+                charactersIgnoringModifiers: "8",
+                isARepeat: false,
+                keyCode: 28
+            )
+        )
+
+        XCTAssertTrue(controller.handleKeyDown(event))
+    }
+
+    func testCommandEqualsIsNotConsumedAsQuickPaste() throws {
+        let suite = "dev.clipcanvas.tests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defaults.removePersistentDomain(forName: suite)
+        let controller = PanelController(
+            model: AppModel(),
+            settings: SettingsStore(defaults: defaults)
+        )
+        let event = try XCTUnwrap(
+            NSEvent.keyEvent(
+                with: .keyDown,
+                location: .zero,
+                modifierFlags: .command,
+                timestamp: 0,
+                windowNumber: 0,
+                context: nil,
+                characters: "=",
+                charactersIgnoringModifiers: "=",
+                isARepeat: false,
+                keyCode: 24
+            )
+        )
+
+        XCTAssertFalse(controller.handleKeyDown(event))
+    }
+
     func testCommandFRequestsSearchFocus() throws {
         let suite = "dev.clipcanvas.tests.\(UUID().uuidString)"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))

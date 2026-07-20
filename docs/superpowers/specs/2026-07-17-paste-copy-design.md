@@ -350,7 +350,6 @@ sequenceDiagram
 | 动作 | 默认 | 实现 |
 |---|---|---|
 | Activate ClipCanvas | `⇧⌘V` | Carbon `RegisterEventHotKey` |
-| Activate Stack | `⇧⌘C` | Carbon |
 | Next/Previous Pinboard | `⌘→` / `⌘←` | 面板级事件监听 |
 | Quick Paste | `⌘1…9` | 面板级事件监听 |
 | Plain Text mode | 按住 `⇧` | 当前 NSEvent modifierFlags |
@@ -526,4 +525,3 @@ graph TD
 | 范围 | 以 Phase 分解，但共享同一数据核心和最终产品 |
 | 歧义 | Useful Links、富文本、多文件、MCP 传输、Sandbox 均已明确 |
 | 非目标 | iCloud、订阅、官方品牌与非 macOS 平台均明确排除 |
-

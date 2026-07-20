@@ -82,7 +82,6 @@
 "privacy.best_effort" = "Screen-sharing detection is best effort because macOS does not expose a universal public status API.";
 "privacy.panel_hidden" = "ClipCanvas is hidden while screen sharing is detected.";
 "shortcuts.activate" = "Activate ClipCanvas";
-"shortcuts.activate_stack" = "Activate ClipCanvas Stack";
 "shortcuts.next_pinboard" = "Show next Pinboard";
 "shortcuts.previous_pinboard" = "Show previous Pinboard";
 "shortcuts.quick_paste" = "Quick Paste";

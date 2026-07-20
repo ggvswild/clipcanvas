@@ -36,17 +36,16 @@ final class PanelController: NSObject, NSWindowDelegate {
         )
     }
 
-    func toggle(stackMode: Bool = false) {
-        panel.isVisible ? hide() : show(stackMode: stackMode)
+    func toggle() {
+        panel.isVisible ? hide() : show()
     }
 
-    func show(stackMode: Bool = false) {
+    func show() {
         guard settings.showDuringScreenSharing || !model.isScreenSharingActive else {
             model.errorMessage = String(localized: "privacy.panel_hidden")
             return
         }
         previousApplication = NSWorkspace.shared.frontmostApplication
-        model.isStackMode = stackMode
         model.reload()
         positionPanel()
         panel.alphaValue = 0
@@ -150,8 +149,10 @@ final class PanelController: NSObject, NSWindowDelegate {
             return false
         case 53:
             hide()
-        case 18...26 where command:
-            let index = Self.quickPasteIndex(for: event.keyCode)
+        case let keyCode where command:
+            guard let index = Self.quickPasteIndex(for: keyCode) else {
+                return false
+            }
             if let item = model.itemForQuickPaste(index: index) {
                 Task {
                     await model.paste(
@@ -180,12 +181,12 @@ final class PanelController: NSObject, NSWindowDelegate {
         return true
     }
 
-    private static func quickPasteIndex(for keyCode: UInt16) -> Int {
+    private static func quickPasteIndex(for keyCode: UInt16) -> Int? {
         let mapping: [UInt16: Int] = [
             18: 1, 19: 2, 20: 3, 21: 4, 23: 5,
             22: 6, 26: 7, 28: 8, 25: 9
         ]
-        return mapping[keyCode] ?? 0
+        return mapping[keyCode]
     }
 }
 

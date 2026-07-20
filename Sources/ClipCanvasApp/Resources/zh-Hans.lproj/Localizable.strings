@@ -82,7 +82,6 @@
 "privacy.best_effort" = "macOS 没有统一公开的共享状态接口，因此屏幕共享检测为尽力保护。";
 "privacy.panel_hidden" = "检测到屏幕共享，ClipCanvas 已隐藏。";
 "shortcuts.activate" = "唤起 ClipCanvas";
-"shortcuts.activate_stack" = "唤起 ClipCanvas Stack";
 "shortcuts.next_pinboard" = "下一个 Pinboard";
 "shortcuts.previous_pinboard" = "上一个 Pinboard";
 "shortcuts.quick_paste" = "快速粘贴";

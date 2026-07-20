@@ -16,7 +16,6 @@ final class AppModel: ObservableObject {
     @Published var selectedItemID: UUID?
     @Published var selectedPinboardID: UUID?
     @Published var query = ""
-    @Published var isStackMode = false
     @Published var errorMessage: String?
     @Published var isPreviewPresented = false
     @Published var isDeleteConfirmationPresented = false
