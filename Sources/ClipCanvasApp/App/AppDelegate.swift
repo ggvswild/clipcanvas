@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var pasteService: PasteService?
     private var panelController: PanelController?
     private var hotKeyService: GlobalHotKeyService?
+    private var shortcutBindingCoordinator: ShortcutBindingCoordinator?
     private var screenSharingMonitor: ScreenSharingMonitor?
     private var mcpService: MCPService?
     private var cancellables: Set<AnyCancellable> = []
@@ -218,11 +219,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 AppModel.shared.enforceRetention(period)
             }
             .store(in: &cancellables)
-        settings.$shortcuts
-            .sink { [weak self] _ in
-                self?.registerHotKeys(hotKeys, panel: panel)
-            }
-            .store(in: &cancellables)
+        shortcutBindingCoordinator = ShortcutBindingCoordinator(
+            settings: settings
+        ) { [weak self, weak panel] shortcuts in
+            self?.registerHotKeys(
+                hotKeys,
+                panel: panel,
+                shortcuts: shortcuts
+            )
+        }
         settings.$enableMCP
             .dropFirst()
             .sink { enabled in
@@ -233,23 +238,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func registerHotKeys(
         _ hotKeys: GlobalHotKeyService,
-        panel: PanelController
+        panel: PanelController?,
+        shortcuts: [ShortcutAction: ClipCanvasCore.KeyboardShortcut]
     ) {
-        let defaults = SettingsStore.shared.shortcuts
-        for action in ShortcutAction.allCases where defaults[action] == nil {
+        for action in ShortcutAction.allCases where shortcuts[action] == nil {
             hotKeys.unregister(action: action)
         }
-        if let shortcut = defaults[.activate] {
+        if let shortcut = shortcuts[.activate] {
             hotKeys.register(action: .activate, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in panel?.toggle() }
             }
         }
-        if let shortcut = defaults[.activateStack] {
+        if let shortcut = shortcuts[.activateStack] {
             hotKeys.register(action: .activateStack, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in panel?.toggle(stackMode: true) }
             }
         }
-        if let shortcut = defaults[.previousPinboard] {
+        if let shortcut = shortcuts[.previousPinboard] {
             hotKeys.register(action: .previousPinboard, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in
                     if AppModel.shared.isPanelPresented {
@@ -260,7 +265,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        if let shortcut = defaults[.nextPinboard] {
+        if let shortcut = shortcuts[.nextPinboard] {
             hotKeys.register(action: .nextPinboard, shortcut: shortcut) { [weak panel] in
                 Task { @MainActor in
                     if AppModel.shared.isPanelPresented {
