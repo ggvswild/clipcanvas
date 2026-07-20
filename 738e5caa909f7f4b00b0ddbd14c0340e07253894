@@ -1,0 +1,96 @@
+Sources/ClipCanvasApp/Views/ClipboardCardView.swift
+  7d8c3d94060667aa 6-7,21
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  45ca23e4fdd06c15 134
+  7d8c3d94060667aa 100
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 15,41-42,44-51
+Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift
+  7d8c3d94060667aa 36-68
+Tests/ClipCanvasAppTests/PanelHeightTests.swift
+  7d8c3d94060667aa 2,10-43
+  45ca23e4fdd06c15 1,3-9,44-71
+Sources/ClipCanvasApp/Views/PinboardEditorView.swift
+  7d8c3d94060667aa 4-5,82
+Sources/ClipCanvasApp/Views/HistoryPanelView.swift
+  7d8c3d94060667aa 24-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "738e5caa909f7f4b00b0ddbd14c0340e07253894",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 72,
+      "total_deletions": 1,
+      "accepted_lines": 37,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PanelHeightTests.swift": {
+          "additions": 71,
+          "accepted_lines": 36
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 90,
+      "total_deletions": 5,
+      "accepted_lines": 90,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 11,
+          "deletions": 1,
+          "accepted_lines": 11
+        },
+        "Sources/ClipCanvasApp/Views/ClipboardCardView.swift": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "Tests/ClipCanvasAppTests/PanelHeightTests.swift": {
+          "additions": 35,
+          "accepted_lines": 35
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 4,
+          "deletions": 1,
+          "accepted_lines": 4
+        },
+        "Sources/ClipCanvasApp/Views/PinboardEditorView.swift": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift": {
+          "additions": 33,
+          "accepted_lines": 33
+        }
+      }
+    }
+  }
+}
