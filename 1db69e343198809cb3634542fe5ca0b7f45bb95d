@@ -1,0 +1,36 @@
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  45ca23e4fdd06c15 140,142-143,162-167
+Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift
+  45ca23e4fdd06c15 1-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "1db69e343198809cb3634542fe5ca0b7f45bb95d",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 43,
+      "total_deletions": 1,
+      "accepted_lines": 43,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift": {
+          "additions": 30,
+          "accepted_lines": 30
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 13,
+          "deletions": 1,
+          "accepted_lines": 13
+        }
+      }
+    }
+  }
+}
