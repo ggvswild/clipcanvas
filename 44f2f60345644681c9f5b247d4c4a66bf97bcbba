@@ -1,0 +1,110 @@
+Sources/ClipCanvasApp/Views/Settings/ShortcutRecorderButton.swift
+  7d8c3d94060667aa 6,8,12-46,55-58,60
+Tests/ClipCanvasAppTests/SettingsWindowControllerTests.swift
+  7d8c3d94060667aa 1-17
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 92-93
+  45ca23e4fdd06c15 45
+Sources/ClipCanvasApp/App/SettingsWindowController.swift
+  7d8c3d94060667aa 1-41
+Sources/ClipCanvasApp/Views/Settings/ShortcutsSettingsView.swift
+  7d8c3d94060667aa 61,80-83
+Sources/ClipCanvasApp/Services/SettingsStore.swift
+  7d8c3d94060667aa 124-127
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 92-93
+  45ca23e4fdd06c15 45
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  7d8c3d94060667aa 239-241
+  45ca23e4fdd06c15 4,17-24,75
+Tests/ClipCanvasAppTests/SettingsStoreTests.swift
+  45ca23e4fdd06c15 49-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "44f2f60345644681c9f5b247d4c4a66bf97bcbba",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 2,
+      "accepted_lines": 22,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "Tests/ClipCanvasAppTests/SettingsStoreTests.swift": {
+          "additions": 10,
+          "accepted_lines": 10
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 10,
+          "deletions": 2,
+          "accepted_lines": 10
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 119,
+      "total_deletions": 9,
+      "accepted_lines": 119,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 2,
+          "accepted_lines": 2
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 2,
+          "accepted_lines": 2
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 3,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasApp/Views/Settings/ShortcutRecorderButton.swift": {
+          "additions": 45,
+          "deletions": 8,
+          "accepted_lines": 45
+        },
+        "Sources/ClipCanvasApp/Views/Settings/ShortcutsSettingsView.swift": {
+          "additions": 5,
+          "deletions": 1,
+          "accepted_lines": 5
+        },
+        "Sources/ClipCanvasApp/App/SettingsWindowController.swift": {
+          "additions": 41,
+          "accepted_lines": 41
+        },
+        "Sources/ClipCanvasApp/Services/SettingsStore.swift": {
+          "additions": 4,
+          "accepted_lines": 4
+        },
+        "Tests/ClipCanvasAppTests/SettingsWindowControllerTests.swift": {
+          "additions": 17,
+          "accepted_lines": 17
+        }
+      }
+    }
+  }
+}
