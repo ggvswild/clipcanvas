@@ -210,12 +210,18 @@ final class AppModel: ObservableObject {
         isCreatePinboardPresented = true
     }
 
-    func createPinboard(name: String, color: String, symbol: String) {
-        guard let repository else { return }
+    @discardableResult
+    func createPinboard(
+        name: String,
+        color: String,
+        symbol: String,
+        selecting: Bool = true
+    ) -> Pinboard? {
+        guard let repository else { return nil }
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedName.isEmpty else {
             errorMessage = String(localized: "pinboard.name_required")
-            return
+            return nil
         }
         do {
             let pinboard = try repository.createPinboard(
@@ -224,11 +230,81 @@ final class AppModel: ObservableObject {
                 symbol: symbol
             )
             replacePinboards(try repository.listPinboards())
-            selectPinboard(pinboard.id)
+            if selecting {
+                selectPinboard(pinboard.id)
+            }
             isCreatePinboardPresented = false
             errorMessage = nil
+            return pinboard
         } catch {
             errorMessage = error.localizedDescription
+            return nil
+        }
+    }
+
+    func pinboardItems(in id: UUID) -> [ClipboardItem] {
+        guard let repository else { return [] }
+        do {
+            let items = try repository.items(in: id, limit: 200).items
+            errorMessage = nil
+            return items
+        } catch {
+            errorMessage = error.localizedDescription
+            return []
+        }
+    }
+
+    @discardableResult
+    func updatePinboard(
+        id: UUID,
+        name: String,
+        color: String,
+        symbol: String
+    ) -> Bool {
+        guard let repository else { return false }
+        do {
+            try repository.updatePinboard(
+                id: id,
+                name: name,
+                color: color,
+                symbol: symbol
+            )
+            replacePinboards(try repository.listPinboards())
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    @discardableResult
+    func reorderPinboards(ids: [UUID]) -> Bool {
+        guard let repository else { return false }
+        do {
+            try repository.reorderPinboards(ids: ids)
+            replacePinboards(try repository.listPinboards())
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    @discardableResult
+    func unpin(itemID: UUID, from pinboardID: UUID) -> Bool {
+        guard let repository else { return false }
+        do {
+            try repository.unpin(itemID: itemID, from: pinboardID)
+            if selectedPinboardID == pinboardID {
+                reload()
+            }
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
         }
     }
 
