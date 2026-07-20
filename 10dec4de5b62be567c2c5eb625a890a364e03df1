@@ -1,0 +1,72 @@
+Tests/ClipCanvasAppTests/LoginItemServiceTests.swift
+  7d8c3d94060667aa 1-125
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 63-65
+Sources/ClipCanvasApp/Views/Settings/GeneralSettingsView.swift
+  7d8c3d94060667aa 25-52,158-159
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 63-65
+Sources/ClipCanvasApp/Services/LoginItemService.swift
+  7d8c3d94060667aa 4-49,53,56-59,64-66,72,74,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "10dec4de5b62be567c2c5eb625a890a364e03df1",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 125,
+      "total_deletions": 0,
+      "accepted_lines": 0,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/LoginItemServiceTests.swift": {
+          "additions": 125
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 219,
+      "total_deletions": 5,
+      "accepted_lines": 219,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/LoginItemServiceTests.swift": {
+          "additions": 125,
+          "accepted_lines": 125
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 3,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasApp/Services/LoginItemService.swift": {
+          "additions": 57,
+          "deletions": 5,
+          "accepted_lines": 57
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 3,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasApp/Views/Settings/GeneralSettingsView.swift": {
+          "additions": 31,
+          "accepted_lines": 31
+        }
+      }
+    }
+  }
+}
