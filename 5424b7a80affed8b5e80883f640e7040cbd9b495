@@ -1,0 +1,169 @@
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  7d8c3d94060667aa 3,13-14,94-96,100,115-128,133,145-159,167,173-176,183-208,215
+Tests/ClipCanvasCoreTests/ClipboardRepositoryTests.swift
+  7d8c3d94060667aa 76-105
+Sources/ClipCanvasApp/Views/Settings/PrivacySettingsView.swift
+  7d8c3d94060667aa 1-134
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 42-103
+Sources/ClipCanvasApp/Clipboard/CaptureService.swift
+  7d8c3d94060667aa 6-8
+Sources/ClipCanvasApp/Views/Settings/GeneralSettingsView.swift
+  7d8c3d94060667aa 1-119
+Sources/ClipCanvasApp/Services/SettingsStore.swift
+  7d8c3d94060667aa 1-134
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  7d8c3d94060667aa 7,12,14,44-47
+Sources/ClipCanvasApp/Views/Settings/AboutView.swift
+  7d8c3d94060667aa 1-49
+Sources/ClipCanvasApp/Services/ScreenSharingMonitor.swift
+  7d8c3d94060667aa 1-55
+Tests/ClipCanvasAppTests/LinkPreviewServiceTests.swift
+  7d8c3d94060667aa 1-28
+Sources/ClipCanvasApp/Services/LinkPreviewService.swift
+  7d8c3d94060667aa 1-100
+Sources/ClipCanvasCore/Models/SettingsModels.swift
+  7d8c3d94060667aa 89-101
+Tests/ClipCanvasAppTests/SettingsStoreTests.swift
+  7d8c3d94060667aa 1-55
+Sources/ClipCanvasApp/Views/Settings/ShortcutsSettingsView.swift
+  7d8c3d94060667aa 1-96
+Sources/ClipCanvasApp/Services/LoginItemService.swift
+  7d8c3d94060667aa 1-34
+Sources/ClipCanvasApp/App/ClipCanvasApp.swift
+  7d8c3d94060667aa 7,11-13
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 42-103
+Sources/ClipCanvasApp/Views/Settings/ShortcutRecorderButton.swift
+  7d8c3d94060667aa 1-86
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 22,152-154,241-263
+Sources/ClipCanvasCore/Storage/ClipboardRepository.swift
+  7d8c3d94060667aa 224-269
+Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift
+  7d8c3d94060667aa 1-118
+Sources/ClipCanvasApp/Views/Settings/MCPSettingsView.swift
+  7d8c3d94060667aa 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "313797f26efa2ada18dbfdd5dea020f0ce189f02",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 1372,
+      "total_deletions": 37,
+      "accepted_lines": 1354,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Services/SettingsStore.swift": {
+          "additions": 134,
+          "accepted_lines": 134
+        },
+        "Sources/ClipCanvasApp/Services/ScreenSharingMonitor.swift": {
+          "additions": 55,
+          "accepted_lines": 55
+        },
+        "Sources/ClipCanvasCore/Models/SettingsModels.swift": {
+          "additions": 13,
+          "accepted_lines": 13
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 71,
+          "deletions": 4,
+          "accepted_lines": 71
+        },
+        "Sources/ClipCanvasApp/Views/Settings/MCPSettingsView.swift": {
+          "additions": 20,
+          "accepted_lines": 20
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 7,
+          "deletions": 1,
+          "accepted_lines": 7
+        },
+        "Sources/ClipCanvasApp/Views/Settings/AboutView.swift": {
+          "additions": 49,
+          "accepted_lines": 49
+        },
+        "Sources/ClipCanvasApp/Views/Settings/ShortcutsSettingsView.swift": {
+          "additions": 97,
+          "deletions": 1,
+          "accepted_lines": 96
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 62,
+          "accepted_lines": 62
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 62,
+          "accepted_lines": 62
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift": {
+          "additions": 119,
+          "deletions": 1,
+          "accepted_lines": 118
+        },
+        "Sources/ClipCanvasApp/Views/Settings/PrivacySettingsView.swift": {
+          "additions": 134,
+          "accepted_lines": 134
+        },
+        "Sources/ClipCanvasApp/App/ClipCanvasApp.swift": {
+          "additions": 4,
+          "deletions": 11,
+          "accepted_lines": 4
+        },
+        "Tests/ClipCanvasAppTests/LinkPreviewServiceTests.swift": {
+          "additions": 28,
+          "accepted_lines": 28
+        },
+        "Sources/ClipCanvasApp/Services/LinkPreviewService.swift": {
+          "additions": 100,
+          "accepted_lines": 100
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 28,
+          "accepted_lines": 28
+        },
+        "Sources/ClipCanvasApp/Services/LoginItemService.swift": {
+          "additions": 34,
+          "accepted_lines": 34
+        },
+        "Sources/ClipCanvasCore/Storage/ClipboardRepository.swift": {
+          "additions": 46,
+          "accepted_lines": 46
+        },
+        "Tests/ClipCanvasCoreTests/ClipboardRepositoryTests.swift": {
+          "additions": 30,
+          "accepted_lines": 30
+        },
+        "Sources/ClipCanvasApp/Views/Settings/ShortcutRecorderButton.swift": {
+          "additions": 101,
+          "deletions": 15,
+          "accepted_lines": 86
+        },
+        "Tests/ClipCanvasAppTests/SettingsStoreTests.swift": {
+          "additions": 55,
+          "accepted_lines": 55
+        },
+        "Sources/ClipCanvasApp/Views/Settings/GeneralSettingsView.swift": {
+          "additions": 120,
+          "deletions": 1,
+          "accepted_lines": 119
+        },
+        "Sources/ClipCanvasApp/Clipboard/CaptureService.swift": {
+          "additions": 3,
+          "deletions": 3,
+          "accepted_lines": 3
+        }
+      }
+    }
+  }
+}

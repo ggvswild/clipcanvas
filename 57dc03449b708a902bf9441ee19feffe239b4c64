@@ -1,0 +1,145 @@
+Tests/ClipCanvasAppTests/CaptureServiceTests.swift
+  7d8c3d94060667aa 22,50-75
+Sources/ClipCanvasApp/Clipboard/CaptureService.swift
+  7d8c3d94060667aa 16,22,29
+scripts/build-app.sh
+  7d8c3d94060667aa 33-37
+Sources/ClipCanvasApp/Views/PinboardEditorView.swift
+  7d8c3d94060667aa 1-93
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  7d8c3d94060667aa 2,7-11,16,58,68-72,81-195
+Sources/ClipCanvasApp/Views/HistoryPanelView.swift
+  7d8c3d94060667aa 1-224
+Sources/ClipCanvasApp/Views/ItemPreviewView.swift
+  7d8c3d94060667aa 1-46
+Sources/ClipCanvasApp/Views/ClipboardCardView.swift
+  7d8c3d94060667aa 1-202
+Tests/ClipCanvasAppTests/ShortcutValidationTests.swift
+  7d8c3d94060667aa 1-43
+Tests/ClipCanvasAppTests/PinboardViewModelTests.swift
+  7d8c3d94060667aa 1-53
+Sources/ClipCanvasApp/HotKeys/ShortcutValidator.swift
+  7d8c3d94060667aa 1-25
+Sources/ClipCanvasApp/Clipboard/PasteService.swift
+  7d8c3d94060667aa 16
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  7d8c3d94060667aa 1-166
+Sources/ClipCanvasApp/HotKeys/GlobalHotKeyService.swift
+  7d8c3d94060667aa 1-102
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 8-41
+Tests/ClipCanvasAppTests/AppModelNavigationTests.swift
+  7d8c3d94060667aa 1-67
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 8-41
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 2-3,12-21,23-28,37-235
+Sources/ClipCanvasCore/Models/SettingsModels.swift
+  7d8c3d94060667aa 1-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "1a65346bd6524f658ecadf4097d297e6b6d4b1ce",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "zhujiabin",
+      "messages": [],
+      "total_additions": 1604,
+      "total_deletions": 45,
+      "accepted_lines": 1561,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 220,
+          "deletions": 1,
+          "accepted_lines": 219
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 36,
+          "deletions": 2,
+          "accepted_lines": 34
+        },
+        "Sources/ClipCanvasCore/Models/SettingsModels.swift": {
+          "additions": 88,
+          "accepted_lines": 88
+        },
+        "Sources/ClipCanvasApp/HotKeys/ShortcutValidator.swift": {
+          "additions": 25,
+          "accepted_lines": 25
+        },
+        "Sources/ClipCanvasApp/Clipboard/PasteService.swift": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "Tests/ClipCanvasAppTests/AppModelNavigationTests.swift": {
+          "additions": 67,
+          "accepted_lines": 67
+        },
+        "scripts/build-app.sh": {
+          "additions": 5,
+          "accepted_lines": 5
+        },
+        "Tests/ClipCanvasAppTests/PinboardViewModelTests.swift": {
+          "additions": 85,
+          "deletions": 32,
+          "accepted_lines": 53
+        },
+        "Sources/ClipCanvasApp/HotKeys/GlobalHotKeyService.swift": {
+          "additions": 102,
+          "accepted_lines": 102
+        },
+        "Sources/ClipCanvasApp/Views/PinboardEditorView.swift": {
+          "additions": 93,
+          "accepted_lines": 93
+        },
+        "Sources/ClipCanvasApp/Clipboard/CaptureService.swift": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 36,
+          "deletions": 2,
+          "accepted_lines": 34
+        },
+        "Sources/ClipCanvasApp/Views/ItemPreviewView.swift": {
+          "additions": 46,
+          "accepted_lines": 46
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 129,
+          "deletions": 1,
+          "accepted_lines": 129
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 224,
+          "accepted_lines": 224
+        },
+        "Sources/ClipCanvasApp/Views/ClipboardCardView.swift": {
+          "additions": 206,
+          "deletions": 4,
+          "accepted_lines": 202
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 168,
+          "deletions": 2,
+          "accepted_lines": 166
+        },
+        "Tests/ClipCanvasAppTests/ShortcutValidationTests.swift": {
+          "additions": 43,
+          "accepted_lines": 43
+        },
+        "Tests/ClipCanvasAppTests/CaptureServiceTests.swift": {
+          "additions": 27,
+          "accepted_lines": 27
+        }
+      }
+    }
+  }
+}
