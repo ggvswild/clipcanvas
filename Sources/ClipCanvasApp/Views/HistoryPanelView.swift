@@ -112,6 +112,30 @@ struct HistoryPanelView: View {
                 .frame(minWidth: 380, alignment: .center)
             }
             .frame(width: 380)
+            .mask {
+                LinearGradient(
+                    stops: [
+                        .init(
+                            color: .black.opacity(pinboardStripFade.edgeOpacity),
+                            location: 0
+                        ),
+                        .init(
+                            color: .black.opacity(pinboardStripFade.contentOpacity),
+                            location: pinboardStripFade.leadingContentLocation
+                        ),
+                        .init(
+                            color: .black.opacity(pinboardStripFade.contentOpacity),
+                            location: pinboardStripFade.trailingContentLocation
+                        ),
+                        .init(
+                            color: .black.opacity(pinboardStripFade.edgeOpacity),
+                            location: 1
+                        )
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            }
 
             Button {
                 model.requestCreatePinboard()
@@ -141,6 +165,10 @@ struct HistoryPanelView: View {
                 }
             }
         }
+    }
+
+    private var pinboardStripFade: PinboardStripEdgeFadeAppearance {
+        .soft
     }
 
     @ViewBuilder
@@ -216,6 +244,26 @@ struct HistoryPanelView: View {
 
     private var emptyDescription: LocalizedStringKey {
         model.query.isEmpty ? "empty.history.description" : "empty.search.description"
+    }
+}
+
+struct PinboardStripEdgeFadeAppearance: Equatable {
+    static let soft = PinboardStripEdgeFadeAppearance(
+        edgeOpacity: 0,
+        contentOpacity: 1,
+        fadeFraction: 0.06
+    )
+
+    let edgeOpacity: Double
+    let contentOpacity: Double
+    let fadeFraction: CGFloat
+
+    var leadingContentLocation: CGFloat {
+        fadeFraction
+    }
+
+    var trailingContentLocation: CGFloat {
+        1 - fadeFraction
     }
 }
 
