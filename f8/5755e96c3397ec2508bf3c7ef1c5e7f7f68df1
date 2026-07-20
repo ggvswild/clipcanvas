@@ -1,16 +1,16 @@
-Tests/ClipCanvasCoreTests/PrivacyPolicyTests.swift
-  7d8c3d94060667aa 1-108
 Sources/ClipCanvasCore/Services/PrivacyPolicy.swift
   7d8c3d94060667aa 1-109
 Tests/ClipCanvasCoreTests/RetentionPolicyTests.swift
   7d8c3d94060667aa 1-29
 Sources/ClipCanvasCore/Services/RetentionPolicy.swift
   7d8c3d94060667aa 1-27
+Tests/ClipCanvasCoreTests/PrivacyPolicyTests.swift
+  7d8c3d94060667aa 1-108
 ---
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.2.8-ntes.9",
-  "base_commit_sha": "9ae09e570de39d6597144e1249f62d0b7ddf100b",
+  "base_commit_sha": "f85755e96c3397ec2508bf3c7ef1c5e7f7f68df1",
   "prompts": {
     "7d8c3d94060667aa": {
       "agent_id": {
@@ -25,14 +25,6 @@ Sources/ClipCanvasCore/Services/RetentionPolicy.swift
       "accepted_lines": 273,
       "overriden_lines": 0,
       "per_file_stats": {
-        "Sources/ClipCanvasCore/Services/RetentionPolicy.swift": {
-          "additions": 27,
-          "accepted_lines": 27
-        },
-        "Tests/ClipCanvasCoreTests/RetentionPolicyTests.swift": {
-          "additions": 29,
-          "accepted_lines": 29
-        },
         "Tests/ClipCanvasCoreTests/PrivacyPolicyTests.swift": {
           "additions": 108,
           "accepted_lines": 108
@@ -40,6 +32,14 @@ Sources/ClipCanvasCore/Services/RetentionPolicy.swift
         "Sources/ClipCanvasCore/Services/PrivacyPolicy.swift": {
           "additions": 109,
           "accepted_lines": 109
+        },
+        "Tests/ClipCanvasCoreTests/RetentionPolicyTests.swift": {
+          "additions": 29,
+          "accepted_lines": 29
+        },
+        "Sources/ClipCanvasCore/Services/RetentionPolicy.swift": {
+          "additions": 27,
+          "accepted_lines": 27
         }
       }
     }

@@ -1,30 +1,30 @@
+LICENSE
+  7d8c3d94060667aa 1-21
 docs/ARCHITECTURE.md
   7d8c3d94060667aa 1-93
-docs/ACCEPTANCE.md
-  7d8c3d94060667aa 1-57
-scripts/run-tests.sh
-  7d8c3d94060667aa 1-9
-.github/workflows/ci.yml
-  7d8c3d94060667aa 1-25
-CONTRIBUTING.md
-  7d8c3d94060667aa 1-38
 SECURITY.md
   7d8c3d94060667aa 1-33
 scripts/build-app.sh
-  7d8c3d94060667aa 32-52
-README.md
-  7d8c3d94060667aa 1-122
+  7d8c3d94060667aa 31,56-60
+scripts/run-tests.sh
+  7d8c3d94060667aa 1-9
+CONTRIBUTING.md
+  7d8c3d94060667aa 1-38
 Configuration/Info.plist
   7d8c3d94060667aa 15-16
-LICENSE
-  7d8c3d94060667aa 1-21
+README.md
+  7d8c3d94060667aa 1-122
+docs/ACCEPTANCE.md
+  7d8c3d94060667aa 1-2,4-8,13-17,33-37,49-53
+.github/workflows/ci.yml
+  7d8c3d94060667aa 1-25
 Sources/ClipCanvasApp/Views/Settings/AboutView.swift
-  7d8c3d94060667aa 1,8-10
+  7d8c3d94060667aa 2-7,11-49
 ---
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.2.8-ntes.9",
-  "base_commit_sha": "4797f73970f1b19c5a6958545a69d94f1da411a7",
+  "base_commit_sha": "1f550cbeb59b7e10646379ac8c7739c5108f6b9d",
   "prompts": {
     "7d8c3d94060667aa": {
       "agent_id": {
@@ -36,25 +36,20 @@ Sources/ClipCanvasApp/Views/Settings/AboutView.swift
       "messages": [],
       "total_additions": 427,
       "total_deletions": 6,
-      "accepted_lines": 425,
+      "accepted_lines": 390,
       "overriden_lines": 0,
       "per_file_stats": {
-        "scripts/run-tests.sh": {
-          "additions": 9,
-          "accepted_lines": 9
+        "docs/ACCEPTANCE.md": {
+          "additions": 57,
+          "accepted_lines": 57
         },
         "SECURITY.md": {
           "additions": 33,
           "accepted_lines": 33
         },
-        "docs/ACCEPTANCE.md": {
-          "additions": 57,
-          "accepted_lines": 57
-        },
-        ".github/workflows/ci.yml": {
-          "additions": 27,
-          "deletions": 2,
-          "accepted_lines": 25
+        "scripts/run-tests.sh": {
+          "additions": 9,
+          "accepted_lines": 9
         },
         "scripts/build-app.sh": {
           "additions": 21,
@@ -69,21 +64,26 @@ Sources/ClipCanvasApp/Views/Settings/AboutView.swift
           "additions": 93,
           "accepted_lines": 93
         },
-        "Configuration/Info.plist": {
-          "additions": 2,
-          "accepted_lines": 2
+        "CONTRIBUTING.md": {
+          "additions": 38,
+          "accepted_lines": 38
         },
         "LICENSE": {
           "additions": 21,
           "accepted_lines": 21
         },
-        "CONTRIBUTING.md": {
-          "additions": 38,
-          "accepted_lines": 38
+        ".github/workflows/ci.yml": {
+          "additions": 27,
+          "deletions": 2,
+          "accepted_lines": 25
         },
         "README.md": {
           "additions": 122,
           "accepted_lines": 122
+        },
+        "Configuration/Info.plist": {
+          "additions": 2,
+          "accepted_lines": 2
         }
       }
     }

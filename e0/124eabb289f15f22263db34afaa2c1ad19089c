@@ -1,14 +1,14 @@
 Sources/ClipCanvasApp/Clipboard/PasteService.swift
-  7d8c3d94060667aa 20-22,26-31,35-37,48,52-54,56,83
+  7d8c3d94060667aa 1-15,17-19,23-25,32-34,38-47,49-51,55,57-82,84-102
 Tests/ClipCanvasAppTests/PasteServiceTests.swift
   7d8c3d94060667aa 1-131
 docs/ACCEPTANCE.md
-  7d8c3d94060667aa 3-9,15-18,24-38,44-54,60-63
+  7d8c3d94060667aa 1-2,10-14,19-23,39-43,55-63
 ---
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.2.8-ntes.9",
-  "base_commit_sha": "629a3596083011f107505bc80231236aa5fe6831",
+  "base_commit_sha": "e0124eabb289f15f22263db34afaa2c1ad19089c",
   "prompts": {
     "7d8c3d94060667aa": {
       "agent_id": {
@@ -20,14 +20,9 @@ docs/ACCEPTANCE.md
       "messages": [],
       "total_additions": 194,
       "total_deletions": 44,
-      "accepted_lines": 190,
+      "accepted_lines": 189,
       "overriden_lines": 0,
       "per_file_stats": {
-        "docs/ACCEPTANCE.md": {
-          "additions": 41,
-          "deletions": 35,
-          "accepted_lines": 41
-        },
         "Sources/ClipCanvasApp/Clipboard/PasteService.swift": {
           "additions": 19,
           "deletions": 6,
@@ -37,6 +32,11 @@ docs/ACCEPTANCE.md
           "additions": 134,
           "deletions": 3,
           "accepted_lines": 131
+        },
+        "docs/ACCEPTANCE.md": {
+          "additions": 41,
+          "deletions": 35,
+          "accepted_lines": 41
         }
       }
     }

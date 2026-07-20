@@ -1,30 +1,30 @@
-Sources/ClipCanvasApp/App/ClipCanvasApp.swift
-  7d8c3d94060667aa 8,15
-Tests/ClipCanvasAppTests/LocalMCPServerTests.swift
-  7d8c3d94060667aa 1-197
-Package.swift
-  7d8c3d94060667aa 13,35-37
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 8-95,124-131
 Sources/ClipCanvasApp/MCP/MCPService.swift
   7d8c3d94060667aa 1-147
-Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
-  7d8c3d94060667aa 96-123
-Sources/ClipCanvasMCPBridge/main.swift
-  7d8c3d94060667aa 1-76
+Sources/ClipCanvasApp/Views/Settings/MCPSettingsView.swift
+  7d8c3d94060667aa 2-5,9-17,28,107-108,334
 Sources/ClipCanvasApp/MCP/LocalMCPServer.swift
   7d8c3d94060667aa 1-379
-Sources/ClipCanvasApp/App/AppDelegate.swift
-  7d8c3d94060667aa 14,135,152-153,155-157,175,194-195,218-221
-Sources/ClipCanvasApp/Views/Settings/MCPSettingsView.swift
-  7d8c3d94060667aa 1,6-8,18-27,29-106,110-225,227-228,230-275,277-325,327-328,330-333
+Sources/ClipCanvasMCPBridge/main.swift
+  7d8c3d94060667aa 1-76
+Tests/ClipCanvasAppTests/LocalMCPServerTests.swift
+  7d8c3d94060667aa 1-197
+Sources/ClipCanvasApp/App/ClipCanvasApp.swift
+  7d8c3d94060667aa 7,12-15
+Package.swift
+  7d8c3d94060667aa 13,35-37
 scripts/build-app.sh
-  7d8c3d94060667aa 22,27,30
-Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
-  7d8c3d94060667aa 96-123
+  7d8c3d94060667aa 31,35-39
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 8-95,124-131
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  7d8c3d94060667aa 2,8-12,20,62,72-76,85-94,98-100,102-115,130-133,136-146,167-173,176-180,185-188,226-229,231-277
 ---
 {
   "schema_version": "authorship/3.0.0",
   "git_ai_version": "1.2.8-ntes.9",
-  "base_commit_sha": "7d9d51c5dda4b8861923c8982bbc6401a6c814f0",
+  "base_commit_sha": "a70a5dffa87135abfeac0c29f1429b86fdf6f427",
   "prompts": {
     "7d8c3d94060667aa": {
       "agent_id": {
@@ -36,17 +36,12 @@ Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
       "messages": [],
       "total_additions": 1201,
       "total_deletions": 8,
-      "accepted_lines": 1196,
+      "accepted_lines": 1195,
       "overriden_lines": 0,
       "per_file_stats": {
-        "Sources/ClipCanvasMCPBridge/main.swift": {
-          "additions": 76,
-          "accepted_lines": 76
-        },
-        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
-          "additions": 17,
-          "deletions": 2,
-          "accepted_lines": 17
+        "Sources/ClipCanvasApp/App/ClipCanvasApp.swift": {
+          "additions": 2,
+          "accepted_lines": 2
         },
         "Sources/ClipCanvasApp/MCP/LocalMCPServer.swift": {
           "additions": 383,
@@ -62,9 +57,15 @@ Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
           "additions": 28,
           "accepted_lines": 28
         },
-        "Package.swift": {
-          "additions": 5,
-          "accepted_lines": 5
+        "scripts/build-app.sh": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 17,
+          "deletions": 2,
+          "accepted_lines": 17
         },
         "Tests/ClipCanvasAppTests/LocalMCPServerTests.swift": {
           "additions": 197,
@@ -74,18 +75,17 @@ Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
           "additions": 147,
           "accepted_lines": 147
         },
-        "scripts/build-app.sh": {
-          "additions": 3,
-          "deletions": 1,
-          "accepted_lines": 3
-        },
-        "Sources/ClipCanvasApp/App/ClipCanvasApp.swift": {
-          "additions": 2,
-          "accepted_lines": 2
-        },
         "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
           "additions": 28,
           "accepted_lines": 28
+        },
+        "Package.swift": {
+          "additions": 5,
+          "accepted_lines": 5
+        },
+        "Sources/ClipCanvasMCPBridge/main.swift": {
+          "additions": 76,
+          "accepted_lines": 76
         }
       }
     }
