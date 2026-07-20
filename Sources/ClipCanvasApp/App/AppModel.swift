@@ -11,6 +11,7 @@ final class AppModel: ObservableObject {
     @Published var isCapturePaused = false
     @Published private(set) var items: [ClipboardItem] = []
     @Published private(set) var pinboards: [Pinboard] = []
+    @Published private(set) var searchFocusRequestID = 0
     @Published var selectedItemID: UUID?
     @Published var selectedPinboardID: UUID?
     @Published var query = ""
@@ -34,6 +35,10 @@ final class AppModel: ObservableObject {
 
     func hidePanel() {
         isPanelPresented = false
+    }
+
+    func requestSearchFocus() {
+        searchFocusRequestID += 1
     }
 
     func configure(

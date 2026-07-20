@@ -122,7 +122,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         }
     }
 
-    private func handleKeyDown(_ event: NSEvent) -> Bool {
+    func handleKeyDown(_ event: NSEvent) -> Bool {
         guard Self.shouldRoutePanelKeyboardEvent(
             isPresentingSheet: model.isPresentingSheet
         ) else {
@@ -130,6 +130,8 @@ final class PanelController: NSObject, NSWindowDelegate {
         }
         let command = event.modifierFlags.contains(.command)
         switch event.keyCode {
+        case 3 where command:
+            model.requestSearchFocus()
         case 123 where command:
             model.selectAdjacentPinboard(offset: -1)
         case 124 where command:

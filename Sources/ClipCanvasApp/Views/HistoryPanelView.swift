@@ -20,6 +20,9 @@ struct HistoryPanelView: View {
         }
         .padding(2)
         .preferredColorScheme(.dark)
+        .onChange(of: model.searchFocusRequestID) {
+            searchFocused = true
+        }
         .sheet(isPresented: $model.isPreviewPresented) {
             if let item = model.selectedItem {
                 ItemPreviewView(item: item, imageData: model.imageData(for: item))
