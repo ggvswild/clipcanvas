@@ -1,0 +1,128 @@
+Tests/ClipCanvasAppTests/SettingsStoreTests.swift
+  7d8c3d94060667aa 59-90
+Tests/ClipCanvasAppTests/PinboardTabAppearanceTests.swift
+  7d8c3d94060667aa 1-27
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  45ca23e4fdd06c15 152-155,184,189
+  7d8c3d94060667aa 39-40,43
+Sources/ClipCanvasApp/Services/SettingsStore.swift
+  7d8c3d94060667aa 5-24,123,126-135
+Sources/ClipCanvasApp/Views/PinboardColorPalette.swift
+  7d8c3d94060667aa 1-29
+Sources/ClipCanvasApp/Views/HistoryPanelView.swift
+  7d8c3d94060667aa 90,275-276,278,281-283,285-289,292-308,310-314,317-339
+Tests/ClipCanvasAppTests/ShortcutValidationTests.swift
+  45ca23e4fdd06c15 6-16,31
+Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift
+  7d8c3d94060667aa 8-59
+Sources/ClipCanvasApp/Views/PinboardEditorView.swift
+  7d8c3d94060667aa 27,32,58-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "50de6d43a0cfdc47e258f4163ca10efb39dd6912",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 18,
+      "total_deletions": 5,
+      "accepted_lines": 18,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/ShortcutValidationTests.swift": {
+          "additions": 12,
+          "deletions": 1,
+          "accepted_lines": 12
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 6,
+          "deletions": 4,
+          "accepted_lines": 6
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 244,
+      "total_deletions": 43,
+      "accepted_lines": 244,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift": {
+          "additions": 52,
+          "accepted_lines": 52
+        },
+        ".superpowers/brainstorm/84544-1784549429/content/waiting-scope.html": {
+          "additions": 6,
+          "accepted_lines": 6
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 3,
+          "deletions": 4,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasCore/Models/SettingsModels.swift": {
+          "deletions": 5
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "deletions": 5
+        },
+        "Tests/ClipCanvasAppTests/SettingsStoreTests.swift": {
+          "additions": 32,
+          "accepted_lines": 32
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 59,
+          "deletions": 4,
+          "accepted_lines": 59
+        },
+        "Sources/ClipCanvasApp/Services/SettingsStore.swift": {
+          "additions": 31,
+          "deletions": 2,
+          "accepted_lines": 31
+        },
+        "Sources/ClipCanvasApp/Views/PinboardEditorView.swift": {
+          "additions": 5,
+          "deletions": 15,
+          "accepted_lines": 5
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "deletions": 1
+        },
+        "Sources/ClipCanvasApp/Views/PinboardColorPalette.swift": {
+          "additions": 29,
+          "accepted_lines": 29
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "deletions": 1
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "deletions": 1
+        },
+        "Sources/ClipCanvasApp/Views/Settings/ShortcutsSettingsView.swift": {
+          "deletions": 3
+        },
+        "Tests/ClipCanvasAppTests/PinboardTabAppearanceTests.swift": {
+          "additions": 27,
+          "accepted_lines": 27
+        },
+        "docs/superpowers/specs/2026-07-17-paste-copy-design.md": {
+          "deletions": 2
+        }
+      }
+    }
+  }
+}
