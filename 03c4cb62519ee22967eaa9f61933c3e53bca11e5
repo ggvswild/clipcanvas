@@ -1,0 +1,54 @@
+Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift
+  7d8c3d94060667aa 6,17,28,54-68,71,75-82,85-102
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  7d8c3d94060667aa 39,41-49,52,54
+Sources/ClipCanvasApp/App/AppModel.swift
+  7d8c3d94060667aa 275-277
+Tests/ClipCanvasAppTests/SettingsNavigationTests.swift
+  7d8c3d94060667aa 1-15
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  7d8c3d94060667aa 39,41-49,52,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "03c4cb62519ee22967eaa9f61933c3e53bca11e5",
+  "prompts": {
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 87,
+      "total_deletions": 21,
+      "accepted_lines": 87,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 12,
+          "accepted_lines": 12
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 12,
+          "accepted_lines": 12
+        },
+        "Tests/ClipCanvasAppTests/SettingsNavigationTests.swift": {
+          "additions": 15,
+          "accepted_lines": 15
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift": {
+          "additions": 45,
+          "deletions": 21,
+          "accepted_lines": 45
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 3,
+          "accepted_lines": 3
+        }
+      }
+    }
+  }
+}
