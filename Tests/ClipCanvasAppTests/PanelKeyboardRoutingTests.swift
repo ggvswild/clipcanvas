@@ -4,6 +4,18 @@ import XCTest
 
 @MainActor
 final class PanelKeyboardRoutingTests: XCTestCase {
+    func testPanelKeyboardRoutingYieldsWhileSheetIsPresented() {
+        XCTAssertFalse(
+            PanelController.shouldRoutePanelKeyboardEvent(isPresentingSheet: true)
+        )
+    }
+
+    func testPanelKeyboardRoutingHandlesEventsWithoutSheet() {
+        XCTAssertTrue(
+            PanelController.shouldRoutePanelKeyboardEvent(isPresentingSheet: false)
+        )
+    }
+
     func testDeleteShortcutIsLeftToEditableTextResponder() {
         let textEditor = NSTextView()
         textEditor.isEditable = true

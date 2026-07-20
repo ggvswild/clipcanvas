@@ -123,6 +123,11 @@ final class PanelController: NSObject, NSWindowDelegate {
     }
 
     private func handleKeyDown(_ event: NSEvent) -> Bool {
+        guard Self.shouldRoutePanelKeyboardEvent(
+            isPresentingSheet: model.isPresentingSheet
+        ) else {
+            return false
+        }
         let command = event.modifierFlags.contains(.command)
         switch event.keyCode {
         case 123 where command:
@@ -157,6 +162,10 @@ final class PanelController: NSObject, NSWindowDelegate {
             return false
         }
         return true
+    }
+
+    static func shouldRoutePanelKeyboardEvent(isPresentingSheet: Bool) -> Bool {
+        !isPresentingSheet
     }
 
     static func shouldHandleDeleteShortcut(firstResponder: NSResponder?) -> Bool {
