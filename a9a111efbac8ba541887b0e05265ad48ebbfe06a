@@ -1,0 +1,60 @@
+docs/superpowers/plans/2026-07-20-pinboard-management.md
+  45ca23e4fdd06c15 280,369-389,405,617-621,644,647-694,699,702-725,727-784,787-827,829
+  7d8c3d94060667aa 1-279,281-368,390-404,406-616,622-643,645-646,695-698,700-701,726,785-786,828,830-1004
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "a9a111efbac8ba541887b0e05265ad48ebbfe06a",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 273,
+      "total_deletions": 41,
+      "accepted_lines": 202,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "docs/superpowers/plans/2026-07-20-pinboard-management.md": {
+          "additions": 273,
+          "deletions": 41,
+          "accepted_lines": 202
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 842,
+      "total_deletions": 8,
+      "accepted_lines": 897,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        ".superpowers/brainstorm/84544-1784549429/content/waiting-removal-semantics.html": {
+          "accepted_lines": 6
+        },
+        ".superpowers/brainstorm/84544-1784549429/content/waiting-scope.html": {
+          "accepted_lines": 6
+        },
+        ".superpowers/brainstorm/84544-1784549429/content/group-management-layout-recommendation.html": {
+          "accepted_lines": 83
+        },
+        "docs/superpowers/plans/2026-07-20-pinboard-management.md": {
+          "additions": 842,
+          "deletions": 8,
+          "accepted_lines": 802
+        }
+      }
+    }
+  }
+}
