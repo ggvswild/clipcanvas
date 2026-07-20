@@ -22,6 +22,34 @@ struct GeneralSettingsView: View {
                         set: { loginItem.setEnabled($0) }
                     )
                 )
+                if loginItem.requiresApproval {
+                    Divider()
+                    SettingsRow {
+                        VStack(alignment: .leading, spacing: 3) {
+                            Label(
+                                "general.open_login.approval",
+                                systemImage: "exclamationmark.circle"
+                            )
+                            .font(.body.weight(.medium))
+                            Text("general.open_login.approval.description")
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    } trailing: {
+                        Button("general.open_login.open_settings") {
+                            loginItem.openSystemSettings()
+                        }
+                    }
+                }
+                if let errorMessage = loginItem.errorMessage {
+                    Divider()
+                    Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
+                        .font(.callout)
+                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, SettingsLayoutMetrics.standard.rowVerticalPadding)
+                }
                 Divider()
                 SettingsToggleRow(
                     title: "general.sound",
@@ -126,6 +154,9 @@ struct GeneralSettingsView: View {
             }
         } message: {
             Text("general.erase_confirmation")
+        }
+        .onAppear {
+            loginItem.refresh()
         }
     }
 }

@@ -60,6 +60,9 @@
 "settings.local_only" = "仅本机存储";
 "general.open_login" = "登录时打开";
 "general.open_login.description" = "登录 Mac 后自动启动 ClipCanvas。";
+"general.open_login.approval" = "需要系统批准";
+"general.open_login.approval.description" = "请在系统设置中允许 ClipCanvas，之后才能自动启动。";
+"general.open_login.open_settings" = "打开设置…";
 "general.sound" = "声音效果";
 "general.paste_items" = "粘贴项目";
 "general.to_active" = "粘贴到当前应用";

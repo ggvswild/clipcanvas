@@ -60,6 +60,9 @@
 "settings.local_only" = "Local-only storage";
 "general.open_login" = "Open at login";
 "general.open_login.description" = "Start ClipCanvas automatically when you sign in.";
+"general.open_login.approval" = "Approval required";
+"general.open_login.approval.description" = "Allow ClipCanvas in System Settings before it can open automatically.";
+"general.open_login.open_settings" = "Open Settings…";
 "general.sound" = "Sound effects";
 "general.paste_items" = "Paste Items";
 "general.to_active" = "To active app";
