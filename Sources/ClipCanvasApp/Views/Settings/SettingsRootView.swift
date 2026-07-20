@@ -63,14 +63,48 @@ struct SettingsRootView: View {
                         AboutView()
                     }
                 }
-                .padding(28)
-                .frame(maxWidth: 620, alignment: .topLeading)
+                .frame(
+                    maxWidth: SettingsLayoutMetrics.standard.contentWidth,
+                    alignment: .topLeading
+                )
+                .padding(SettingsLayoutMetrics.standard.pagePadding)
             }
             .navigationTitle(selection?.title ?? Section.general.title)
         }
-        .frame(width: 820, height: 650)
+        .frame(
+            width: SettingsLayoutMetrics.standard.windowWidth,
+            height: SettingsLayoutMetrics.standard.windowHeight
+        )
         .preferredColorScheme(.dark)
     }
+}
+
+struct SettingsLayoutMetrics: Equatable {
+    static let standard = SettingsLayoutMetrics(
+        spacingUnit: 4,
+        windowWidth: 900,
+        windowHeight: 650,
+        contentWidth: 620,
+        pagePadding: 28,
+        sectionSpacing: 24,
+        sectionTitleSpacing: 8,
+        cardHorizontalPadding: 20,
+        rowVerticalPadding: 12,
+        columnSpacing: 16,
+        trailingColumnWidth: 192
+    )
+
+    let spacingUnit: CGFloat
+    let windowWidth: CGFloat
+    let windowHeight: CGFloat
+    let contentWidth: CGFloat
+    let pagePadding: CGFloat
+    let sectionSpacing: CGFloat
+    let sectionTitleSpacing: CGFloat
+    let cardHorizontalPadding: CGFloat
+    let rowVerticalPadding: CGFloat
+    let columnSpacing: CGFloat
+    let trailingColumnWidth: CGFloat
 }
 
 struct SettingsCard<Content: View>: View {
@@ -84,7 +118,8 @@ struct SettingsCard<Content: View>: View {
         VStack(spacing: 0) {
             content
         }
-        .padding(.horizontal, 18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, SettingsLayoutMetrics.standard.cardHorizontalPadding)
         .background(.white.opacity(0.055))
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay {
@@ -94,13 +129,40 @@ struct SettingsCard<Content: View>: View {
     }
 }
 
+struct SettingsRow<Leading: View, Trailing: View>: View {
+    private let leading: Leading
+    private let trailing: Trailing
+
+    init(
+        @ViewBuilder _ leading: () -> Leading,
+        @ViewBuilder trailing: () -> Trailing
+    ) {
+        self.leading = leading()
+        self.trailing = trailing()
+    }
+
+    var body: some View {
+        HStack(alignment: .center, spacing: SettingsLayoutMetrics.standard.columnSpacing) {
+            leading
+                .frame(maxWidth: .infinity, alignment: .leading)
+            trailing
+                .frame(
+                    width: SettingsLayoutMetrics.standard.trailingColumnWidth,
+                    alignment: .trailing
+                )
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, SettingsLayoutMetrics.standard.rowVerticalPadding)
+    }
+}
+
 struct SettingsToggleRow: View {
     let title: LocalizedStringKey
     let description: LocalizedStringKey?
     @Binding var isOn: Bool
 
     var body: some View {
-        Toggle(isOn: $isOn) {
+        SettingsRow {
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)
                     .font(.body.weight(.medium))
@@ -111,8 +173,10 @@ struct SettingsToggleRow: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+        } trailing: {
+            Toggle("", isOn: $isOn)
+                .labelsHidden()
+                .toggleStyle(.switch)
         }
-        .toggleStyle(.switch)
-        .padding(.vertical, 13)
     }
 }

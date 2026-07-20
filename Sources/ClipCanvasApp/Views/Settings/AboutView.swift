@@ -3,13 +3,16 @@ import SwiftUI
 
 struct AboutView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
-            HStack(spacing: 18) {
+        VStack(
+            alignment: .leading,
+            spacing: SettingsLayoutMetrics.standard.sectionSpacing
+        ) {
+            HStack(spacing: 20) {
                 Image(nsImage: NSApplication.shared.applicationIconImage)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 84, height: 84)
-                VStack(alignment: .leading, spacing: 5) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("app.name")
                         .font(.largeTitle.bold())
                     Text("about.tagline")
@@ -38,12 +41,11 @@ struct AboutView: View {
     }
 
     private func aboutRow(_ title: LocalizedStringKey, value: LocalizedStringKey) -> some View {
-        HStack {
+        SettingsRow {
             Text(title)
-            Spacer()
+        } trailing: {
             Text(value)
                 .foregroundStyle(.secondary)
         }
-        .padding(.vertical, 13)
     }
 }

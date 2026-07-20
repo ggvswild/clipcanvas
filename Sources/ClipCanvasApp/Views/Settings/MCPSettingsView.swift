@@ -8,7 +8,10 @@ struct MCPSettingsView: View {
     @State private var issuedToken: IssuedMCPToken?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
+        VStack(
+            alignment: .leading,
+            spacing: SettingsLayoutMetrics.standard.sectionSpacing
+        ) {
             SettingsCard {
                 SettingsToggleRow(
                     title: "mcp.enable",
@@ -16,18 +19,22 @@ struct MCPSettingsView: View {
                     isOn: $settings.enableMCP
                 )
                 Divider()
-                HStack {
+                SettingsRow {
                     Label("mcp.endpoint", systemImage: "network")
-                    Spacer()
-                    Text("127.0.0.1:49219")
-                        .font(.system(.callout, design: .monospaced))
-                        .foregroundStyle(.secondary)
-                    statusBadge
+                } trailing: {
+                    HStack(spacing: 8) {
+                        Text("127.0.0.1:49219")
+                            .font(.system(.callout, design: .monospaced))
+                            .foregroundStyle(.secondary)
+                        statusBadge
+                    }
                 }
-                .padding(.vertical, 13)
             }
 
-            VStack(alignment: .leading, spacing: 9) {
+            VStack(
+                alignment: .leading,
+                spacing: SettingsLayoutMetrics.standard.sectionTitleSpacing
+            ) {
                 HStack {
                     Text("mcp.authorized_clients")
                         .font(.headline)
@@ -58,7 +65,10 @@ struct MCPSettingsView: View {
                 }
             }
 
-            VStack(alignment: .leading, spacing: 9) {
+            VStack(
+                alignment: .leading,
+                spacing: SettingsLayoutMetrics.standard.sectionTitleSpacing
+            ) {
                 HStack {
                     Text("mcp.recent_activity")
                         .font(.headline)
@@ -78,12 +88,12 @@ struct MCPSettingsView: View {
                     } else {
                         ForEach(Array(service.auditEvents.prefix(8).enumerated()), id: \.element.id) {
                             index, event in
-                            HStack(spacing: 10) {
+                            HStack(spacing: 12) {
                                 Image(systemName: event.outcome == .success
                                     ? "checkmark.circle.fill"
                                     : "exclamationmark.triangle.fill")
                                     .foregroundStyle(event.outcome == .success ? .green : .orange)
-                                VStack(alignment: .leading, spacing: 2) {
+                                VStack(alignment: .leading, spacing: 4) {
                                     Text(event.method)
                                         .font(.system(.callout, design: .monospaced))
                                     Text(event.createdAt, style: .relative)
@@ -95,7 +105,7 @@ struct MCPSettingsView: View {
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
-                            .padding(.vertical, 9)
+                            .padding(.vertical, 8)
                             if index < min(service.auditEvents.count, 8) - 1 {
                                 Divider()
                             }
@@ -136,7 +146,7 @@ struct MCPSettingsView: View {
         case .failed: ("mcp.status.failed", .red)
         case .stopped: ("mcp.status.stopped", .secondary)
         }
-        HStack(spacing: 5) {
+        HStack(spacing: 4) {
             Circle()
                 .fill(tuple.1)
                 .frame(width: 7, height: 7)

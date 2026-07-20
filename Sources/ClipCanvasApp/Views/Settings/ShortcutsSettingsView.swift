@@ -6,7 +6,10 @@ struct ShortcutsSettingsView: View {
     @State private var validationMessage: String?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
+        VStack(
+            alignment: .leading,
+            spacing: SettingsLayoutMetrics.standard.sectionSpacing
+        ) {
             SettingsCard {
                 shortcutRow(.activate)
                 Divider()
@@ -20,21 +23,19 @@ struct ShortcutsSettingsView: View {
             }
 
             SettingsCard {
-                HStack {
+                SettingsRow {
                     Text("shortcuts.quick_paste")
-                    Spacer()
+                } trailing: {
                     Text("⌘ + 1…9")
                         .foregroundStyle(.secondary)
                 }
-                .padding(.vertical, 14)
                 Divider()
-                HStack {
+                SettingsRow {
                     Text("shortcuts.plain_mode")
-                    Spacer()
+                } trailing: {
                     Text("⇧ Shift")
                         .foregroundStyle(.secondary)
                 }
-                .padding(.vertical, 14)
             }
 
             if let validationMessage {
@@ -54,9 +55,9 @@ struct ShortcutsSettingsView: View {
     }
 
     private func shortcutRow(_ action: ShortcutAction) -> some View {
-        HStack {
+        SettingsRow {
             Text(String(localized: action.titleKey))
-            Spacer()
+        } trailing: {
             ShortcutRecorderButton(
                 shortcut: settings.shortcuts[action],
                 onCapture: { shortcut in
@@ -84,7 +85,6 @@ struct ShortcutsSettingsView: View {
                 }
             )
         }
-        .padding(.vertical, 11)
     }
 }
 

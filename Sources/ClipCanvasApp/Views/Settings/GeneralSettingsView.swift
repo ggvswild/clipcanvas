@@ -9,7 +9,10 @@ struct GeneralSettingsView: View {
     @State private var eraseConfirmation = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
+        VStack(
+            alignment: .leading,
+            spacing: SettingsLayoutMetrics.standard.sectionSpacing
+        ) {
             SettingsCard {
                 SettingsToggleRow(
                     title: "general.open_login",
@@ -27,7 +30,10 @@ struct GeneralSettingsView: View {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 9) {
+            VStack(
+                alignment: .leading,
+                spacing: SettingsLayoutMetrics.standard.sectionTitleSpacing
+            ) {
                 Text("general.paste_items")
                     .font(.headline)
                 SettingsCard {
@@ -49,14 +55,21 @@ struct GeneralSettingsView: View {
                     }
                     .labelsHidden()
                     .pickerStyle(.radioGroup)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 12)
                     Divider()
-                    Toggle("general.always_plain", isOn: $settings.alwaysPastePlainText)
-                        .padding(.vertical, 13)
+                    SettingsToggleRow(
+                        title: "general.always_plain",
+                        description: nil,
+                        isOn: $settings.alwaysPastePlainText
+                    )
                 }
             }
 
-            VStack(alignment: .leading, spacing: 9) {
+            VStack(
+                alignment: .leading,
+                spacing: SettingsLayoutMetrics.standard.sectionTitleSpacing
+            ) {
                 Text("general.keep_history")
                     .font(.headline)
                 SettingsCard {
@@ -69,23 +82,23 @@ struct GeneralSettingsView: View {
                     }
                     .labelsHidden()
                     .pickerStyle(.segmented)
-                    .padding(.vertical, 16)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
                     Divider()
-                    HStack {
+                    SettingsRow {
                         Text("general.erase_description")
                             .font(.callout)
                             .foregroundStyle(.secondary)
-                        Spacer()
+                    } trailing: {
                         Button("general.erase", role: .destructive) {
                             eraseConfirmation = true
                         }
                     }
-                    .padding(.vertical, 13)
                 }
             }
 
             SettingsCard {
-                HStack {
+                SettingsRow {
                     VStack(alignment: .leading, spacing: 3) {
                         Text("general.accessibility")
                             .font(.body.weight(.medium))
@@ -93,7 +106,7 @@ struct GeneralSettingsView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-                    Spacer()
+                } trailing: {
                     Button("general.request_accessibility") {
                         let options = [
                             "AXTrustedCheckOptionPrompt": true
@@ -101,7 +114,6 @@ struct GeneralSettingsView: View {
                         AXIsProcessTrustedWithOptions(options)
                     }
                 }
-                .padding(.vertical, 13)
             }
         }
         .alert("general.erase", isPresented: $eraseConfirmation) {

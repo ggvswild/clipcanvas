@@ -8,7 +8,10 @@ struct PrivacySettingsView: View {
     @State private var selectedApplicationID: String?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
+        VStack(
+            alignment: .leading,
+            spacing: SettingsLayoutMetrics.standard.sectionSpacing
+        ) {
             SettingsCard {
                 SettingsToggleRow(
                     title: "privacy.screen_sharing",
@@ -37,7 +40,10 @@ struct PrivacySettingsView: View {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 9) {
+            VStack(
+                alignment: .leading,
+                spacing: SettingsLayoutMetrics.standard.sectionTitleSpacing
+            ) {
                 Text("privacy.ignore_apps")
                     .font(.headline)
                 Text("privacy.ignore_apps.description")
@@ -45,7 +51,7 @@ struct PrivacySettingsView: View {
                     .foregroundStyle(.secondary)
                 SettingsCard {
                     List(settings.ignoredApplications, selection: $selectedApplicationID) { application in
-                        HStack(spacing: 10) {
+                        HStack(spacing: 12) {
                             applicationIcon(application)
                             Text(application.name)
                             Spacer()
@@ -59,7 +65,7 @@ struct PrivacySettingsView: View {
                     .scrollContentBackground(.hidden)
 
                     Divider()
-                    HStack(spacing: 14) {
+                    HStack(spacing: 12) {
                         Button {
                             addApplication()
                         } label: {
@@ -75,7 +81,7 @@ struct PrivacySettingsView: View {
                         .disabled(selectedApplicationID == nil)
                         Spacer()
                     }
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 8)
                 }
             }
 
