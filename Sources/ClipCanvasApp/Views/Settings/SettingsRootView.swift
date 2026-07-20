@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsRootView: View {
     enum Section: String, CaseIterable, Identifiable {
         case general
+        case pinboards
         case privacy
         case shortcuts
         case mcp
@@ -13,6 +14,7 @@ struct SettingsRootView: View {
         var title: LocalizedStringKey {
             switch self {
             case .general: "settings.general"
+            case .pinboards: "settings.pinboards"
             case .privacy: "settings.privacy"
             case .shortcuts: "settings.shortcuts"
             case .mcp: "settings.mcp"
@@ -23,6 +25,7 @@ struct SettingsRootView: View {
         var symbol: String {
             switch self {
             case .general: "gearshape"
+            case .pinboards: "square.grid.2x2"
             case .privacy: "hand.raised"
             case .shortcuts: "keyboard"
             case .mcp: "point.3.connected.trianglepath.dotted"
@@ -48,34 +51,55 @@ struct SettingsRootView: View {
                     .padding()
             }
         } detail: {
-            ScrollView {
-                Group {
-                    switch selection ?? .general {
-                    case .general:
-                        GeneralSettingsView()
-                    case .privacy:
-                        PrivacySettingsView()
-                    case .shortcuts:
-                        ShortcutsSettingsView()
-                    case .mcp:
-                        MCPSettingsView()
-                    case .about:
-                        AboutView()
-                    }
-                }
-                .frame(
-                    maxWidth: SettingsLayoutMetrics.standard.contentWidth,
-                    alignment: .topLeading
-                )
-                .padding(SettingsLayoutMetrics.standard.pagePadding)
-            }
-            .navigationTitle(selection?.title ?? Section.general.title)
+            detailView
+                .navigationTitle(selection?.title ?? Section.general.title)
         }
         .frame(
             width: SettingsLayoutMetrics.standard.windowWidth,
             height: SettingsLayoutMetrics.standard.windowHeight
         )
         .preferredColorScheme(.dark)
+    }
+
+    @ViewBuilder
+    private var detailView: some View {
+        let section = selection ?? .general
+        if section == .pinboards {
+            PinboardsSettingsView()
+                .frame(
+                    maxWidth: SettingsLayoutMetrics.standard.contentWidth,
+                    maxHeight: .infinity,
+                    alignment: .topLeading
+                )
+                .padding(SettingsLayoutMetrics.standard.pagePadding)
+        } else {
+            ScrollView {
+                settingsContent(for: section)
+                    .frame(
+                        maxWidth: SettingsLayoutMetrics.standard.contentWidth,
+                        alignment: .topLeading
+                    )
+                    .padding(SettingsLayoutMetrics.standard.pagePadding)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func settingsContent(for section: Section) -> some View {
+        switch section {
+        case .general:
+            GeneralSettingsView()
+        case .pinboards:
+            EmptyView()
+        case .privacy:
+            PrivacySettingsView()
+        case .shortcuts:
+            ShortcutsSettingsView()
+        case .mcp:
+            MCPSettingsView()
+        case .about:
+            AboutView()
+        }
     }
 }
 

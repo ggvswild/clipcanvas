@@ -272,6 +272,9 @@ final class AppModel: ObservableObject {
             replacePinboards(try repository.listPinboards())
             errorMessage = nil
             return true
+        } catch ClipboardRepositoryError.systemPinboardCannotBeModified {
+            errorMessage = String(localized: "pinboard.system_edit_error")
+            return false
         } catch {
             errorMessage = error.localizedDescription
             return false
