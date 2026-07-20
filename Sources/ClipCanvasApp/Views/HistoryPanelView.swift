@@ -45,6 +45,8 @@ struct HistoryPanelView: View {
 
     private var header: some View {
         HStack(spacing: 10) {
+            Spacer(minLength: 0)
+
             HStack(spacing: 7) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
@@ -98,9 +100,9 @@ struct HistoryPanelView: View {
                         tint: .blue
                     ))
                 }
+                .frame(minWidth: 380, alignment: .center)
             }
-
-            Spacer(minLength: 8)
+            .frame(width: 380)
 
             Button {
                 model.requestCreatePinboard()
@@ -117,8 +119,10 @@ struct HistoryPanelView: View {
             }
             .buttonStyle(.borderless)
             .help("common.refresh")
+
+            Spacer(minLength: 0)
         }
-        .frame(height: 32)
+        .frame(maxWidth: .infinity, minHeight: 32, maxHeight: 32, alignment: .center)
         .padding(.horizontal, 4)
         .onChange(of: model.query) { _, query in
             Task { @MainActor in
