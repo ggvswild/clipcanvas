@@ -82,6 +82,34 @@ final class PinboardManagementStateTests: XCTestCase {
         XCTAssertFalse(draft.canSave)
     }
 
+    func testMoveOrdinaryPinboardsKeepsSystemFirst() {
+        let system = Pinboard(
+            name: "Useful Links",
+            sortIndex: 0,
+            isSystem: true
+        )
+        let first = Pinboard(name: "First", sortIndex: 1)
+        let second = Pinboard(name: "Second", sortIndex: 2)
+        let state = PinboardManagementState()
+
+        let ids = state.reorderedOrdinaryIDs(
+            pinboards: [system, first, second],
+            fromOffsets: IndexSet(integer: 1),
+            toOffset: 0
+        )
+
+        XCTAssertEqual(ids, [second.id, first.id])
+    }
+
+    func testRemovingItemUpdatesSnapshot() {
+        let item = makeItem(text: "Candidate", title: nil, source: "Notes")
+        var state = PinboardManagementState(items: [item])
+
+        state.remove(itemID: item.id)
+
+        XCTAssertTrue(state.items.isEmpty)
+    }
+
     private func makeItem(
         text: String,
         title: String?,

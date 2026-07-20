@@ -34,4 +34,32 @@ struct PinboardManagementState {
         query = ""
         items = []
     }
+
+    mutating func remove(itemID: UUID) {
+        items.removeAll { $0.id == itemID }
+    }
+
+    func reorderedOrdinaryIDs(
+        pinboards: [Pinboard],
+        fromOffsets: IndexSet,
+        toOffset: Int
+    ) -> [UUID] {
+        var ordinary = pinboards.filter { !$0.isSystem }
+        let validOffsets = fromOffsets
+            .filter { ordinary.indices.contains($0) }
+            .sorted()
+        let moving = validOffsets.map { ordinary[$0] }
+
+        for index in validOffsets.reversed() {
+            ordinary.remove(at: index)
+        }
+
+        let removedBeforeDestination = validOffsets.filter { $0 < toOffset }.count
+        let destination = min(
+            max(0, toOffset - removedBeforeDestination),
+            ordinary.count
+        )
+        ordinary.insert(contentsOf: moving, at: destination)
+        return ordinary.map(\.id)
+    }
 }
