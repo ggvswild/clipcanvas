@@ -34,6 +34,27 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertTrue(second.generateLinkPreviews)
     }
 
+    func testSelectedPetDefaultsToPipAndPersists() {
+        let defaults = isolatedDefaults()
+        let first = SettingsStore(defaults: defaults)
+
+        XCTAssertEqual(first.selectedPet, .pip)
+
+        first.selectedPet = .nova
+
+        XCTAssertEqual(SettingsStore(defaults: defaults).selectedPet, .nova)
+    }
+
+    func testUnknownStoredPetFallsBackToPip() {
+        let defaults = isolatedDefaults()
+        defaults.set("missing-pet", forKey: "selectedPet")
+
+        XCTAssertEqual(
+            SettingsStore(defaults: defaults).selectedPet,
+            SettingsPetKind.defaultPet
+        )
+    }
+
     func testResetShortcutsRestoresDefaults() {
         let store = SettingsStore(defaults: isolatedDefaults())
         store.shortcuts[.activate] = KeyboardShortcut(

@@ -17,4 +17,13 @@ final class SettingsLayoutMetricsTests: XCTestCase {
         XCTAssertEqual(metrics.trailingColumnWidth, 192)
         XCTAssertGreaterThanOrEqual(leadingColumnWidth, 360)
     }
+
+    func testSettingsPetFitsTheSidebarFooter() {
+        let layout = SettingsPetLayout.standard
+
+        XCTAssertEqual(layout.height, 150)
+        XCTAssertLessThanOrEqual(layout.bubbleWidth, 168)
+        XCTAssertGreaterThanOrEqual(layout.characterHeight, 70)
+        XCTAssertLessThan(layout.characterHeight, layout.height)
+    }
 }

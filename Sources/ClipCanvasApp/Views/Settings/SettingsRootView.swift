@@ -4,6 +4,7 @@ struct SettingsRootView: View {
     enum Section: String, CaseIterable, Identifiable {
         case general
         case pinboards
+        case pets
         case privacy
         case shortcuts
         case mcp
@@ -15,6 +16,7 @@ struct SettingsRootView: View {
             switch self {
             case .general: "settings.general"
             case .pinboards: "settings.pinboards"
+            case .pets: "settings.pets"
             case .privacy: "settings.privacy"
             case .shortcuts: "settings.shortcuts"
             case .mcp: "settings.mcp"
@@ -26,6 +28,7 @@ struct SettingsRootView: View {
             switch self {
             case .general: "gearshape"
             case .pinboards: "square.grid.2x2"
+            case .pets: "pawprint"
             case .privacy: "hand.raised"
             case .shortcuts: "keyboard"
             case .mcp: "point.3.connected.trianglepath.dotted"
@@ -34,6 +37,8 @@ struct SettingsRootView: View {
         }
     }
 
+    @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var settings: SettingsStore
     @State private var selection: Section? = .general
 
     var body: some View {
@@ -45,10 +50,18 @@ struct SettingsRootView: View {
             }
             .navigationSplitViewColumnWidth(min: 190, ideal: 210, max: 235)
             .safeAreaInset(edge: .bottom) {
-                Label("settings.local_only", systemImage: "externaldrive.fill")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding()
+                VStack(spacing: 4) {
+                    SettingsPetView(
+                        kind: settings.selectedPet,
+                        itemCount: model.items.count,
+                        isCapturePaused: model.isCapturePaused
+                    )
+                    Label("settings.local_only", systemImage: "externaldrive.fill")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
             }
         } detail: {
             detailView
@@ -91,6 +104,8 @@ struct SettingsRootView: View {
             GeneralSettingsView()
         case .pinboards:
             EmptyView()
+        case .pets:
+            PetsSettingsView()
         case .privacy:
             PrivacySettingsView()
         case .shortcuts:
