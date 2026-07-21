@@ -1,0 +1,157 @@
+Tests/ClipCanvasAppTests/SettingsLayoutMetricsTests.swift
+  7d8c3d94060667aa 20-28
+Sources/ClipCanvasApp/Views/Settings/SettingsPetBehavior.swift
+  7d8c3d94060667aa 1-53
+Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift
+  7d8c3d94060667aa 7,19,31,40-41,53-64,107-108
+Tests/ClipCanvasAppTests/SettingsPetCatalogTests.swift
+  7d8c3d94060667aa 1-18
+Tests/ClipCanvasAppTests/SettingsNavigationTests.swift
+  7d8c3d94060667aa 8-11,17
+Sources/ClipCanvasApp/Views/Settings/SettingsPetCatalog.swift
+  7d8c3d94060667aa 1-90
+Tests/ClipCanvasAppTests/SettingsStoreTests.swift
+  7d8c3d94060667aa 37-57
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  45ca23e4fdd06c15 55,66,70-88
+  7d8c3d94060667aa 62-65,67-69
+Sources/ClipCanvasApp/Views/Settings/SettingsPetView.swift
+  7d8c3d94060667aa 1-92,95-121,123-238,240-491
+  45ca23e4fdd06c15 93-94,122,239
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  45ca23e4fdd06c15 55,66,70-88
+  7d8c3d94060667aa 62-65,67-69
+Tests/ClipCanvasAppTests/SettingsPetBehaviorTests.swift
+  45ca23e4fdd06c15 1-47
+Sources/ClipCanvasApp/Services/SettingsStore.swift
+  7d8c3d94060667aa 41,91-93,108-109
+Sources/ClipCanvasApp/Views/Settings/SettingsPetCharacters.swift
+  7d8c3d94060667aa 1-337,348-493
+  45ca23e4fdd06c15 338-347
+Sources/ClipCanvasApp/Views/Settings/PetsSettingsView.swift
+  45ca23e4fdd06c15 4-12,14-126
+  7d8c3d94060667aa 1-3,13,127-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "e18b3d0421a32daded9b07528c872f8e876f9600",
+  "prompts": {
+    "45ca23e4fdd06c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-17T18-02-31-019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 233,
+      "total_deletions": 19,
+      "accepted_lines": 225,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/SettingsPetBehaviorTests.swift": {
+          "additions": 47,
+          "accepted_lines": 47
+        },
+        "Sources/ClipCanvasApp/Views/Settings/PetsSettingsView.swift": {
+          "additions": 122,
+          "deletions": 1,
+          "accepted_lines": 122
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsPetCharacters.swift": {
+          "additions": 10,
+          "deletions": 9,
+          "accepted_lines": 10
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift": {
+          "additions": 7
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsPetView.swift": {
+          "additions": 5,
+          "deletions": 3,
+          "accepted_lines": 4
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 21,
+          "deletions": 3,
+          "accepted_lines": 21
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 21,
+          "deletions": 3,
+          "accepted_lines": 21
+        }
+      }
+    },
+    "7d8c3d94060667aa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6f87-13cb-7812-b3ef-3a5bed21580f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 1230,
+      "total_deletions": 5,
+      "accepted_lines": 1211,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/SettingsStoreTests.swift": {
+          "additions": 21,
+          "accepted_lines": 21
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 10,
+          "accepted_lines": 7
+        },
+        "Sources/ClipCanvasApp/Services/SettingsStore.swift": {
+          "additions": 6,
+          "accepted_lines": 6
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsRootView.swift": {
+          "additions": 19,
+          "deletions": 4,
+          "accepted_lines": 19
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsPetView.swift": {
+          "additions": 490,
+          "accepted_lines": 487
+        },
+        "Tests/ClipCanvasAppTests/SettingsLayoutMetricsTests.swift": {
+          "additions": 9,
+          "accepted_lines": 9
+        },
+        "Tests/ClipCanvasAppTests/SettingsPetCatalogTests.swift": {
+          "additions": 18,
+          "accepted_lines": 18
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsPetCharacters.swift": {
+          "additions": 492,
+          "accepted_lines": 483
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsPetBehavior.swift": {
+          "additions": 53,
+          "accepted_lines": 53
+        },
+        "Sources/ClipCanvasApp/Views/Settings/PetsSettingsView.swift": {
+          "additions": 7,
+          "accepted_lines": 6
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 10,
+          "accepted_lines": 7
+        },
+        "Sources/ClipCanvasApp/Views/Settings/SettingsPetCatalog.swift": {
+          "additions": 90,
+          "accepted_lines": 90
+        },
+        "Tests/ClipCanvasAppTests/SettingsNavigationTests.swift": {
+          "additions": 5,
+          "deletions": 1,
+          "accepted_lines": 5
+        }
+      }
+    }
+  }
+}
