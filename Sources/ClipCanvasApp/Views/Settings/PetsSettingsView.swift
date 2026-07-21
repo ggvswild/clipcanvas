@@ -20,6 +20,14 @@ struct PetsSettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            SettingsCard {
+                SettingsToggleRow(
+                    title: "settings.pets.panel.title",
+                    description: "settings.pets.panel.description",
+                    isOn: $settings.showPetOnPanel
+                )
+            }
+
             selectedPetPreview
 
             VStack(alignment: .leading, spacing: 10) {

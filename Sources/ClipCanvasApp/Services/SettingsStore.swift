@@ -39,6 +39,7 @@ final class SettingsStore: ObservableObject {
         static let shortcuts = "shortcuts"
         static let enableMCP = "enableMCP"
         static let selectedPet = "selectedPet"
+        static let showPetOnPanel = "showPetOnPanel"
     }
 
     private let defaults: UserDefaults
@@ -91,6 +92,9 @@ final class SettingsStore: ObservableObject {
     @Published var selectedPet: SettingsPetKind {
         didSet { defaults.set(selectedPet.rawValue, forKey: Key.selectedPet) }
     }
+    @Published var showPetOnPanel: Bool {
+        didSet { defaults.set(showPetOnPanel, forKey: Key.showPetOnPanel) }
+    }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -107,6 +111,7 @@ final class SettingsStore: ObservableObject {
         enableMCP = defaults.object(forKey: Key.enableMCP) as? Bool ?? false
         selectedPet = defaults.string(forKey: Key.selectedPet)
             .flatMap(SettingsPetKind.init(rawValue:)) ?? .defaultPet
+        showPetOnPanel = defaults.object(forKey: Key.showPetOnPanel) as? Bool ?? false
 
         if let data = defaults.data(forKey: Key.ignoredApplications),
            let decoded = try? decoder.decode([IgnoredApplication].self, from: data) {

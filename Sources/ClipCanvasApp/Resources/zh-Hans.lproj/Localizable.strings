@@ -74,6 +74,11 @@
 "settings.pets.choose" = "内置宠物";
 "settings.pets.selected" = "当前伙伴";
 "settings.pets.not_selected" = "未选择";
+"settings.pets.panel.title" = "坐在窗口上沿";
+"settings.pets.panel.description" = "让当前宠物待在面板上沿外侧，不占用卡片和分组空间。";
+"panel.pet.accessibility_label" = "坐在卡片窗口上沿的宠物";
+"panel.pet.open_settings" = "打开宠物设置";
+"panel.pet.open_settings_hint" = "关闭卡片面板并打开宠物设置页";
 "settings.pets.pip.name" = "Pip";
 "settings.pets.pip.description" = "由折叠剪贴化成的认真小管家。";
 "settings.pets.sprig.name" = "Sprig";

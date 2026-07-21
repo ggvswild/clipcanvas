@@ -74,6 +74,11 @@
 "settings.pets.choose" = "Built-in companions";
 "settings.pets.selected" = "Selected companion";
 "settings.pets.not_selected" = "Not selected";
+"settings.pets.panel.title" = "Sit on the window edge";
+"settings.pets.panel.description" = "Place your companion above the panel without taking space from clips or Pinboards.";
+"panel.pet.accessibility_label" = "Companion perched above the card-list window";
+"panel.pet.open_settings" = "Open pet settings";
+"panel.pet.open_settings_hint" = "Closes the card panel and opens the Pets settings tab";
 "settings.pets.pip.name" = "Pip";
 "settings.pets.pip.description" = "A tidy little keeper made from a folded clip.";
 "settings.pets.sprig.name" = "Sprig";

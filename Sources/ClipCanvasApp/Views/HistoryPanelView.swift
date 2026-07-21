@@ -181,59 +181,67 @@ struct HistoryPanelView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
-            ScrollViewReader { proxy in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 11) {
-                        ForEach(Array(model.items.enumerated()), id: \.element.id) { index, item in
-                            ClipboardCardView(
-                                item: item,
-                                isSelected: model.selectedItemID == item.id,
-                                quickPasteIndex: index < 9 ? index + 1 : nil,
-                                imageData: model.imageData(for: item)
-                            )
-                            .id(item.id)
-                            .onTapGesture {
-                                model.selectedItemID = item.id
-                            }
-                            .onTapGesture(count: 2) {
-                                Task { await model.paste(item) }
-                            }
-                            .contextMenu {
-                                Button("action.paste") {
-                                    Task { await model.paste(item) }
-                                }
-                                Button("action.paste_plain") {
-                                    Task { await model.paste(item, forcePlainText: true) }
-                                }
-                                Menu("action.pin_to") {
-                                    ForEach(model.pinboards) { pinboard in
-                                        Button(pinboard.name) {
-                                            model.pin(item, to: pinboard.id)
-                                        }
-                                    }
-                                }
-                                Divider()
-                                Button("action.preview") {
-                                    model.selectedItemID = item.id
-                                    model.isPreviewPresented = true
-                                }
-                                Button("action.delete", role: .destructive) {
-                                    model.selectedItemID = item.id
-                                    model.requestDeleteSelected()
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 2)
-                    .padding(.vertical, 1)
-                }
-                .onChange(of: model.selectedItemID) { _, selectedID in
-                    if let selectedID {
-                        withAnimation(.snappy) {
-                            proxy.scrollTo(selectedID, anchor: .center)
-                        }
+            cardScroller
+        }
+    }
+
+    private var cardScroller: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 11) {
+                    ForEach(Array(model.items.enumerated()), id: \.element.id) { index, item in
+                        clipboardCard(item, index: index)
                     }
                 }
+                .padding(.horizontal, 2)
+                .padding(.vertical, 1)
+            }
+            .onChange(of: model.selectedItemID) { _, selectedID in
+                if let selectedID {
+                    withAnimation(.snappy) {
+                        proxy.scrollTo(selectedID, anchor: .center)
+                    }
+                }
+            }
+        }
+    }
+
+    private func clipboardCard(_ item: ClipboardItem, index: Int) -> some View {
+        ClipboardCardView(
+            item: item,
+            isSelected: model.selectedItemID == item.id,
+            quickPasteIndex: index < 9 ? index + 1 : nil,
+            imageData: model.imageData(for: item)
+        )
+        .id(item.id)
+        .onTapGesture {
+            model.selectedItemID = item.id
+        }
+        .onTapGesture(count: 2) {
+            Task { await model.paste(item) }
+        }
+        .contextMenu {
+            Button("action.paste") {
+                Task { await model.paste(item) }
+            }
+            Button("action.paste_plain") {
+                Task { await model.paste(item, forcePlainText: true) }
+            }
+            Menu("action.pin_to") {
+                ForEach(model.pinboards) { pinboard in
+                    Button(pinboard.name) {
+                        model.pin(item, to: pinboard.id)
+                    }
+                }
+            }
+            Divider()
+            Button("action.preview") {
+                model.selectedItemID = item.id
+                model.isPreviewPresented = true
+            }
+            Button("action.delete", role: .destructive) {
+                model.selectedItemID = item.id
+                model.requestDeleteSelected()
             }
         }
     }

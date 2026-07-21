@@ -1,20 +1,35 @@
 import AppKit
+import Combine
 import SwiftUI
 
 @MainActor
 final class PanelController: NSObject, NSWindowDelegate {
     private let model: AppModel
     private let settings: SettingsStore
+    private let onOpenPetSettings: @MainActor () -> Void
     private let panel: ClipCanvasPanel
+    private let petWindow: ClipCanvasPetWindow
     private var keyMonitor: Any?
+    private var petVisibilityCancellable: AnyCancellable?
     private(set) var previousApplication: NSRunningApplication?
 
-    init(model: AppModel, settings: SettingsStore) {
+    init(
+        model: AppModel,
+        settings: SettingsStore,
+        onOpenPetSettings: @escaping @MainActor () -> Void = {}
+    ) {
         self.model = model
         self.settings = settings
+        self.onOpenPetSettings = onOpenPetSettings
         panel = ClipCanvasPanel(
             contentRect: .zero,
             styleMask: [.borderless, .fullSizeContentView],
+            backing: .buffered,
+            defer: true
+        )
+        petWindow = ClipCanvasPetWindow(
+            contentRect: .zero,
+            styleMask: [.borderless],
             backing: .buffered,
             defer: true
         )
@@ -34,6 +49,34 @@ final class PanelController: NSObject, NSWindowDelegate {
             rootView: HistoryPanelView()
                 .environmentObject(model)
         )
+
+        petWindow.backgroundColor = .clear
+        petWindow.isOpaque = false
+        petWindow.hasShadow = false
+        petWindow.level = .statusBar
+        petWindow.collectionBehavior = panel.collectionBehavior
+        petWindow.isReleasedWhenClosed = false
+        petWindow.ignoresMouseEvents = false
+        petWindow.onClick = onOpenPetSettings
+        let petHostView = NSHostingView(
+            rootView: PanelPetHostView(onOpenSettings: onOpenPetSettings)
+                .environmentObject(model)
+                .environmentObject(settings)
+        )
+        petHostView.wantsLayer = true
+        petHostView.layer?.backgroundColor = NSColor.clear.cgColor
+        petWindow.contentView = petHostView
+
+        petVisibilityCancellable = settings.$showPetOnPanel
+            .removeDuplicates()
+            .sink { [weak self] isVisible in
+                guard let self else { return }
+                if isVisible, panel.isVisible {
+                    showPetPanel()
+                } else {
+                    hidePetPanel()
+                }
+            }
     }
 
     func toggle() {
@@ -50,6 +93,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         positionPanel()
         panel.alphaValue = 0
         panel.orderFrontRegardless()
+        showPetPanelIfNeeded()
         NSApp.activate(ignoringOtherApps: true)
         panel.makeKey()
         NSAnimationContext.runAnimationGroup { context in
@@ -65,10 +109,12 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     func hide() {
         guard panel.isVisible else {
+            hidePetPanel()
             model.hidePanel()
             return
         }
         removeKeyMonitor()
+        hidePetPanel()
         NSAnimationContext.runAnimationGroup({ context in
             context.duration = 0.12
             panel.animator().alphaValue = 0
@@ -82,9 +128,24 @@ final class PanelController: NSObject, NSWindowDelegate {
     }
 
     func windowDidResignKey(_ notification: Notification) {
-        if panel.isVisible, !model.isPresentingSheet {
-            hide()
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if Self.shouldHideAfterFocusChange(
+                isPanelVisible: panel.isVisible,
+                isPresentingSheet: model.isPresentingSheet,
+                panelIsKey: panel.isKeyWindow
+            ) {
+                hide()
+            }
         }
+    }
+
+    static func shouldHideAfterFocusChange(
+        isPanelVisible: Bool,
+        isPresentingSheet: Bool,
+        panelIsKey: Bool
+    ) -> Bool {
+        isPanelVisible && !isPresentingSheet && !panelIsKey
     }
 
     private func positionPanel() {
@@ -99,6 +160,38 @@ final class PanelController: NSObject, NSWindowDelegate {
             height: PinboardEditorView.height
         )
         panel.setFrame(frame, display: true)
+        positionPetPanel()
+    }
+
+    private func showPetPanelIfNeeded() {
+        if settings.showPetOnPanel {
+            showPetPanel()
+        } else {
+            hidePetPanel()
+        }
+    }
+
+    private func showPetPanel() {
+        positionPetPanel()
+        if petWindow.parent !== panel {
+            panel.addChildWindow(petWindow, ordered: .above)
+        }
+        petWindow.alphaValue = 1
+        petWindow.order(.above, relativeTo: panel.windowNumber)
+    }
+
+    private func hidePetPanel() {
+        if petWindow.parent === panel {
+            panel.removeChildWindow(petWindow)
+        }
+        petWindow.orderOut(nil)
+    }
+
+    private func positionPetPanel() {
+        let frame = PanelPetPerchLayout.standard.petWindowFrame(
+            above: panel.frame
+        )
+        petWindow.setFrame(frame, display: true)
     }
 
     private func screenContainingMouse() -> NSScreen? {
@@ -193,4 +286,19 @@ final class PanelController: NSObject, NSWindowDelegate {
 private final class ClipCanvasPanel: NSPanel {
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { false }
+}
+
+private final class ClipCanvasPetWindow: NSWindow {
+    var onClick: (@MainActor () -> Void)?
+
+    override var canBecomeKey: Bool { false }
+    override var canBecomeMain: Bool { false }
+
+    override func sendEvent(_ event: NSEvent) {
+        if event.type == .leftMouseDown {
+            onClick?()
+            return
+        }
+        super.sendEvent(event)
+    }
 }

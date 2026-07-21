@@ -6,6 +6,7 @@ struct ClipCanvasApp: App {
     @StateObject private var model = AppModel.shared
     @StateObject private var settings = SettingsStore.shared
     @StateObject private var mcpService = MCPService.shared
+    @StateObject private var settingsNavigation = SettingsNavigationCoordinator.shared
 
     var body: some Scene {
         Settings {
@@ -13,6 +14,7 @@ struct ClipCanvasApp: App {
                 .environmentObject(model)
                 .environmentObject(settings)
                 .environmentObject(mcpService)
+                .environmentObject(settingsNavigation)
         }
     }
 }

@@ -15,12 +15,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var screenSharingMonitor: ScreenSharingMonitor?
     private var mcpService: MCPService?
     private var cancellables: Set<AnyCancellable> = []
+    private let settingsNavigation = SettingsNavigationCoordinator.shared
     private lazy var settingsWindowController = SettingsWindowController(
         rootView: AnyView(
             SettingsRootView()
                 .environmentObject(AppModel.shared)
                 .environmentObject(SettingsStore.shared)
                 .environmentObject(MCPService.shared)
+                .environmentObject(settingsNavigation)
         )
     )
 
@@ -76,6 +78,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindowController.show()
     }
 
+    private func openPetSettings() {
+        panelController?.hide()
+        settingsNavigation.select(.pets)
+        settingsWindowController.show()
+    }
+
     @objc private func toggleCapture(_ sender: NSMenuItem) {
         AppModel.shared.isCapturePaused.toggle()
         if AppModel.shared.isCapturePaused {
@@ -102,7 +110,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let repository = ClipboardRepository(database: database, blobStore: blobStore)
             let pasteService = PasteService(repository: repository)
             let settings = SettingsStore.shared
-            let panel = PanelController(model: AppModel.shared, settings: settings)
+            let panel = PanelController(
+                model: AppModel.shared,
+                settings: settings,
+                onOpenPetSettings: { [weak self] in
+                    self?.openPetSettings()
+                }
+            )
             let linkPreview = LinkPreviewService()
             let capture = CaptureService(
                 repository: repository,

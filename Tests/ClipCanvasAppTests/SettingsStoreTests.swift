@@ -55,6 +55,17 @@ final class SettingsStoreTests: XCTestCase {
         )
     }
 
+    func testPanelPetIsOffByDefaultAndPersists() {
+        let defaults = isolatedDefaults()
+        let first = SettingsStore(defaults: defaults)
+
+        XCTAssertFalse(first.showPetOnPanel)
+
+        first.showPetOnPanel = true
+
+        XCTAssertTrue(SettingsStore(defaults: defaults).showPetOnPanel)
+    }
+
     func testResetShortcutsRestoresDefaults() {
         let store = SettingsStore(defaults: isolatedDefaults())
         store.shortcuts[.activate] = KeyboardShortcut(

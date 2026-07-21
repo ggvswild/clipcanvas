@@ -1,49 +1,15 @@
 import SwiftUI
 
 struct SettingsRootView: View {
-    enum Section: String, CaseIterable, Identifiable {
-        case general
-        case pinboards
-        case pets
-        case privacy
-        case shortcuts
-        case mcp
-        case about
-
-        var id: String { rawValue }
-
-        var title: LocalizedStringKey {
-            switch self {
-            case .general: "settings.general"
-            case .pinboards: "settings.pinboards"
-            case .pets: "settings.pets"
-            case .privacy: "settings.privacy"
-            case .shortcuts: "settings.shortcuts"
-            case .mcp: "settings.mcp"
-            case .about: "settings.about"
-            }
-        }
-
-        var symbol: String {
-            switch self {
-            case .general: "gearshape"
-            case .pinboards: "square.grid.2x2"
-            case .pets: "pawprint"
-            case .privacy: "hand.raised"
-            case .shortcuts: "keyboard"
-            case .mcp: "point.3.connected.trianglepath.dotted"
-            case .about: "info.circle"
-            }
-        }
-    }
+    typealias Section = SettingsSection
 
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var settings: SettingsStore
-    @State private var selection: Section? = .general
+    @EnvironmentObject private var navigation: SettingsNavigationCoordinator
 
     var body: some View {
         NavigationSplitView {
-            List(Section.allCases, selection: $selection) { section in
+            List(Section.allCases, selection: selectionBinding) { section in
                 Label(section.title, systemImage: section.symbol)
                     .tag(section)
                     .padding(.vertical, 5)
@@ -65,7 +31,7 @@ struct SettingsRootView: View {
             }
         } detail: {
             detailView
-                .navigationTitle(selection?.title ?? Section.general.title)
+                .navigationTitle(navigation.selection?.title ?? Section.general.title)
         }
         .frame(
             width: SettingsLayoutMetrics.standard.windowWidth,
@@ -76,7 +42,7 @@ struct SettingsRootView: View {
 
     @ViewBuilder
     private var detailView: some View {
-        let section = selection ?? .general
+        let section = navigation.selection ?? .general
         if section == .pinboards {
             PinboardsSettingsView()
                 .frame(
@@ -95,6 +61,17 @@ struct SettingsRootView: View {
                     .padding(SettingsLayoutMetrics.standard.pagePadding)
             }
         }
+    }
+
+    private var selectionBinding: Binding<Section?> {
+        Binding(
+            get: { navigation.selection },
+            set: { selection in
+                if let selection {
+                    navigation.select(selection)
+                }
+            }
+        )
     }
 
     @ViewBuilder
