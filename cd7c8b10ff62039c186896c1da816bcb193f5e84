@@ -1,0 +1,131 @@
+Configuration/Info.plist
+  bec9af41122ba1f0 33-45
+Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings
+  bec9af41122ba1f0 53
+Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings
+  bec9af41122ba1f0 53
+Sources/ClipCanvasCore/Storage/ClipboardRepository.swift
+  bec9af41122ba1f0 388,390,404
+Sources/ClipCanvasApp/Views/HistoryPanelView.swift
+  bec9af41122ba1f0 371-374,386-388
+  f9bbfbad620af1bb 82,201,243-275,302,308,316-318,327-329,332-334,340-342,345,349-353,357
+Tests/ClipCanvasCoreTests/ClipboardRepositoryTests.swift
+  bec9af41122ba1f0 70-85
+Tests/ClipCanvasAppTests/PinboardTabAppearanceTests.swift
+  bec9af41122ba1f0 27-40
+Tests/ClipCanvasAppTests/PinboardViewModelTests.swift
+  f9bbfbad620af1bb 93-110
+Sources/ClipCanvasApp/App/AppModel.swift
+  bec9af41122ba1f0 198-202,205,209-210,213
+  f9bbfbad620af1bb 203
+Tests/ClipCanvasAppTests/ClipboardItemDragPayloadTests.swift
+  bec9af41122ba1f0 1-2,4-15,46-47
+  f9bbfbad620af1bb 3,16-45
+Sources/ClipCanvasApp/Views/ClipboardItemDragPayload.swift
+  bec9af41122ba1f0 1-5,10-16
+  f9bbfbad620af1bb 6-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "cd7c8b10ff62039c186896c1da816bcb193f5e84",
+  "prompts": {
+    "bec9af41122ba1f0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f88a6-9203-7902-af2c-8868a99e3ee6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 93,
+      "total_deletions": 5,
+      "accepted_lines": 92,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/PinboardTabAppearanceTests.swift": {
+          "additions": 14,
+          "accepted_lines": 14
+        },
+        "Tests/ClipCanvasCoreTests/ClipboardRepositoryTests.swift": {
+          "additions": 16,
+          "accepted_lines": 16
+        },
+        "Sources/ClipCanvasApp/Resources/zh-Hans.lproj/Localizable.strings": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "Sources/ClipCanvasCore/Storage/ClipboardRepository.swift": {
+          "additions": 3,
+          "deletions": 3,
+          "accepted_lines": 3
+        },
+        "Sources/ClipCanvasApp/Resources/en.lproj/Localizable.strings": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 7,
+          "deletions": 1,
+          "accepted_lines": 7
+        },
+        "Tests/ClipCanvasAppTests/ClipboardItemDragPayloadTests.swift": {
+          "additions": 16,
+          "accepted_lines": 16
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 9,
+          "deletions": 1,
+          "accepted_lines": 9
+        },
+        "Sources/ClipCanvasApp/Views/ClipboardItemDragPayload.swift": {
+          "additions": 13,
+          "accepted_lines": 12
+        },
+        "Configuration/Info.plist": {
+          "additions": 13,
+          "accepted_lines": 13
+        }
+      }
+    },
+    "f9bbfbad620af1bb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-07-22T15-07-25-019f88a6-9203-7902-af2c-8868a99e3ee6",
+        "model": "unknown"
+      },
+      "human_author": "ggvswild",
+      "messages": [],
+      "total_additions": 115,
+      "total_deletions": 28,
+      "accepted_lines": 113,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/ClipboardItemDragPayloadTests.swift": {
+          "additions": 33,
+          "deletions": 2,
+          "accepted_lines": 31
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "Tests/ClipCanvasAppTests/PinboardViewModelTests.swift": {
+          "additions": 18,
+          "accepted_lines": 18
+        },
+        "Sources/ClipCanvasApp/Views/ClipboardItemDragPayload.swift": {
+          "additions": 4,
+          "deletions": 1,
+          "accepted_lines": 4
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 59,
+          "deletions": 24,
+          "accepted_lines": 59
+        }
+      }
+    }
+  }
+}
