@@ -79,23 +79,7 @@ struct HistoryPanelView: View {
                 HStack(spacing: 6) {
                     ForEach(Array(model.pinboardTabs.enumerated()), id: \.offset) { _, pinboard in
                         if let pinboard {
-                            Button {
-                                model.selectPinboard(pinboard.id)
-                            } label: {
-                                Label(pinboard.name, systemImage: pinboard.symbol)
-                                    .lineLimit(1)
-                            }
-                            .buttonStyle(PanelTabButtonStyle(
-                                selected: model.selectedPinboardID == pinboard.id,
-                                tint: PinboardColorPalette.color(for: pinboard.color)
-                            ))
-                            .contextMenu {
-                                if !pinboard.isSystem {
-                                    Button("pinboard.delete", role: .destructive) {
-                                        model.deletePinboard(pinboard.id)
-                                    }
-                                }
-                            }
+                            PinboardDropTarget(pinboard: pinboard)
                         } else {
                             Button {
                                 model.selectPinboard(nil)
@@ -214,6 +198,7 @@ struct HistoryPanelView: View {
             imageData: model.imageData(for: item)
         )
         .id(item.id)
+        .draggable(ClipboardItemDragPayload(itemID: item.id))
         .onTapGesture {
             model.selectedItemID = item.id
         }
@@ -255,6 +240,42 @@ struct HistoryPanelView: View {
     }
 }
 
+private struct PinboardDropTarget: View {
+    @EnvironmentObject private var model: AppModel
+    @State private var isDropTargeted = false
+
+    let pinboard: Pinboard
+
+    var body: some View {
+        Button {
+            model.selectPinboard(pinboard.id)
+        } label: {
+            Label(pinboard.name, systemImage: pinboard.symbol)
+                .lineLimit(1)
+        }
+        .buttonStyle(PanelTabButtonStyle(
+            selected: model.selectedPinboardID == pinboard.id,
+            tint: PinboardColorPalette.color(for: pinboard.color),
+            isDropTargeted: isDropTargeted
+        ))
+        .dropDestination(for: ClipboardItemDragPayload.self) { payloads, _ in
+            guard let payload = payloads.first else { return false }
+            return model.pinDroppedItem(id: payload.itemID, to: pinboard.id)
+        } isTargeted: { isTargeted in
+            isDropTargeted = isTargeted
+        }
+        .accessibilityHint("pinboard.drop_hint")
+        .help("pinboard.drop_hint")
+        .contextMenu {
+            if !pinboard.isSystem {
+                Button("pinboard.delete", role: .destructive) {
+                    model.deletePinboard(pinboard.id)
+                }
+            }
+        }
+    }
+}
+
 struct PinboardStripEdgeFadeAppearance: Equatable {
     static let soft = PinboardStripEdgeFadeAppearance(
         edgeOpacity: 0,
@@ -278,12 +299,13 @@ struct PinboardStripEdgeFadeAppearance: Equatable {
 private struct PanelTabButtonStyle: ButtonStyle {
     let selected: Bool
     let tint: Color
+    var isDropTargeted = false
 
     func makeBody(configuration: Configuration) -> some View {
         let appearance = PinboardTabAppearance.readable
 
         configuration.label
-            .font(.caption.weight(selected ? .bold : .semibold))
+            .font(.caption.weight(selected || isDropTargeted ? .bold : .semibold))
             .padding(.horizontal, 10)
             .frame(height: 28)
             .foregroundStyle(
@@ -291,7 +313,9 @@ private struct PanelTabButtonStyle: ButtonStyle {
             )
             .background(
                 tint.opacity(
-                    selected
+                    isDropTargeted
+                        ? 0.95
+                        : selected
                         ? appearance.selectedBackgroundOpacity
                         : appearance.defaultBackgroundOpacity
                 ),
@@ -300,26 +324,37 @@ private struct PanelTabButtonStyle: ButtonStyle {
             .overlay {
                 Capsule()
                     .stroke(
-                        selected
+                        isDropTargeted
+                            ? Color.white.opacity(0.82)
+                            : selected
                             ? Color.white.opacity(appearance.selectedBorderOpacity)
                             : tint.opacity(appearance.defaultBorderOpacity),
-                        lineWidth: selected
+                        lineWidth: isDropTargeted
+                            ? appearance.dropTargetBorderWidth
+                            : selected
                             ? appearance.selectedBorderWidth
                             : appearance.defaultBorderWidth
                     )
             }
             .shadow(
-                color: selected
+                color: isDropTargeted
+                    ? tint.opacity(appearance.dropTargetShadowOpacity)
+                    : selected
                     ? tint.opacity(appearance.selectedShadowOpacity)
                     : .clear,
-                radius: selected ? 5 : 0,
+                radius: isDropTargeted ? 8 : selected ? 5 : 0,
                 y: selected ? 1 : 0
             )
             .scaleEffect(
-                selected ? appearance.selectedScale : appearance.defaultScale
+                isDropTargeted
+                    ? appearance.dropTargetScale
+                    : selected
+                    ? appearance.selectedScale
+                    : appearance.defaultScale
             )
             .opacity(configuration.isPressed ? 0.8 : 1)
             .animation(.snappy(duration: 0.16), value: selected)
+            .animation(.snappy(duration: 0.16), value: isDropTargeted)
     }
 }
 
@@ -333,7 +368,10 @@ struct PinboardTabAppearance: Equatable {
         selectedBorderWidth: 1.4,
         defaultScale: 1,
         selectedScale: 1.025,
-        selectedShadowOpacity: 0.22
+        selectedShadowOpacity: 0.22,
+        dropTargetBorderWidth: 2,
+        dropTargetScale: 1.06,
+        dropTargetShadowOpacity: 0.42
     )
 
     let defaultBackgroundOpacity: Double
@@ -345,4 +383,7 @@ struct PinboardTabAppearance: Equatable {
     let defaultScale: CGFloat
     let selectedScale: CGFloat
     let selectedShadowOpacity: Double
+    let dropTargetBorderWidth: CGFloat
+    let dropTargetScale: CGFloat
+    let dropTargetShadowOpacity: Double
 }

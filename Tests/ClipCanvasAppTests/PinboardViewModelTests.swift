@@ -90,6 +90,24 @@ final class PinboardViewModelTests: XCTestCase {
         )
     }
 
+    func testDroppingItemOntoPinboardAddsItWithoutChangingCurrentTab() throws {
+        let context = try makeContext()
+        defer { try? FileManager.default.removeItem(at: context.root) }
+        let target = try context.repository.createPinboard(name: "Research")
+        let item = try context.repository.upsert(textDraft("drag me"))
+        context.model.reload()
+        context.model.selectPinboard(nil)
+
+        let accepted = context.model.pinDroppedItem(id: item.id, to: target.id)
+
+        XCTAssertTrue(accepted)
+        XCTAssertNil(context.model.selectedPinboardID)
+        XCTAssertEqual(
+            context.model.pinboardItems(in: target.id).map(\.id),
+            [item.id]
+        )
+    }
+
     private func makeContext() throws -> (root: URL, repository: ClipboardRepository, model: AppModel) {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)

@@ -50,6 +50,7 @@
 "pinboard.name_required" = "Enter a name for the Pinboard.";
 "pinboard.system_delete_error" = "Useful Links is a built-in Pinboard and cannot be deleted.";
 "pinboard.system_edit_error" = "Useful Links is a built-in Pinboard and cannot be edited.";
+"pinboard.drop_hint" = "Drop a card here to add it to this Pinboard.";
 "settings.general" = "General";
 "settings.pinboards" = "Pinboards";
 "settings.pets" = "Pets";

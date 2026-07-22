@@ -195,14 +195,22 @@ final class AppModel: ObservableObject {
     }
 
     func pin(_ item: ClipboardItem, to pinboardID: UUID) {
-        guard let repository else { return }
+        pinDroppedItem(id: item.id, to: pinboardID)
+    }
+
+    @discardableResult
+    func pinDroppedItem(id itemID: UUID, to pinboardID: UUID) -> Bool {
+        guard let repository else { return false }
         do {
-            try repository.pin(itemID: item.id, to: pinboardID)
+            try repository.pin(itemID: itemID, to: pinboardID)
             if selectedPinboardID == pinboardID {
                 reload()
             }
+            errorMessage = nil
+            return true
         } catch {
             errorMessage = error.localizedDescription
+            return false
         }
     }
 

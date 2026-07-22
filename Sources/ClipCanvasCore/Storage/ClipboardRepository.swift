@@ -385,9 +385,9 @@ public final class ClipboardRepository: @unchecked Sendable {
         guard try listPinboards().contains(where: { $0.id == pinboardID }) else {
             throw ClipboardRepositoryError.pinboardNotFound
         }
-        let nextIndex = try database.scalarInt(
+        let firstIndex = try database.scalarInt(
             """
-            SELECT COALESCE(MAX(sort_index), -1) + 1 AS value
+            SELECT COALESCE(MIN(sort_index), 1) - 1 AS value
             FROM pinboard_items WHERE pinboard_id = ?
             """,
             bindings: [.text(pinboardID.uuidString)]
@@ -401,7 +401,7 @@ public final class ClipboardRepository: @unchecked Sendable {
             bindings: [
                 .text(pinboardID.uuidString),
                 .text(itemID.uuidString),
-                .integer(Int64(nextIndex)),
+                .integer(Int64(firstIndex)),
                 .real(Date().timeIntervalSince1970)
             ]
         )

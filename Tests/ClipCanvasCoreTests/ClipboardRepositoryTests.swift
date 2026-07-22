@@ -67,6 +67,22 @@ final class ClipboardRepositoryTests: XCTestCase {
         XCTAssertFalse(try repository.listPinboards().contains(where: { $0.id == board.id }))
     }
 
+    func testNewlyPinnedItemAppearsFirstWithoutReorderingOlderItems() throws {
+        let first = try repository.upsert(textDraft("first"))
+        let second = try repository.upsert(textDraft("second"))
+        let newest = try repository.upsert(textDraft("newest"))
+        let board = try repository.createPinboard(name: "Research")
+        try repository.pin(itemID: first.id, to: board.id)
+        try repository.pin(itemID: second.id, to: board.id)
+
+        try repository.pin(itemID: newest.id, to: board.id)
+
+        XCTAssertEqual(
+            try repository.items(in: board.id).items.map(\.id),
+            [newest.id, second.id, first.id]
+        )
+    }
+
     func testDeleteSystemPinboardIsRejected() throws {
         XCTAssertThrowsError(try repository.deletePinboard(id: Pinboard.usefulLinksID)) { error in
             XCTAssertEqual(error as? ClipboardRepositoryError, .systemPinboardCannotBeDeleted)

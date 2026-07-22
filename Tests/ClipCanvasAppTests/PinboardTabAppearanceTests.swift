@@ -24,4 +24,18 @@ final class PinboardTabAppearanceTests: XCTestCase {
             ["cyan", "blue", "purple", "pink", "orange", "green"]
         )
     }
+
+    func testDropTargetIsMoreProminentThanSelectedTab() {
+        let appearance = PinboardTabAppearance.readable
+
+        XCTAssertGreaterThan(
+            appearance.dropTargetBorderWidth,
+            appearance.selectedBorderWidth
+        )
+        XCTAssertGreaterThan(
+            appearance.dropTargetScale,
+            appearance.selectedScale
+        )
+        XCTAssertGreaterThan(appearance.dropTargetShadowOpacity, 0)
+    }
 }
