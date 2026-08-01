@@ -2,20 +2,29 @@ import XCTest
 @testable import ClipCanvasApp
 
 final class PinboardTabAppearanceTests: XCTestCase {
-    func testReadableTabsKeepGroupColorVisibleAndAddSelectionEmphasis() {
-        let appearance = PinboardTabAppearance.readable
+    func testIntegratedTabsUseQuietSurfacesWithoutPersistentBorders() {
+        let appearance = PinboardTabAppearance.integrated
 
-        XCTAssertGreaterThanOrEqual(appearance.defaultBackgroundOpacity, 0.24)
+        XCTAssertLessThanOrEqual(appearance.defaultBackgroundOpacity, 0.04)
         XCTAssertGreaterThan(
             appearance.selectedBackgroundOpacity,
             appearance.defaultBackgroundOpacity
         )
+        XCTAssertLessThanOrEqual(appearance.selectedBackgroundOpacity, 0.14)
+        XCTAssertEqual(appearance.defaultBorderWidth, 0)
+        XCTAssertEqual(appearance.selectedBorderWidth, 0)
+        XCTAssertEqual(appearance.selectedScale, appearance.defaultScale)
+    }
+
+    func testSelectedTabUsesACompactColorIndicatorInsteadOfAColorFill() {
+        let appearance = PinboardTabAppearance.integrated
+
+        XCTAssertGreaterThanOrEqual(appearance.selectedIndicatorWidth, 12)
+        XCTAssertLessThanOrEqual(appearance.selectedIndicatorHeight, 2)
         XCTAssertGreaterThan(
-            appearance.selectedBorderWidth,
-            appearance.defaultBorderWidth
+            appearance.selectedLabelOpacity,
+            appearance.defaultLabelOpacity
         )
-        XCTAssertGreaterThan(appearance.selectedScale, appearance.defaultScale)
-        XCTAssertLessThanOrEqual(appearance.selectedScale, 1.03)
     }
 
     func testPaletteMatchesEveryColorOfferedByThePinboardEditor() {
@@ -26,7 +35,7 @@ final class PinboardTabAppearanceTests: XCTestCase {
     }
 
     func testDropTargetIsMoreProminentThanSelectedTab() {
-        let appearance = PinboardTabAppearance.readable
+        let appearance = PinboardTabAppearance.integrated
 
         XCTAssertGreaterThan(
             appearance.dropTargetBorderWidth,
@@ -36,6 +45,7 @@ final class PinboardTabAppearanceTests: XCTestCase {
             appearance.dropTargetScale,
             appearance.selectedScale
         )
+        XCTAssertLessThanOrEqual(appearance.dropTargetScale, 1.02)
         XCTAssertGreaterThan(appearance.dropTargetShadowOpacity, 0)
     }
 }

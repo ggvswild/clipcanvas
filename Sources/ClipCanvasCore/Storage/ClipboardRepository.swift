@@ -144,6 +144,23 @@ public final class ClipboardRepository: @unchecked Sendable {
         return try decodeItem(row)
     }
 
+    @discardableResult
+    public func markCopied(id: UUID, at copiedAt: Date = Date()) throws -> ClipboardItem {
+        try database.execute(
+            """
+            UPDATE clipboard_items
+            SET last_copied_at = ?,
+                copy_count = copy_count + 1
+            WHERE id = ?
+            """,
+            bindings: [
+                .real(copiedAt.timeIntervalSince1970),
+                .text(id.uuidString)
+            ]
+        )
+        return try item(id: id)
+    }
+
     public func list(_ query: HistoryQuery = .init()) throws -> HistoryPage {
         var sql = "SELECT * FROM clipboard_items"
         var conditions: [String] = []

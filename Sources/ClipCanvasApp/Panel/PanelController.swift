@@ -221,9 +221,17 @@ final class PanelController: NSObject, NSWindowDelegate {
             return false
         }
         let command = event.modifierFlags.contains(.command)
-        switch event.keyCode {
-        case 3 where command:
+        if event.keyCode == 3, command {
             model.toggleSearchFocus()
+            return true
+        }
+        guard Self.shouldRoutePanelKeyboardEvent(
+            isPresentingSheet: false,
+            firstResponder: panel.firstResponder
+        ) else {
+            return false
+        }
+        switch event.keyCode {
         case 123 where command:
             model.selectAdjacentPinboard(offset: -1)
         case 124 where command:
@@ -260,8 +268,11 @@ final class PanelController: NSObject, NSWindowDelegate {
         return true
     }
 
-    static func shouldRoutePanelKeyboardEvent(isPresentingSheet: Bool) -> Bool {
-        !isPresentingSheet
+    static func shouldRoutePanelKeyboardEvent(
+        isPresentingSheet: Bool,
+        firstResponder: NSResponder? = nil
+    ) -> Bool {
+        !isPresentingSheet && shouldHandleDeleteShortcut(firstResponder: firstResponder)
     }
 
     static func shouldHandleDeleteShortcut(firstResponder: NSResponder?) -> Bool {

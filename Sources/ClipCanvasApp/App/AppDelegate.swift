@@ -30,6 +30,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
         configureStatusItem()
         configureServices()
+        if ProcessInfo.processInfo.arguments.contains("--show-panel-for-ui-test") {
+            panelController?.show()
+        }
     }
 
     private func configureStatusItem() {

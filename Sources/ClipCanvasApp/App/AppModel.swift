@@ -167,6 +167,8 @@ final class AppModel: ObservableObject {
                 plainText: alwaysPastePlainText || forcePlainText,
                 targetApplication: targetApplication?()
             )
+            try repository?.markCopied(id: item.id)
+            reload()
             if SettingsStore.shared.soundEffects {
                 NSSound(named: "Tink")?.play()
             }

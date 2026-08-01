@@ -84,7 +84,12 @@ struct HistoryPanelView: View {
                             Button {
                                 model.selectPinboard(nil)
                             } label: {
-                                Label("panel.clipboard", systemImage: "clock.arrow.circlepath")
+                                HStack(spacing: 6) {
+                                    Image(systemName: "clock.arrow.circlepath")
+                                        .foregroundStyle(.blue)
+                                        .opacity(model.selectedPinboardID == nil ? 0.95 : 0.72)
+                                    Text("panel.clipboard")
+                                }
                             }
                             .buttonStyle(PanelTabButtonStyle(
                                 selected: model.selectedPinboardID == nil,
@@ -191,20 +196,19 @@ struct HistoryPanelView: View {
     }
 
     private func clipboardCard(_ item: ClipboardItem, index: Int) -> some View {
-        ClipboardCardView(
-            item: item,
-            isSelected: model.selectedItemID == item.id,
-            quickPasteIndex: index < 9 ? index + 1 : nil,
-            imageData: model.imageData(for: item)
-        )
+        Button {
+            Task { await model.paste(item) }
+        } label: {
+            ClipboardCardView(
+                item: item,
+                isSelected: model.selectedItemID == item.id,
+                quickPasteIndex: index < 9 ? index + 1 : nil,
+                imageData: model.imageData(for: item)
+            )
+        }
+        .buttonStyle(.plain)
         .id(item.id)
         .draggable(ClipboardItemDragPayload(itemID: item.id))
-        .onTapGesture {
-            model.selectedItemID = item.id
-        }
-        .onTapGesture(count: 2) {
-            Task { await model.paste(item) }
-        }
         .contextMenu {
             Button("action.paste") {
                 Task { await model.paste(item) }
@@ -247,15 +251,23 @@ private struct PinboardDropTarget: View {
     let pinboard: Pinboard
 
     var body: some View {
+        let tint = PinboardColorPalette.color(for: pinboard.color)
+        let isSelected = model.selectedPinboardID == pinboard.id
+
         Button {
             model.selectPinboard(pinboard.id)
         } label: {
-            Label(pinboard.name, systemImage: pinboard.symbol)
-                .lineLimit(1)
+            HStack(spacing: 6) {
+                Image(systemName: pinboard.symbol)
+                    .foregroundStyle(tint)
+                    .opacity(isSelected || isDropTargeted ? 0.95 : 0.72)
+                Text(pinboard.name)
+                    .lineLimit(1)
+            }
         }
         .buttonStyle(PanelTabButtonStyle(
-            selected: model.selectedPinboardID == pinboard.id,
-            tint: PinboardColorPalette.color(for: pinboard.color),
+            selected: isSelected,
+            tint: tint,
             isDropTargeted: isDropTargeted
         ))
         .dropDestination(for: ClipboardItemDragPayload.self) { payloads, _ in
@@ -302,33 +314,41 @@ private struct PanelTabButtonStyle: ButtonStyle {
     var isDropTargeted = false
 
     func makeBody(configuration: Configuration) -> some View {
-        let appearance = PinboardTabAppearance.readable
+        let appearance = PinboardTabAppearance.integrated
+        let scale = isDropTargeted
+            ? appearance.dropTargetScale
+            : selected
+            ? appearance.selectedScale
+            : appearance.defaultScale
+        let backgroundColor = isDropTargeted
+            ? tint.opacity(appearance.dropTargetBackgroundOpacity)
+            : Color.white.opacity(
+                selected
+                    ? appearance.selectedBackgroundOpacity
+                    : appearance.defaultBackgroundOpacity
+            )
 
         configuration.label
-            .font(.caption.weight(selected || isDropTargeted ? .bold : .semibold))
-            .padding(.horizontal, 10)
+            .font(.caption.weight(selected || isDropTargeted ? .semibold : .medium))
+            .padding(.horizontal, 9)
             .frame(height: 28)
             .foregroundStyle(
-                Color.white.opacity(selected ? 1 : 0.9)
+                Color.white.opacity(
+                    selected || isDropTargeted
+                        ? appearance.selectedLabelOpacity
+                        : appearance.defaultLabelOpacity
+                )
             )
             .background(
-                tint.opacity(
-                    isDropTargeted
-                        ? 0.95
-                        : selected
-                        ? appearance.selectedBackgroundOpacity
-                        : appearance.defaultBackgroundOpacity
-                ),
-                in: Capsule()
+                backgroundColor,
+                in: RoundedRectangle(cornerRadius: 9, style: .continuous)
             )
             .overlay {
-                Capsule()
+                RoundedRectangle(cornerRadius: 9, style: .continuous)
                     .stroke(
                         isDropTargeted
-                            ? Color.white.opacity(0.82)
-                            : selected
-                            ? Color.white.opacity(appearance.selectedBorderOpacity)
-                            : tint.opacity(appearance.defaultBorderOpacity),
+                            ? tint.opacity(0.88)
+                            : .clear,
                         lineWidth: isDropTargeted
                             ? appearance.dropTargetBorderWidth
                             : selected
@@ -336,53 +356,62 @@ private struct PanelTabButtonStyle: ButtonStyle {
                             : appearance.defaultBorderWidth
                     )
             }
+            .overlay(alignment: .bottom) {
+                Capsule()
+                    .fill(tint.opacity(selected ? 0.96 : 0))
+                    .frame(
+                        width: selected ? appearance.selectedIndicatorWidth : 0,
+                        height: appearance.selectedIndicatorHeight
+                    )
+                    .offset(y: 1)
+            }
             .shadow(
                 color: isDropTargeted
                     ? tint.opacity(appearance.dropTargetShadowOpacity)
-                    : selected
-                    ? tint.opacity(appearance.selectedShadowOpacity)
                     : .clear,
-                radius: isDropTargeted ? 8 : selected ? 5 : 0,
-                y: selected ? 1 : 0
+                radius: isDropTargeted ? 6 : 0,
+                y: isDropTargeted ? 2 : 0
             )
             .scaleEffect(
-                isDropTargeted
-                    ? appearance.dropTargetScale
-                    : selected
-                    ? appearance.selectedScale
-                    : appearance.defaultScale
+                scale * (configuration.isPressed ? appearance.pressedScale : 1)
             )
-            .opacity(configuration.isPressed ? 0.8 : 1)
+            .opacity(configuration.isPressed ? 0.82 : 1)
             .animation(.snappy(duration: 0.16), value: selected)
             .animation(.snappy(duration: 0.16), value: isDropTargeted)
     }
 }
 
 struct PinboardTabAppearance: Equatable {
-    static let readable = PinboardTabAppearance(
-        defaultBackgroundOpacity: 0.28,
-        selectedBackgroundOpacity: 0.82,
-        defaultBorderOpacity: 0.38,
-        selectedBorderOpacity: 0.46,
-        defaultBorderWidth: 0.75,
-        selectedBorderWidth: 1.4,
+    static let integrated = PinboardTabAppearance(
+        defaultBackgroundOpacity: 0.02,
+        selectedBackgroundOpacity: 0.1,
+        defaultBorderWidth: 0,
+        selectedBorderWidth: 0,
         defaultScale: 1,
-        selectedScale: 1.025,
-        selectedShadowOpacity: 0.22,
-        dropTargetBorderWidth: 2,
-        dropTargetScale: 1.06,
-        dropTargetShadowOpacity: 0.42
+        selectedScale: 1,
+        pressedScale: 0.98,
+        defaultLabelOpacity: 0.7,
+        selectedLabelOpacity: 0.97,
+        selectedIndicatorWidth: 14,
+        selectedIndicatorHeight: 2,
+        dropTargetBackgroundOpacity: 0.18,
+        dropTargetBorderWidth: 1.25,
+        dropTargetScale: 1.015,
+        dropTargetShadowOpacity: 0.18
     )
 
     let defaultBackgroundOpacity: Double
     let selectedBackgroundOpacity: Double
-    let defaultBorderOpacity: Double
-    let selectedBorderOpacity: Double
     let defaultBorderWidth: CGFloat
     let selectedBorderWidth: CGFloat
     let defaultScale: CGFloat
     let selectedScale: CGFloat
-    let selectedShadowOpacity: Double
+    let pressedScale: CGFloat
+    let defaultLabelOpacity: Double
+    let selectedLabelOpacity: Double
+    let selectedIndicatorWidth: CGFloat
+    let selectedIndicatorHeight: CGFloat
+    let dropTargetBackgroundOpacity: Double
     let dropTargetBorderWidth: CGFloat
     let dropTargetScale: CGFloat
     let dropTargetShadowOpacity: Double
