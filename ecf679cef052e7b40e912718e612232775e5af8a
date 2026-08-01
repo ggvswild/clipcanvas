@@ -1,0 +1,151 @@
+Sources/ClipCanvasApp/App/AppModel.swift
+  24f8fcad02fde51e 170-171
+Sources/ClipCanvasApp/App/AppDelegate.swift
+  24f8fcad02fde51e 33-35
+Sources/ClipCanvasCore/Storage/ClipboardRepository.swift
+  24f8fcad02fde51e 147-163
+Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift
+  24f8fcad02fde51e 133-169
+Sources/ClipCanvasApp/Views/HistoryPanelView.swift
+  24f8fcad02fde51e 199,201-207,209-210,323-329,343
+  673457d0c059c39a 87-92,211,254-256,260-266,269-270,317-322,332-333,336-340,344,347,350-351,359-364,366,372-373,376,378,385-389,391-400,409-414
+Tests/ClipCanvasAppTests/PinboardTabAppearanceTests.swift
+  24f8fcad02fde51e 5-6,8,13-23,25-26,38,48
+Sources/ClipCanvasApp/Panel/PanelController.swift
+  673457d0c059c39a 224,226-234,271-275
+Tests/ClipCanvasAppTests/AppModelTests.swift
+  673457d0c059c39a 58-113
+  24f8fcad02fde51e 1-3,16-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "ecf679cef052e7b40e912718e612232775e5af8a",
+  "prompts": {
+    "24f8fcad02fde51e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbd19-0210-72c1-8a1c-bf44dd679ec2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "网易 Netease",
+      "messages": [],
+      "total_additions": 266,
+      "total_deletions": 37,
+      "accepted_lines": 141,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 21,
+          "deletions": 10,
+          "accepted_lines": 1
+        },
+        "Tests/ClipCanvasAppTests/PinboardTabAppearanceTests.swift": {
+          "additions": 18,
+          "deletions": 8,
+          "accepted_lines": 18
+        },
+        "Sources/ClipCanvasApp/App/AppDelegate.swift": {
+          "additions": 3,
+          "accepted_lines": 3
+        },
+        "Tests/ClipCanvasAppTests/AppModelTests.swift": {
+          "additions": 45,
+          "accepted_lines": 45
+        },
+        "Tests/ClipCanvasAppTests/PanelKeyboardRoutingTests.swift": {
+          "additions": 37,
+          "accepted_lines": 37
+        },
+        "Sources/ClipCanvasApp/App/AppModel.swift": {
+          "additions": 2,
+          "accepted_lines": 2
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 19,
+          "deletions": 19,
+          "accepted_lines": 18
+        },
+        "Tests/ClipCanvasAppTests/HistoryPanelCardInteractionTests.swift": {
+          "additions": 104
+        },
+        "Sources/ClipCanvasCore/Storage/ClipboardRepository.swift": {
+          "additions": 17,
+          "accepted_lines": 17
+        }
+      }
+    },
+    "326b0f98274fcc23": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbd31-6c84-71a3-befe-16e6b587a5f9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "网易 Netease",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Agents.md": {
+          "additions": 3,
+          "accepted_lines": 3
+        }
+      }
+    },
+    "673457d0c059c39a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "rollout-2026-08-01T19-32-40-019fbd19-0210-72c1-8a1c-bf44dd679ec2",
+        "model": "unknown"
+      },
+      "human_author": "网易 Netease",
+      "messages": [],
+      "total_additions": 187,
+      "total_deletions": 200,
+      "accepted_lines": 141,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Tests/ClipCanvasAppTests/AppModelTests.swift": {
+          "additions": 56,
+          "accepted_lines": 56
+        },
+        "Sources/ClipCanvasApp/Views/HistoryPanelView.swift": {
+          "additions": 84,
+          "deletions": 54,
+          "accepted_lines": 70
+        },
+        "Tests/ClipCanvasAppTests/HistoryPanelCardInteractionTests.swift": {
+          "additions": 32,
+          "deletions": 136
+        },
+        "Sources/ClipCanvasApp/Panel/PanelController.swift": {
+          "additions": 15,
+          "deletions": 10,
+          "accepted_lines": 15
+        }
+      }
+    },
+    "bbfc10b163f7ed25": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fbd17-3213-7e53-af39-731348df0caf",
+        "model": "unknown"
+      },
+      "human_author": "网易 Netease",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "Sources/ClipCanvasApp/Views/PanelPetPerchView.swift": {
+          "additions": 2,
+          "deletions": 2,
+          "accepted_lines": 2
+        }
+      }
+    }
+  }
+}
