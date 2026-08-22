@@ -8,6 +8,7 @@ public enum ClipboardRepositoryError: Error, Equatable, Sendable {
     case systemPinboardCannotBeModified
     case invalidPinboardName
     case invalidPinboardOrder
+    case invalidItemOrder
     case invalidStoredData
     case invalidClientName
     case invalidScopes
@@ -30,6 +31,7 @@ public final class ClipboardRepository: @unchecked Sendable {
         let hash = contentHash(for: draft)
         if let existing = try item(withHash: hash) {
             try database.transaction {
+                let sortIndex = try nextFrontSortIndex()
                 try database.execute(
                     """
                     UPDATE clipboard_items
@@ -37,7 +39,8 @@ public final class ClipboardRepository: @unchecked Sendable {
                         copy_count = copy_count + 1,
                         source_bundle_id = ?,
                         source_name = ?,
-                        source_icon_path = ?
+                        source_icon_path = ?,
+                        sort_index = ?
                     WHERE id = ?
                     """,
                     bindings: [
@@ -45,6 +48,7 @@ public final class ClipboardRepository: @unchecked Sendable {
                         draft.source.bundleID.map(SQLiteValue.text) ?? .null,
                         .text(draft.source.name),
                         draft.source.iconPath.map(SQLiteValue.text) ?? .null,
+                        .integer(Int64(sortIndex)),
                         .text(existing.id.uuidString)
                     ]
                 )
@@ -80,13 +84,14 @@ public final class ClipboardRepository: @unchecked Sendable {
         }
 
         try database.transaction {
+            let sortIndex = try nextFrontSortIndex()
             try database.execute(
                 """
                 INSERT INTO clipboard_items
                 (id, kind, plain_text, title, source_bundle_id, source_name,
                  source_icon_path, content_hash, created_at, last_copied_at,
-                 copy_count, is_sensitive, metadata_json)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
+                 copy_count, is_sensitive, metadata_json, sort_index)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)
                 """,
                 bindings: [
                     .text(id.uuidString),
@@ -100,7 +105,8 @@ public final class ClipboardRepository: @unchecked Sendable {
                     .real(draft.capturedAt.timeIntervalSince1970),
                     .real(draft.capturedAt.timeIntervalSince1970),
                     .integer(draft.isSensitive ? 1 : 0),
-                    .blob(metadataData)
+                    .blob(metadataData),
+                    .integer(Int64(sortIndex))
                 ]
             )
 
@@ -160,7 +166,7 @@ public final class ClipboardRepository: @unchecked Sendable {
         if !conditions.isEmpty {
             sql += " WHERE " + conditions.joined(separator: " AND ")
         }
-        sql += " ORDER BY last_copied_at DESC, id DESC LIMIT ?"
+        sql += " ORDER BY sort_index ASC, last_copied_at DESC, id DESC LIMIT ?"
         bindings.append(.integer(Int64(query.limit)))
 
         let items = try database.rows(sql, bindings: bindings).map(decodeItem)
@@ -407,6 +413,58 @@ public final class ClipboardRepository: @unchecked Sendable {
         )
     }
 
+    public func reorderHistoryItems(ids: [UUID]) throws {
+        let existingIDs = try database.rows(
+            """
+            SELECT id
+            FROM clipboard_items
+            ORDER BY sort_index ASC, last_copied_at DESC, id DESC
+            """
+        ).compactMap { row in
+            row.string("id").flatMap(UUID.init(uuidString:))
+        }
+        try rewriteOrder(ids: ids, existingIDs: existingIDs) { index, id in
+            try database.execute(
+                "UPDATE clipboard_items SET sort_index = ? WHERE id = ?",
+                bindings: [
+                    .integer(Int64(index)),
+                    .text(id.uuidString)
+                ]
+            )
+        }
+    }
+
+    public func reorderPinboardItems(pinboardID: UUID, ids: [UUID]) throws {
+        guard try listPinboards().contains(where: { $0.id == pinboardID }) else {
+            throw ClipboardRepositoryError.pinboardNotFound
+        }
+        let existingIDs = try database.rows(
+            """
+            SELECT item_id
+            FROM pinboard_items
+            WHERE pinboard_id = ?
+            ORDER BY sort_index ASC, created_at ASC
+            """,
+            bindings: [.text(pinboardID.uuidString)]
+        ).compactMap { row in
+            row.string("item_id").flatMap(UUID.init(uuidString:))
+        }
+        try rewriteOrder(ids: ids, existingIDs: existingIDs) { index, id in
+            try database.execute(
+                """
+                UPDATE pinboard_items
+                SET sort_index = ?
+                WHERE pinboard_id = ? AND item_id = ?
+                """,
+                bindings: [
+                    .integer(Int64(index)),
+                    .text(pinboardID.uuidString),
+                    .text(id.uuidString)
+                ]
+            )
+        }
+    }
+
     public func unpin(itemID: UUID, from pinboardID: UUID) throws {
         try database.execute(
             "DELETE FROM pinboard_items WHERE pinboard_id = ? AND item_id = ?",
@@ -597,6 +655,39 @@ public final class ClipboardRepository: @unchecked Sendable {
                 createdAt: Date(timeIntervalSince1970: createdAt),
                 detail: row.string("detail")
             )
+        }
+    }
+
+    private func nextFrontSortIndex() throws -> Int {
+        try database.scalarInt(
+            """
+            SELECT CASE
+                WHEN COUNT(*) = 0 THEN 0
+                ELSE COALESCE(MIN(sort_index), 0) - 1
+            END AS value
+            FROM clipboard_items
+            """
+        )
+    }
+
+    private func rewriteOrder(
+        ids: [UUID],
+        existingIDs: [UUID],
+        update: (Int, UUID) throws -> Void
+    ) throws {
+        guard !ids.isEmpty else { return }
+        guard Set(ids).count == ids.count else {
+            throw ClipboardRepositoryError.invalidItemOrder
+        }
+        let window = Array(existingIDs.prefix(ids.count))
+        guard window.count == ids.count, Set(ids) == Set(window) else {
+            throw ClipboardRepositoryError.invalidItemOrder
+        }
+        let ordered = ids + existingIDs.dropFirst(ids.count)
+        try database.transaction {
+            for (index, id) in ordered.enumerated() {
+                try update(index, id)
+            }
         }
     }
 

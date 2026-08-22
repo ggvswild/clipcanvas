@@ -190,8 +190,15 @@ public final class SQLiteDatabase: @unchecked Sendable {
 
     private func migrate() throws {
         let version = try rows("PRAGMA user_version").first?.integer("user_version") ?? 0
-        guard version < 1 else { return }
+        if version < 1 {
+            try migrateToVersion1()
+        }
+        if version < 2 {
+            try migrateToVersion2()
+        }
+    }
 
+    private func migrateToVersion1() throws {
         try transaction {
             try execute(
                 """
@@ -299,6 +306,38 @@ public final class SQLiteDatabase: @unchecked Sendable {
                 ]
             )
             try execute("PRAGMA user_version = 1")
+        }
+    }
+
+    private func migrateToVersion2() throws {
+        try transaction {
+            try execute(
+                "ALTER TABLE clipboard_items ADD COLUMN sort_index INTEGER"
+            )
+            try execute(
+                """
+                WITH ranked AS (
+                    SELECT id,
+                           (ROW_NUMBER() OVER (
+                               ORDER BY last_copied_at DESC, id DESC
+                           ) - 1) AS new_sort
+                    FROM clipboard_items
+                )
+                UPDATE clipboard_items
+                SET sort_index = (
+                    SELECT new_sort
+                    FROM ranked
+                    WHERE ranked.id = clipboard_items.id
+                )
+                """
+            )
+            try execute(
+                """
+                CREATE INDEX IF NOT EXISTS clipboard_items_sort
+                ON clipboard_items(sort_index ASC, last_copied_at DESC, id DESC)
+                """
+            )
+            try execute("PRAGMA user_version = 2")
         }
     }
 

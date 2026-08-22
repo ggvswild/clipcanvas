@@ -22,13 +22,27 @@ struct ClipboardCardHeaderAppearance: Equatable {
     let dividerOpacity: Double
 }
 
+struct ClipboardCardDropAppearance: Equatable {
+    static let insertion = ClipboardCardDropAppearance(
+        targetedScale: 1.04,
+        targetedBorderWidth: 3,
+        targetedShadowOpacity: 0.36
+    )
+
+    let targetedScale: CGFloat
+    let targetedBorderWidth: CGFloat
+    let targetedShadowOpacity: Double
+}
+
 struct ClipboardCardView: View {
+    static let width: CGFloat = 238
     static let height: CGFloat = 215
 
     let item: ClipboardItem
     let isSelected: Bool
     let quickPasteIndex: Int?
     let imageData: Data?
+    var isDropTargeted = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,25 +52,41 @@ struct ClipboardCardView: View {
                 .padding(12)
             footer
         }
-        .frame(width: 238, height: Self.height)
+        .frame(width: Self.width, height: Self.height)
         .background(Color(nsColor: .windowBackgroundColor).opacity(0.92))
         .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 13, style: .continuous)
                 .stroke(
-                    isSelected ? kindColor : Color.white.opacity(0.08),
-                    lineWidth: isSelected ? 2.5 : 1
+                    isDropTargeted || isSelected ? kindColor : Color.white.opacity(0.08),
+                    lineWidth: isDropTargeted
+                        ? dropAppearance.targetedBorderWidth
+                        : isSelected ? 2.5 : 1
                 )
         }
         .shadow(
-            color: isSelected ? kindColor.opacity(0.26) : .black.opacity(0.14),
-            radius: isSelected ? 10 : 4,
+            color: isDropTargeted
+                ? kindColor.opacity(dropAppearance.targetedShadowOpacity)
+                : isSelected ? kindColor.opacity(0.26) : .black.opacity(0.14),
+            radius: isDropTargeted ? 12 : isSelected ? 10 : 4,
             y: 3
         )
-        .scaleEffect(isSelected ? 1 : 0.985)
+        .scaleEffect(cardScale)
         .animation(.snappy(duration: 0.16), value: isSelected)
+        .animation(.snappy(duration: 0.16), value: isDropTargeted)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var dropAppearance: ClipboardCardDropAppearance {
+        .insertion
+    }
+
+    private var cardScale: CGFloat {
+        if isDropTargeted {
+            return dropAppearance.targetedScale
+        }
+        return isSelected ? 1 : 0.985
     }
 
     private var header: some View {

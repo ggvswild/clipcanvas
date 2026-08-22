@@ -184,6 +184,129 @@ final class ClipboardRepositoryTests: XCTestCase {
         XCTAssertEqual(Set(remaining.map(\.id)), [oldPinned.id, recent.id])
     }
 
+    func testReorderHistoryItemsPersistsCustomOrder() throws {
+        let first = try repository.upsert(
+            textDraft("first", at: Date(timeIntervalSince1970: 100))
+        )
+        let second = try repository.upsert(
+            textDraft("second", at: Date(timeIntervalSince1970: 200))
+        )
+        let third = try repository.upsert(
+            textDraft("third", at: Date(timeIntervalSince1970: 300))
+        )
+
+        XCTAssertEqual(
+            try repository.list().items.map(\.id),
+            [third.id, second.id, first.id]
+        )
+
+        try repository.reorderHistoryItems(ids: [first.id, third.id, second.id])
+
+        XCTAssertEqual(
+            try repository.list().items.map(\.id),
+            [first.id, third.id, second.id]
+        )
+    }
+
+    func testNewCopyStillAppearsFirstAfterHistoryReorder() throws {
+        let first = try repository.upsert(
+            textDraft("first", at: Date(timeIntervalSince1970: 100))
+        )
+        let second = try repository.upsert(
+            textDraft("second", at: Date(timeIntervalSince1970: 200))
+        )
+        try repository.reorderHistoryItems(ids: [first.id, second.id])
+
+        let newest = try repository.upsert(
+            textDraft("newest", at: Date(timeIntervalSince1970: 50))
+        )
+
+        XCTAssertEqual(
+            try repository.list().items.map(\.id),
+            [newest.id, first.id, second.id]
+        )
+    }
+
+    func testRecaptureMovesReorderedItemBackToFront() throws {
+        let first = try repository.upsert(
+            textDraft("first", at: Date(timeIntervalSince1970: 100))
+        )
+        let second = try repository.upsert(
+            textDraft("second", at: Date(timeIntervalSince1970: 200))
+        )
+        try repository.reorderHistoryItems(ids: [first.id, second.id])
+
+        let recaptured = try repository.upsert(
+            textDraft("second", at: Date(timeIntervalSince1970: 400))
+        )
+
+        XCTAssertEqual(recaptured.id, second.id)
+        XCTAssertEqual(
+            try repository.list().items.map(\.id),
+            [second.id, first.id]
+        )
+    }
+
+    func testReorderHistoryItemsRejectsUnknownOrPartialWindows() throws {
+        let first = try repository.upsert(textDraft("first"))
+        let second = try repository.upsert(textDraft("second"))
+
+        XCTAssertThrowsError(
+            try repository.reorderHistoryItems(ids: [first.id])
+        ) { error in
+            XCTAssertEqual(error as? ClipboardRepositoryError, .invalidItemOrder)
+        }
+        XCTAssertThrowsError(
+            try repository.reorderHistoryItems(ids: [first.id, UUID()])
+        ) { error in
+            XCTAssertEqual(error as? ClipboardRepositoryError, .invalidItemOrder)
+        }
+        XCTAssertEqual(
+            try repository.list().items.map(\.id),
+            [second.id, first.id]
+        )
+    }
+
+    func testReorderPinboardItemsPersistsCustomOrder() throws {
+        let first = try repository.upsert(textDraft("first"))
+        let second = try repository.upsert(textDraft("second"))
+        let third = try repository.upsert(textDraft("newest"))
+        let board = try repository.createPinboard(name: "Research")
+        try repository.pin(itemID: first.id, to: board.id)
+        try repository.pin(itemID: second.id, to: board.id)
+        try repository.pin(itemID: third.id, to: board.id)
+
+        try repository.reorderPinboardItems(
+            pinboardID: board.id,
+            ids: [first.id, third.id, second.id]
+        )
+
+        XCTAssertEqual(
+            try repository.items(in: board.id).items.map(\.id),
+            [first.id, third.id, second.id]
+        )
+    }
+
+    func testReorderPinboardItemsRejectsForeignItem() throws {
+        let pinned = try repository.upsert(textDraft("pinned"))
+        let outsider = try repository.upsert(textDraft("outsider"))
+        let board = try repository.createPinboard(name: "Research")
+        try repository.pin(itemID: pinned.id, to: board.id)
+
+        XCTAssertThrowsError(
+            try repository.reorderPinboardItems(
+                pinboardID: board.id,
+                ids: [outsider.id]
+            )
+        ) { error in
+            XCTAssertEqual(error as? ClipboardRepositoryError, .invalidItemOrder)
+        }
+        XCTAssertEqual(
+            try repository.items(in: board.id).items.map(\.id),
+            [pinned.id]
+        )
+    }
+
     func testUpdateTitleRefreshesSearchIndex() throws {
         let item = try repository.upsert(textDraft("https://example.com"))
 
