@@ -25,8 +25,8 @@ struct PanelPetPerchView: View {
             )
         ) { timeline in
             let elapsed = timeline.date.timeIntervalSinceReferenceDate
-            let idleBob = reduceMotion || !isActive ? 0 : sin(elapsed * 1.25) * 0.9
-            let idleSway = reduceMotion || !isActive ? 0 : sin(elapsed * 0.6) * 0.65
+            let idleBob: CGFloat = reduceMotion || !isActive ? 0 : CGFloat(sin(elapsed * 1.25) * 0.9)
+            let idleSway: Double = reduceMotion || !isActive ? 0 : sin(elapsed * 0.6) * 0.65
             let blinkPhase = elapsed.truncatingRemainder(dividingBy: 4.8)
             let isBlinking = !reduceMotion && isActive && blinkPhase > 4.62
 

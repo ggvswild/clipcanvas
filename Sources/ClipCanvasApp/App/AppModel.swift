@@ -194,8 +194,51 @@ final class AppModel: ObservableObject {
         }
     }
 
+    var canReorderItems: Bool {
+        query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     func pin(_ item: ClipboardItem, to pinboardID: UUID) {
         pinDroppedItem(id: item.id, to: pinboardID)
+    }
+
+    @discardableResult
+    func reorderDroppedItem(
+        id itemID: UUID,
+        onto targetID: UUID,
+        insertAfter: Bool
+    ) -> Bool {
+        guard canReorderItems else { return false }
+        guard let ids = ClipboardItemReorder.ids(
+            in: items,
+            moving: itemID,
+            onto: targetID,
+            insertAfter: insertAfter
+        ) else {
+            return false
+        }
+        return reorderItems(ids: ids)
+    }
+
+    @discardableResult
+    func reorderItems(ids: [UUID]) -> Bool {
+        guard let repository else { return false }
+        do {
+            if let selectedPinboardID {
+                try repository.reorderPinboardItems(
+                    pinboardID: selectedPinboardID,
+                    ids: ids
+                )
+            } else {
+                try repository.reorderHistoryItems(ids: ids)
+            }
+            reload()
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
 
     @discardableResult

@@ -174,7 +174,7 @@ struct HistoryPanelView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 11) {
                     ForEach(Array(model.items.enumerated()), id: \.element.id) { index, item in
-                        clipboardCard(item, index: index)
+                        ClipboardCardDropTarget(item: item, index: index)
                     }
                 }
                 .padding(.horizontal, 2)
@@ -190,21 +190,52 @@ struct HistoryPanelView: View {
         }
     }
 
-    private func clipboardCard(_ item: ClipboardItem, index: Int) -> some View {
+    private var emptyTitle: LocalizedStringKey {
+        model.query.isEmpty ? "empty.history.title" : "empty.search.title"
+    }
+
+    private var emptyDescription: LocalizedStringKey {
+        model.query.isEmpty ? "empty.history.description" : "empty.search.description"
+    }
+}
+
+private struct ClipboardCardDropTarget: View {
+    @EnvironmentObject private var model: AppModel
+    @State private var isDropTargeted = false
+
+    let item: ClipboardItem
+    let index: Int
+
+    var body: some View {
         ClipboardCardView(
             item: item,
             isSelected: model.selectedItemID == item.id,
             quickPasteIndex: index < 9 ? index + 1 : nil,
-            imageData: model.imageData(for: item)
+            imageData: model.imageData(for: item),
+            isDropTargeted: isDropTargeted
         )
         .id(item.id)
         .draggable(ClipboardItemDragPayload(itemID: item.id))
+        .dropDestination(for: ClipboardItemDragPayload.self) { payloads, location in
+            guard model.canReorderItems, let payload = payloads.first else {
+                return false
+            }
+            return model.reorderDroppedItem(
+                id: payload.itemID,
+                onto: item.id,
+                insertAfter: location.x > ClipboardCardView.width / 2
+            )
+        } isTargeted: { isTargeted in
+            isDropTargeted = isTargeted && model.canReorderItems
+        }
         .onTapGesture {
             model.selectedItemID = item.id
         }
         .onTapGesture(count: 2) {
             Task { await model.paste(item) }
         }
+        .help("clipboard.reorder_hint")
+        .accessibilityHint("clipboard.reorder_hint")
         .contextMenu {
             Button("action.paste") {
                 Task { await model.paste(item) }
@@ -229,14 +260,6 @@ struct HistoryPanelView: View {
                 model.requestDeleteSelected()
             }
         }
-    }
-
-    private var emptyTitle: LocalizedStringKey {
-        model.query.isEmpty ? "empty.history.title" : "empty.search.title"
-    }
-
-    private var emptyDescription: LocalizedStringKey {
-        model.query.isEmpty ? "empty.history.description" : "empty.search.description"
     }
 }
 

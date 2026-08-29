@@ -53,7 +53,10 @@ let package = Package(
         .testTarget(
             name: "ClipCanvasCoreTests",
             dependencies: ["ClipCanvasCore"],
-            path: "Tests/ClipCanvasCoreTests"
+            path: "Tests/ClipCanvasCoreTests",
+            linkerSettings: [
+                .linkedLibrary("sqlite3")
+            ]
         )
     ]
 )

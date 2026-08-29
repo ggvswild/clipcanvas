@@ -51,6 +51,7 @@
 "pinboard.system_delete_error" = "Useful Links 是内置 Pinboard，不能删除。";
 "pinboard.system_edit_error" = "Useful Links 是内置 Pinboard，不能编辑。";
 "pinboard.drop_hint" = "将卡片拖到此处，即可加入这个分组。";
+"clipboard.reorder_hint" = "将卡片拖到另一张卡片上可调整顺序，拖到分组上可置顶。";
 "settings.general" = "通用";
 "settings.pinboards" = "分组";
 "settings.pets" = "宠物";
